@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Favicon --}}
-    <link rel="shortcut icon" href="{{ asset('shop/images/logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('shop/images/white-logo.png') }}" type="image/x-icon">
 
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -35,12 +35,12 @@
     {{-- Styles --}}
     <link rel="stylesheet" href="{{ asset('shop/css/styles.css') }}">
 
-    <title>@yield('title') - Khrabish</title>
+    <title>@yield('title') - Khrabish Store</title>
 </head>
 
 <body class="custom_scroller">
-    @include('shop.layouts._announcement')
     @include('shop.layouts._header')
+    @include('shop.layouts._announcement')
 
     <div class="mt-5 mt-md-2">
         @yield('content')
@@ -56,7 +56,7 @@
         </a>
     </div>
 
-    <script src="{{asset('shop/js/custom/bootstrap-carousel.js')}}"></script>
+    <script src="{{ asset('shop/js/bootstrap-carousel.js') }}"></script>
     <script src="{{ asset('shop/js/frontend.js') }}"></script>
 </body>
 

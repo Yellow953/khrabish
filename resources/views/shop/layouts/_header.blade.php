@@ -1,7 +1,7 @@
-<nav class="navbar navbar-expand-lg mt-nav fixed-top">
+<nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{{Route('home')}}">
-            <img src="{{ asset('shop/images/green-logo.png') }}" alt="Khrabish Logo" class="logo" />
+            <img src="{{ asset('shop/images/khrabish-white.webp') }}" alt="Khrabish Logo" class="logo" />
         </a>
         <ul class="navbar-nav ms-auto tab-display me-4">
             <li class="nav-item">
