@@ -16,7 +16,7 @@
         integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
-        </script>
+    </script>
 
     <!-- JQuery -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
@@ -24,9 +24,9 @@
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     {{-- Owl Carousel --}}
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/shop/owl.carousel.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css">
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/shop/owl.theme.default.min.css">
+        href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.theme.default.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"></script>
 
     {{-- Font Awesome --}}
@@ -39,16 +39,17 @@
 </head>
 
 <body class="custom_scroller">
-    @include('shop.layouts._header')
-    @include('shop.layouts._announcement')
+    @include('frontend.layouts._header')
+
+    {{-- @include('frontend.layouts._announcement') --}}
 
     <div class="mt-5 mt-md-2">
         @yield('content')
     </div>
 
-    @include('shop.layouts._footer')
+    @include('frontend.layouts._footer')
 
-    @include('shop.layouts._modals')
+    @include('frontend.layouts._modals')
 
     <div id="whatsapp">
         <a href="https://web.whatsapp.com/send?autoload=1&app_absent=0&phone=96170833158" target="_blank">

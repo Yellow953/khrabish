@@ -49,16 +49,17 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto center-menu text-center">
                 <li class="nav-item">
-                    <a class="nav-link {{Route::is('home') ? 'active' : ''}}" href="{{Route('home')}}">Home</a>
+                    <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{Route::is('shop') ? 'active' : ''}}" href="{{Route('shop')}}">Shop</a>
+                    <a class="nav-link {{ Route::is('shop') ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{Route::is('about') ? 'active' : ''}}" href="{{Route('about')}}">About</a>
+                    <a class="nav-link {{ Route::is('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{Route::is('contact') ? 'active' : ''}}" href="{{Route('contact')}}">Contact</a>
+                    <a class="nav-link {{ Route::is('contact') ? 'active' : '' }}"
+                        href="{{ route('contact') }}">Contact</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto m-hidden">

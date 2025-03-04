@@ -203,7 +203,7 @@
         <h1 class="second-four">4</h1>
         <p class="wrong-para">
             Uh Oh! Page not found! <br><br>
-            <a href="{{ auth()->user() ? route('dashboard') : route('welcome') }}" class="btn-custom">Back to
+            <a href="{{ auth()->user() ? route('dashboard') : route('home') }}" class="btn-custom">Back to
                 Homepage</a>
         </p>
     </div>

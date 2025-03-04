@@ -217,10 +217,14 @@ Route::middleware(['auth'])->group(function () {
     });
 });
 
+// Search
+Route::get('/search/products', [HomeController::class, 'search'])->name('products.search');
+
 // Shop
-Route::get('/', [ShopController::class, 'index'])->name('home');
 Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
-Route::get('/checkout', [ShopController::class, 'checkout'])->name('checkout');
+Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
+Route::post('/checkout/order', [App\Http\Controllers\ShopController::class, 'order'])->name('shop.order');
 Route::get('/about', [ShopController::class, 'about'])->name('about');
 Route::get('/contact', [ShopController::class, 'contact'])->name('contact');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
+Route::get('/', [ShopController::class, 'index'])->name('home');
