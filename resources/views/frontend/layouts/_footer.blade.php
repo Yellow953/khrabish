@@ -12,7 +12,7 @@
         </div>
         <div class="col-12 col-md-7 text-shadow">
             <div class="ms-md-5 mt-5 pb-4">
-                <h3 class="text-secondary-light fw-bold text-center">Get In Touch</h3>
+                <h3 class="text-primary-light fw-bold text-center">Get In Touch</h3>
                 <div class="row ms-0 me-0">
                     <div class="col-6">
                         <ul class="list-unstyled text-center y-on-hover">
