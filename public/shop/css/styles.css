@@ -23,11 +23,15 @@ body {
     background-color: var(--light-bg) !important;
 }
 
+.lighter-primary-bg {
+    background-color: var(--light-text);
+}
+
 .lighter-secondary-bg {
     background-color: var(--lighter-secondary-color);
 }
 
-.light-orange-bg {
+.light-primary-bg {
     background-color: var(--light-primary-color);
 }
 
@@ -70,12 +74,12 @@ body {
 .nav-link:hover {
     color: var(--light-text) !important;
     transition: all 0.2s ease-in-out;
-    text-shadow: var(--dark-primary-color) 1px 1px 0px;
+    text-shadow: var(--dark-primary-color) 2px 2px 0px;
 }
 
 .active {
     color: var(--light-text) !important;
-    text-shadow: var(--dark-primary-color) 1px 1px 0px;
+    text-shadow: var(--dark-primary-color) 2px 2px 0px;
 }
 
 .desktop-hidden {
@@ -247,13 +251,13 @@ body {
 
 .btn-primary:hover {
     color: var(--light-text) !important;
-    background-color: rgba(170, 219, 35, 0.5);
+    background-color: var(--primary-color);
     border-color: var(--dark-primary-color);
     transition: all 0.3s ease-in-out;
 }
 
 .btn-primary.active {
-    background-color: rgba(170, 219, 35, 0.5);
+    background-color: var(--primary-color);
     border-color: var(--light-text);
     color: var(--light-text) !important;
 }
@@ -321,12 +325,13 @@ a.text-primary:hover {
 }
 
 .text-primary-light {
-    color: var(--lighter-primary-color) !important;
+    color: var(--light-text) !important;
     transition: all 0.3s ease-in-out;
 }
 
+a .text-primary-light:hover,
 a.text-primary-light:hover {
-    color: var(--dark-primary-color) !important;
+    color: var(--light-primary-color) !important;
     transition: all 0.3s ease-in-out;
 }
 
@@ -346,7 +351,11 @@ a.text-secondary:hover {
 }
 
 .text-shadow {
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: var(--dark-primary-color) 2px 2px 0px;
+}
+
+.text-shadow-sm {
+    text-shadow: var(--primary-color) 1px 1px 0px;
 }
 
 .text-white {
@@ -359,6 +368,11 @@ a.text-secondary:hover {
 
 .bg-secondary {
     background-color: var(--lighter-secondary-color) !important;
+}
+
+.bg-primary {
+    background-color: var(--primary-color) !important;
+    box-shadow: 0px 0px 5px var(--dark-primary-color);
 }
 
 /* ----------Card---------- */
@@ -381,55 +395,10 @@ a.text-secondary:hover {
     justify-content: end;
 }
 
-.card-1 {
-    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.2), #ffffff),
-        url("../images/Organic.png") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-}
-
-.card-2 {
-    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.2), #ffffff),
-        url("../images/Sugar\ Free\ Healthy\ Snacks.png") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-}
-
-.card-3 {
-    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.2), #ffffff),
-        url("../images/Dried\ Fruits.png") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-}
-
-.card-4 {
-    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.2), #ffffff),
-        url("../images/Weight\ Loss\ Supplements.png") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-}
-
-.card-5 {
-    background: linear-gradient(-90deg, rgba(255, 255, 255, 0.2), #ffffff),
-        url("../images/Protein\ Snacks.png") !important;
-    background-size: cover !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-}
-
 .card-title {
     font-weight: 600;
     font-size: 1.5rem;
     color: var(--secondary-color);
-    text-shadow: var(--light-bg) 1px 2px 5px;
-}
-
-.card-text {
-    color: var(--dark-text);
     text-shadow: var(--light-bg) 1px 2px 5px;
 }
 
@@ -617,4 +586,46 @@ footer {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background: var(--primary-color);
     background: linear-gradient(180deg, var(--primary-color) 50%, var(--light-primary-color) 100%);
+}
+
+/* ----------Parallax---------- */
+
+.parallax {
+    background: url("../images/kids-toys.jpg") no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: auto;
+}
+
+.parallax-overlay {
+    padding: 50px;
+    background: rgba(0, 0, 0, 0.5);
+    height: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.parallax h1 {
+    color: #fff;
+    font-size: 3rem;
+    z-index: 2;
+}
+
+.parallax p {
+    color: #fff;
+    font-size: 1.5rem;
+    z-index: 2;
+}
+
+.px-0 {
+    padding-left: 0px !important;
+    padding-right: 0px !important;
+}
+
+.rounded-top-5 {
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
 }
