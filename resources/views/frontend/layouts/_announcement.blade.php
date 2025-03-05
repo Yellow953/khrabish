@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="text-center">
-                    <p>{{ __('landing.announcement') }}</p>
+                    <p>Announcement</p>
                 </div>
             </div>
         </div>

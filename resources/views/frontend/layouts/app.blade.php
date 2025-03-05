@@ -9,7 +9,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     {{-- Favicon --}}
-    <link rel="shortcut icon" href="{{ asset('shop/images/white-logo.png') }}" type="image/x-icon">
+    <link rel="shortcut icon" href="{{ asset('frontend/images/white-logo.png') }}" type="image/x-icon">
 
     {{-- Bootstrap --}}
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -33,7 +33,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 
     {{-- Styles --}}
-    <link rel="stylesheet" href="{{ asset('shop/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/styles.css') }}">
 
     {{-- Google Fonts --}}
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -58,13 +58,12 @@
 
     <div id="whatsapp">
         <a href="https://web.whatsapp.com/send?autoload=1&app_absent=0&phone=96170833158" target="_blank">
-            <img src="{{ asset('shop/images/whatsapp.png') }}" alt="whatsapp logo" class="img-fluid">
+            <img src="{{ asset('frontend/images/whatsapp.png') }}" alt="whatsapp logo" class="img-fluid">
         </a>
     </div>
 
-    <script src="{{ asset('shop/js/bootstrap-carousel.js') }}"></script>
-    <script src="{{ asset('shop/js/frontend.js') }}"></script>
-    <script src="{{ asset('shop/js/parallax.js') }}"></script>
+    <script src="{{ asset('frontend/js/bootstrap-carousel.js') }}"></script>
+    <script src="{{ asset('frontend/js/frontend.js') }}"></script>
 </body>
 
 </html>

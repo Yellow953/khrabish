@@ -12,35 +12,35 @@ class CategorySeeder extends Seeder
         $categories = [
             [
                 'name' => 'Cleaning',
-                'image' => '/shop/images/categories/cleaning.png',
+                'image' => '/frontend/images/categories/cleaning.png',
             ],
             [
                 'name' => 'Home Items',
-                'image' => '/shop/images/categories/home-items.png',
+                'image' => '/frontend/images/categories/home-items.png',
             ],
             [
                 'name' => 'Bathroom',
-                'image' => '/shop/images/categories/bathroom.png',
+                'image' => '/frontend/images/categories/bathroom.png',
             ],
             [
                 'name' => 'Kitchen',
-                'image' => '/shop/images/categories/kitchen.png',
+                'image' => '/frontend/images/categories/kitchen.png',
             ],
             [
                 'name' => 'Kids',
-                'image' => '/shop/images/categories/kids.png',
+                'image' => '/frontend/images/categories/kids.png',
             ],
             [
                 'name' => 'Party & Deco',
-                'image' => '/shop/images/categories/party.png',
+                'image' => '/frontend/images/categories/party.png',
             ],
             [
                 'name' => 'Personal Care',
-                'image' => '/shop/images/categories/personal-care.png',
+                'image' => '/frontend/images/categories/personal-care.png',
             ],
             [
                 'name' => 'Phone & Accessories',
-                'image' => '/shop/images/categories/phone-accessories.png',
+                'image' => '/frontend/images/categories/phone-accessories.png',
             ],
         ];
 

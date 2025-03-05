@@ -1,13 +1,13 @@
 <footer>
     <div class="d-block d-md-flex">
         <div class="col-md-3 m-hidden">
-            <img src="{{ asset('shop/images/footer.png') }}" alt="" class="img-fluid img-footer">
+            <img src="{{ asset('frontend/images/footer.png') }}" alt="" class="img-fluid img-footer">
         </div>
         <div class="col-md-3 tab-display">
-            <img src="{{ asset('shop/images/footer.png') }}" alt="" class="img-fluid img-footer">
+            <img src="{{ asset('frontend/images/footer.png') }}" alt="" class="img-fluid img-footer">
         </div>
         <div class="col-12 col-md-2 align-content-center text-center">
-            <img src="{{ asset('shop/images/white-logo.png') }}" alt="" width="200" height="200"
+            <img src="{{ asset('frontend/images/white-logo.png') }}" alt="" width="200" height="200"
                 class="img-fluid img-footer-logo ms-md-4 mt-5 mt-md-0">
         </div>
         <div class="col-12 col-md-7 text-shadow">
