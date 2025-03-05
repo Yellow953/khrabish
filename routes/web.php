@@ -223,8 +223,9 @@ Route::get('/search/products', [HomeController::class, 'search'])->name('product
 // Shop
 Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
 Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
-Route::post('/checkout/order', [App\Http\Controllers\ShopController::class, 'order'])->name('shop.order');
+Route::post('/checkout/order', [App\Http\Controllers\ShopController::class, 'order'])->name('checkout.order');
 Route::get('/about', [ShopController::class, 'about'])->name('about');
 Route::get('/contact', [ShopController::class, 'contact'])->name('contact');
+Route::post('/contact/send', [ShopController::class, 'send'])->name('contact.send');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/', [ShopController::class, 'index'])->name('home');

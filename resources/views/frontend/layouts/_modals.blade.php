@@ -3,8 +3,8 @@
         <div class="modal-content">
             <div class="modal-body">
                 <div class="mb-3">
-                    <input type="text" class="form-control input" name="q" id="searchInput"
-                        placeholder="{{__('landing.typetosearch')}}" autocomplete="off" autofocus>
+                    <input type="text" class="form-control input" name="q" id="searchInput" placeholder="Type To Search"
+                        autocomplete="off" autofocus>
                 </div>
 
                 <div id="searchResults" class="list-group"></div>
@@ -15,7 +15,7 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-2" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title text-secondary fw-bold" id="offcanvasCartLabel">{{ __('landing.yourcart') }}</h5>
+        <h5 class="offcanvas-title text-secondary fw-bold" id="offcanvasCartLabel">Your Cart</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -26,17 +26,17 @@
 
         <div class="cart-summary">
             <div class="d-flex justify-content-between">
-                <span class="text-secondary">{{ __('landing.total_items') }}:</span>
+                <span class="text-secondary">Total Items:</span>
                 <span id="cart-total-items">0</span>
             </div>
             <div class="d-flex justify-content-between">
-                <span class="text-secondary">{{ __('landing.total_price') }}:</span>
+                <span class="text-secondary">Total Price:</span>
                 <span id="cart-total-price">$0.00</span>
             </div>
         </div>
 
         <div class="mt-4">
-            <a href="{{ route('checkout') }}" class="btn btn-primary w-100">{{ __('landing.proceed_to_checkout') }}</a>
+            <a href="{{ route('shop.checkout') }}" class="btn btn-primary w-100">Proceed To Checkout</a>
         </div>
     </div>
 </div>
@@ -111,9 +111,9 @@
                 <img src="${item.image}" alt="${item.name}" class="img-fluid rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
                 <div class="flex-grow-1">
                     <h6 class="mb-0">${item.name}</h6>
-                    <small class="text-muted">{{ __('landing.price') }}: $${item.price} | {{ __('landing.quantity') }}: ${item.quantity}</small>
+                    <small class="text-muted">Price: $${item.price} | Quantity: ${item.quantity}</small>
                 </div>
-                <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">{{ __('landing.remove') }}</button>
+                <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">Remove</button>
             `;
 
             cartItemsContainer.appendChild(cartItem);
