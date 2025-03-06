@@ -20,7 +20,7 @@
     </div>
 
     <div class="container py-5">
-        <h2 class="hero-title fw-bold text-center mb-4">Categories</h2>
+        <h2 class="text-primary text-shadow fw-bold text-center mb-4">Categories</h2>
         <div class="owl-carousel owl-theme categories">
             @foreach($categories as $category)
                 <div class="category-item bg-primary my-2">
@@ -48,7 +48,8 @@
                 <div class="row">
                     <div class="col-6">
                         <div class="card lighter-primary-bg rounded-5">
-                            <img src="{{ asset('shop/images/toy-1.jpg') }}" class="card-img-top rounded-top-5" alt="Toy 1">
+                            <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
+                                alt="Toy 1">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow">Toy 1</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
@@ -59,7 +60,8 @@
                     </div>
                     <div class="col-6">
                         <div class="card lighter-primary-bg rounded-5">
-                            <img src="{{ asset('shop/images/toy-2.jpg') }}" class="card-img-top rounded-top-5" alt="Toy 2">
+                            <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
+                                alt="Toy 2">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow">Toy 2</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur

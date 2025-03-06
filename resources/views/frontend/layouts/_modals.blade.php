@@ -15,7 +15,7 @@
 
 <div class="offcanvas offcanvas-end" tabindex="-2" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
-        <h5 class="offcanvas-title text-secondary fw-bold" id="offcanvasCartLabel">Your Cart</h5>
+        <h5 class="offcanvas-title text-secondary fw-bold text-shadow-sm" id="offcanvasCartLabel">Your Cart</h5>
         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
     </div>
     <div class="offcanvas-body">
@@ -45,7 +45,7 @@
     const searchInput = document.getElementById("searchInput");
     const resultsContainer = document.getElementById("searchResults");
 
-    searchInput.addEventListener("input", function() {
+    searchInput.addEventListener("input", function () {
         const query = searchInput.value.trim();
 
         if (query === "") {

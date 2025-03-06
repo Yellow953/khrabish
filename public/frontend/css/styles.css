@@ -133,10 +133,6 @@ body {
     height: 100vh;
 }
 
-.hero-title {
-    color: var(--primary-color);
-    text-shadow: var(--dark-primary-color) 1px 2px 0px;
-}
 
 .overlay {
     background: linear-gradient(0deg,
@@ -351,11 +347,11 @@ a.text-secondary:hover {
 }
 
 .text-shadow {
-    text-shadow: var(--dark-primary-color) 2px 2px 0px;
+    text-shadow: var(--dark-primary-color) 2px 2px 0px !important;
 }
 
 .text-shadow-sm {
-    text-shadow: var(--primary-color) 1px 1px 0px;
+    text-shadow: var(--primary-color) 1px 1px 0px !important;
 }
 
 .text-white {
@@ -501,17 +497,19 @@ footer {
 
 .input {
     border: var(--secondary-color) 2px solid;
-    background-color: rgba(170, 219, 35, 0.2);
+    background-color: var(--light-text);
     transition: all 0.3s ease-in-out;
+    border-radius: 20px;
+    text-align: center;
 }
 
 .input:hover {
-    background-color: rgba(170, 219, 35, 0.3);
+    background-color: var(--light-primary-color);
     transition: all 0.3s ease-in-out;
 }
 
 .input:focus {
-    background-color: rgba(170, 219, 35, 0.3);
+    background-color: var(--light-primary-color);
     transition: all 0.3s ease-in-out;
 }
 
