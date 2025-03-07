@@ -371,7 +371,7 @@ class ShopController extends Controller
         $data = $request->all();
 
         Mail::send('emails.contact', ['data' => $data,], function ($message) {
-            $message->to('fatimakhansa97@gmail.com')
+            $message->to('Khrabish.store@gmail.com')
                 ->subject('New Contact');
         });
 
@@ -388,7 +388,7 @@ class ShopController extends Controller
         }
 
         Mail::send('emails.order-notification', ['order' => $order], function ($message) {
-            $message->to('Fatimakhansa97@gmail.com')
+            $message->to('Khrabish.store@gmail.com')
                 ->subject('New Order Notification');
         });
     }

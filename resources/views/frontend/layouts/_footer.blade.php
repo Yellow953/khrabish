@@ -18,7 +18,7 @@
                         <ul class="list-unstyled text-center y-on-hover">
                             <a href="#" class="text-decoration-none">
                                 <li style=" font-size: 2rem;"><i class="fa-solid fa-location-dot text-white"></i></li>
-                                <li class="text-white">Saida , Natasha Saeed Street</li>
+                                <li class="text-white">Jdeideh, Sagesse Street, Al Arzeh Building</li>
                                 <li class="text-white">Lebanon</li>
                             </a>
                         </ul>
@@ -37,33 +37,17 @@
                 <div class="row ms-0 me-0">
                     <div class="col-4">
                         <ul class="list-unstyled text-center y-on-hover">
-                            <a href="tel:+96170833158" class="text-decoration-none">
-                                <li style=" font-size: 2rem;"><i class="fa fa-phone text-white"></i></li>
-                                <li class="text-white">+961 70 833 158</li>
+                            <a href="https://www.facebook.com/share/18ZsSECUnm/" target="blank"
+                                class="text-decoration-none">
+                                <li style=" font-size: 2rem;"><i class="fa-brands fa-facebook text-white"></i></li>
+                                <li class="text-white">Facebook</li>
                             </a>
                         </ul>
                     </div>
+
                     <div class="col-4">
                         <ul class="list-unstyled text-center y-on-hover">
-                            <a href="mailto:fatimakhansa97@gmail.com" class="text-decoration-none">
-                                <li style=" font-size: 2rem;"><i class="fa fa-envelope text-white"></i></li>
-                                <li class="text-white">Email Us!</li>
-                            </a>
-                        </ul>
-                    </div>
-                    <div class="col-4">
-                        <ul class="list-unstyled text-center y-on-hover">
-                            <a href="tel:+96176629552" class="text-decoration-none">
-                                <li style=" font-size: 2rem;"><i class="fa fa-phone text-white"></i></li>
-                                <li class="text-white">+961 76 629 552</li>
-                            </a>
-                        </ul>
-                    </div>
-                </div>
-                <div class="row ms-0 me-0">
-                    <div class="col-6">
-                        <ul class="list-unstyled text-center y-on-hover">
-                            <a href="https://www.instagram.com/calories_by_fatima" target="blank"
+                            <a href="https://www.instagram.com/khrabish.store?igsh=MWdjcmZndHVhaDAwaQ==" target="blank"
                                 class="text-decoration-none">
                                 <li style=" font-size: 2rem;"><i class="fa-brands fa-instagram text-white"></i></li>
                                 <li class="text-white">Instagram</li>
@@ -71,12 +55,30 @@
                         </ul>
                     </div>
 
-                    <div class="col-6">
+                    <div class="col-4">
                         <ul class="list-unstyled text-center y-on-hover">
-                            <a href="https://www.tiktok.com/@caloriesbyfatima?_t=8sNLacaOJpi&_r=1" target="blank"
+                            <a href="https://www.tiktok.com/@khrabish.store?_t=ZS-8uUZGcMLYw4&_r=1" target="blank"
                                 class="text-decoration-none">
                                 <li style=" font-size: 2rem;"><i class="fa-brands fa-tiktok text-white"></i></li>
                                 <li class="text-white">Tiktok</li>
+                            </a>
+                        </ul>
+                    </div>
+                </div>
+                <div class="row ms-0 me-0">
+                    <div class="col-6">
+                        <ul class="list-unstyled text-center y-on-hover">
+                            <a href="tel:+96170231446" class="text-decoration-none">
+                                <li style=" font-size: 2rem;"><i class="fa fa-phone text-white"></i></li>
+                                <li class="text-white">+961 70 231 446</li>
+                            </a>
+                        </ul>
+                    </div>
+                    <div class="col-6">
+                        <ul class="list-unstyled text-center y-on-hover">
+                            <a href="mailto:Khrabish.store@gmail.com" class="text-decoration-none">
+                                <li style=" font-size: 2rem;"><i class="fa fa-envelope text-white"></i></li>
+                                <li class="text-white">Email Us!</li>
                             </a>
                         </ul>
                     </div>

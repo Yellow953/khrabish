@@ -24,48 +24,66 @@
                             <!-- Shipping Information -->
                             <div class="mb-4">
                                 <h4 class="text-primary text-center mb-3">Shipping Address</h4>
-                                <div class="mb-3">
-                                    <label for="name" class="form-label text-secondary">Name *
-                                    </label>
-                                    <input type="text" id="name" name="name" class="form-control" placeholder="John Doe"
-                                        required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="phone" class="form-label text-secondary">Phone *
-                                    </label>
-                                    <input type="tel" id="phone" name="phone" class="form-control"
-                                        placeholder="+961 70 833 158" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label text-secondary">Email</label>
-                                    <input type="email" name="email" class="form-control" placeholder="you@example.com">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="country" class="form-label text-secondary">Country *
-                                    </label>
-                                    <select name="country" id="country" class="form-select" required>
-                                        @foreach ($countries as $country)
-                                        <option value="{{ $country }}" {{ $country=="Lebanon" ? 'selected' : '' }}>{{
-                                            $country }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="address" class="form-label text-secondary">Address *
-                                    </label>
-                                    <input type="text" id="address" name="address" class="form-control"
-                                        placeholder="123 Main St" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="city" class="form-label text-secondary">City *
-                                    </label>
-                                    <input type="text" id="city" name="city" class="form-control" placeholder="Beirut"
-                                        required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="zip" class="form-label text-secondary">Zip</label>
-                                    <input type="number" min="0" step="1" id="zip" name="zip" class="form-control"
-                                        placeholder="1234">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label text-secondary">Name *
+                                            </label>
+                                            <input type="text" id="name" name="name" class="form-control"
+                                                placeholder="John Doe" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="phone" class="form-label text-secondary">Phone *
+                                            </label>
+                                            <input type="tel" id="phone" name="phone" class="form-control"
+                                                placeholder="+961 70 231 446" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="country" class="form-label text-secondary">Country *
+                                            </label>
+                                            <select name="country" id="country" class="form-select" required>
+                                                @foreach ($countries as $country)
+                                                <option value="{{ $country }}" {{ $country=="Lebanon" ? 'selected' : ''
+                                                    }}>{{
+                                                    $country }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label text-secondary">Email</label>
+                                            <input type="email" name="email" class="form-control"
+                                                placeholder="you@example.com">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="city" class="form-label text-secondary">City *
+                                            </label>
+                                            <input type="text" id="city" name="city" class="form-control"
+                                                placeholder="Beirut" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="zip" class="form-label text-secondary">Zip</label>
+                                            <input type="number" min="0" step="1" id="zip" name="zip"
+                                                class="form-control" placeholder="1234">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label text-secondary">Address *
+                                            </label>
+                                            <textarea name="address" id="address" rows="3" class="form-control"
+                                                placeholder="123 Main St" required></textarea>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
@@ -211,29 +229,16 @@
     document.addEventListener('DOMContentLoaded', function () {
         const countrySelect = document.getElementById('country');
         const paymentMethodSelect = document.getElementById('method');
-        const bankInfoSection = document.createElement('div');
         const whishInfoSection = document.createElement('div');
-
-        bankInfoSection.innerHTML = `
-            <h5>Bank_info</h5>
-            <p>Bank Name: Franca Bank</p>
-            <p>Account Name: MISS KHANSA FATIMA ZAHRAA</p>
-            <p>Account Number: 0601USD1519220526801</p>
-            <p>IBAN: LB47 0001 0601 USD1 5192 2052 6801</p>
-            <p>Swift Code: FSABLBBXA</p>
-        `;
-        bankInfoSection.classList.add('bank_section');
-        bankInfoSection.style.display = 'none';
 
         whishInfoSection.innerHTML = `
             <h5>Whish Transfer</h5>
-            <p>Transfer To: +961 81 893 865</p>
+            <p>Transfer To: +961 70 231 446</p>
         `;
         whishInfoSection.classList.add('whish_section');
         whishInfoSection.style.display = 'none';
 
         const paymentMethodContainer = paymentMethodSelect.parentNode;
-        paymentMethodContainer.appendChild(bankInfoSection);
         paymentMethodContainer.appendChild(whishInfoSection);
 
         const updatePaymentMethods = (country) => {
@@ -245,21 +250,11 @@
                 codOption.textContent = 'Cash On Delivery';
                 paymentMethodSelect.appendChild(codOption);
 
-                const wireTransferOption = document.createElement('option');
-                wireTransferOption.value = 'wire_transfer';
-                wireTransferOption.textContent = 'Wire Transfer';
-                paymentMethodSelect.appendChild(wireTransferOption);
-
                 const whishOption = document.createElement('option');
                 whishOption.value = 'whish';
                 whishOption.textContent = 'Whish';
                 paymentMethodSelect.appendChild(whishOption);
             } else {
-                const wireTransferOption = document.createElement('option');
-                wireTransferOption.value = 'wire_transfer';
-                wireTransferOption.textContent = 'Wire Transfer';
-                paymentMethodSelect.appendChild(wireTransferOption);
-
                 const whishOption = document.createElement('option');
                 whishOption.value = 'whish';
                 whishOption.textContent = 'Whish';
@@ -270,14 +265,9 @@
         paymentMethodSelect.addEventListener('change', function () {
             const selectedMethod = paymentMethodSelect.value;
 
-            if (selectedMethod === 'wire_transfer') {
-                bankInfoSection.style.display = 'block';
-                whishInfoSection.style.display = 'none';
-            } else if (selectedMethod === 'whish') {
-                bankInfoSection.style.display = 'none';
+            if (selectedMethod === 'whish') {
                 whishInfoSection.style.display = 'block';
             } else {
-                bankInfoSection.style.display = 'none';
                 whishInfoSection.style.display = 'none';
             }
         });
