@@ -221,7 +221,7 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/search/products', [HomeController::class, 'search'])->name('products.search');
 
 // Shop
-Route::get('/product/{product}', [ShopController::class, 'product'])->name('product');
+Route::get('/product/{product:name}', [ShopController::class, 'product'])->name('product');
 Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
 Route::post('/checkout/order', [App\Http\Controllers\ShopController::class, 'order'])->name('checkout.order');
 Route::get('/about', [ShopController::class, 'about'])->name('about');

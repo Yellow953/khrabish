@@ -1,52 +1,56 @@
 @extends('auth.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
+<!--begin::Form-->
+<form class="form w-100" id="kt_sign_in_form" method="POST" action="{{ route('password.confirm') }}">
+    @csrf
 
-                <div class="card-body">
-                    {{ __('Please confirm your password before continuing.') }}
+    {{--
+    <!--begin::Logo-->
+    <a href="{{ route('home') }}" class="d-flex flex-center">
+        <img alt="Logo" src="{{ asset('assets/images/logo.png') }}" class="login-logo" />
+    </a>
+    <!--end::Logo--> --}}
 
-                    <form method="POST" action="{{ route('password.confirm') }}">
-                        @csrf
-
-                        <div class="row mb-3">
-                            <label for="password" class="col-md-4 col-form-label text-md-end">{{ __('Password')
-                                }}</label>
-
-                            <div class="col-md-6">
-                                <input id="password" type="password"
-                                    class="form-control @error('password') is-invalid @enderror" name="password"
-                                    required autocomplete="current-password">
-
-                                @error('password')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <div class="row mb-0">
-                            <div class="col-md-8 offset-md-4">
-                                <button type="submit" class="btn btn-primary">
-                                    {{ __('Confirm Password') }}
-                                </button>
-
-                                @if (Route::has('password.request'))
-                                <a class="btn btn-link" href="{{ route('password.request') }}">
-                                    {{ __('Forgot Your Password?') }}
-                                </a>
-                                @endif
-                            </div>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+    <!--begin::Heading-->
+    <div class="text-center mb-11">
+        <!--begin::Title-->
+        <h1 class="text-dark fw-bolder mb-3 display-6 primary-color">Confirm Password</h1>
+        <!--end::Title-->
     </div>
-</div>
+    <!--begin::Heading-->
+
+    {{ __('Please confirm your password before continuing.') }}
+
+    <div class="fv-row mb-3">
+        <!--begin::Password-->
+        <input id="password" type="password" placeholder="Password" name="password" autocomplete="current-password"
+            required class="form-control bg-transparent @error('password') is-invalid @enderror" />
+
+        @error('password')
+        <span class="invalid-feedback" role="alert">
+            <strong>{{ $message }}</strong>
+        </span>
+        @enderror
+        <!--end::Password-->
+    </div>
+    <!--end::Input group=-->
+
+    <!--begin::Submit button-->
+    <div class="d-grid mb-5">
+        <button type="submit" id="kt_sign_in_submit" class="btn btn-primary indicator-label-custom">
+            <!--begin::Indicator label-->
+            <span class="indicator-label">Confirm Password</span>
+            <!--end::Indicator label-->
+        </button>
+
+        @if (Route::has('password.request'))
+        <a class="btn btn-primary" href="{{ route('password.request') }}">
+            {{ __('Forgot Your Password?') }}
+        </a>
+        @endif
+    </div>
+    <!--end::Submit button-->
+</form>
+<!--end::Form-->
 @endsection
