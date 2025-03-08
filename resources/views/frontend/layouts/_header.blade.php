@@ -43,9 +43,6 @@
                     <a class="nav-link {{ Route::is('shop') ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('about') ? 'active' : '' }}" href="{{ route('about') }}">About</a>
-                </li>
-                <li class="nav-item">
                     <a class="nav-link {{ Route::is('contact') ? 'active' : '' }}"
                         href="{{ route('contact') }}">Contact</a>
                 </li>

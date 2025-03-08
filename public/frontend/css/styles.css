@@ -102,7 +102,7 @@ body {
 
 .hero {
     width: 100%;
-    height: 100vh;
+    height: 85vh;
 }
 
 .home-overlay {
@@ -113,7 +113,8 @@ body {
 
 .hero-img {
     width: 100vw;
-    height: 100vh;
+    height: 84vh;
+    margin-top: 15vh;
     object-fit: cover;
 }
 
@@ -310,6 +311,16 @@ section {
 
 /* ----------Text---------- */
 
+.owl-carousel .owl-nav button.owl-next,
+.owl-carousel .owl-nav button.owl-prev,
+.owl-carousel button.owl-dot {
+    color: var(--light-text) !important;
+}
+
+.owl-dot.active {
+    color: var(--primary-color) !important;
+}
+
 .text-primary {
     color: var(--primary-color) !important;
     transition: all 0.3s ease-in-out;
@@ -352,6 +363,10 @@ a.text-secondary:hover {
 
 .text-shadow-sm {
     text-shadow: var(--dark-primary-color) 1px 1px 0px !important;
+}
+
+a.text-shadow-sm:hover {
+    text-shadow: var(--primary-color) 1px 1px 0px !important;
 }
 
 .text-white {

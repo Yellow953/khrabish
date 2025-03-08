@@ -86,12 +86,25 @@
             </div>
         </div>
     </div>
-    <div class="sponsor bg-secondary pt-1">
+    <div class="bg-secondary">
+        <div class="container">
+            <div class="row py-3">
+                <div class=" d-flex col-12 text-center justify-content-center gap-5">
+                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Home</a>
+                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Shop</a>
+                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Shipping Policy</a>
+                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Return Policy</a>
+                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Contact</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-secondary pt-1">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="text-center py-2">
-                        Designed &amp; Developed By
+                        Powered By
                         <a href="https://yellowtech.dev"
                             class="text-primary text-shadow-sm text-decoration-none fw-bold mx-1"
                             target="_blank">YellowTech</a>
