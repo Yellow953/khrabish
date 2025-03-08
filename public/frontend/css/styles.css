@@ -351,7 +351,7 @@ a.text-secondary:hover {
 }
 
 .text-shadow-sm {
-    text-shadow: var(--primary-color) 1px 1px 0px !important;
+    text-shadow: var(--dark-primary-color) 1px 1px 0px !important;
 }
 
 .text-white {
@@ -368,7 +368,6 @@ a.text-secondary:hover {
 
 .bg-primary {
     background-color: var(--primary-color) !important;
-    box-shadow: 0px 0px 5px var(--dark-primary-color);
 }
 
 /* ----------Card---------- */
@@ -590,9 +589,12 @@ footer {
 
 .parallax {
     background: url("../images/kids-toys.jpg") no-repeat;
-    background-size: cover;
     background-position: center;
-    height: auto;
+    background-size: cover;
+    height: 500px;
+    top: 17vh;
+    position: -webkit-sticky;
+    position: sticky;
 }
 
 .parallax-overlay {
@@ -604,18 +606,6 @@ footer {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-}
-
-.parallax h1 {
-    color: #fff;
-    font-size: 3rem;
-    z-index: 2;
-}
-
-.parallax p {
-    color: #fff;
-    font-size: 1.5rem;
-    z-index: 2;
 }
 
 .px-0 {
