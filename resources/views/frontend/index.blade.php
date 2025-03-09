@@ -10,7 +10,7 @@
                     <img src="{{ asset('frontend/images/hero.png') }}" class="d-block w-100 hero-img" alt="Hero Image">
                 </div>
                 <div class="carousel-item">
-                    <img src="{{ asset('frontend/images/hero-2.jpg') }}" class="d-block w-100 hero-img" alt="Hero Image 2">
+                    <img src="{{ asset('frontend/images/hero-2.png') }}" class="d-block w-100 hero-img" alt="Hero Image 2">
                 </div>
                 <div class="carousel-item active">
                     <img src="{{ asset('frontend/images/hero-3.png') }}" class="d-block w-100 hero-img" alt="Hero Image 3">
