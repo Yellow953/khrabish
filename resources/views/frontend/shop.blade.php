@@ -13,13 +13,16 @@
 
                             <div class="owl-carousel owl-theme categories">
                                 @foreach ($categories as $category)
-                                    <div class="category-item bg-primary">
-                                        <div class="category-image">
-                                            <a href="{{ route('shop') }}?category={{ urlencode($category->name) }}">
-                                                <img src="{{ asset($category->image) }}" class="img-fluid category-img">
-                                            </a>
-                                        </div>
-                                        <h5 class="category-title text-center mt-2">{{ $category->name }}</h5>
+                                    <div class="category-item my-2">
+                                        <a href="{{ route('shop') }}" class="text-decoration-none text-primary">
+                                            <div class="category-image">
+                                                <img src="{{ asset($category->image) }}" alt="{{ $category->name }}"
+                                                    class="img-fluid category-img">
+                                            </div>
+                                            <div class="d-flex flex-column category-title">
+                                                <h4 class="text-center mt-2 text-shadow-sm">{{ $category->name }}</h4>
+                                            </div>
+                                        </a>
                                     </div>
                                 @endforeach
                             </div>

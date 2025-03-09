@@ -441,7 +441,6 @@ a.text-shadow-sm:hover {
 .category-item {
     border-radius: 20px;
     padding: 10px;
-    height: 330px;
 }
 
 .category-title {
@@ -450,10 +449,9 @@ a.text-shadow-sm:hover {
 }
 
 .category-img {
-    width: 200px;
-    height: 220px;
+    width: 100% !important;
+    height: 100% !important;
     object-fit: cover;
-    border-radius: 20px;
 }
 
 .item-card {
