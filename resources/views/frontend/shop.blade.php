@@ -13,7 +13,7 @@
 
                             <div class="owl-carousel owl-theme categories">
                                 @foreach ($categories as $category)
-                                    <div class="category-item my-2">
+                                    <div class="category-item y-on-hover my-2">
                                         <a href="{{ route('shop') }}" class="text-decoration-none text-primary">
                                             <div class="category-image">
                                                 <img src="{{ asset($category->image) }}" alt="{{ $category->name }}"
@@ -36,8 +36,11 @@
                                         <img src="{{ $product->image }}" class="img-fluid product-img">
                                         <div class="card-body">
                                             <h5 class="card-title text-center text-shadow-sm">{{ $product->name }}</h5>
-                                            <a href="{{ route('product', $product->name) }}" class="btn btn-primary mt-3">View
-                                                Product</a>
+                                            <div class="d-flex flex-column y-on-hover">
+                                                <a href="{{ route('product', $product->name) }}"
+                                                    class="btn btn-primary mt-3">View
+                                                    Product</a>
+                                            </div>
                                         </div>
                                     </div>
                                 </a>
