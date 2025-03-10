@@ -42,6 +42,7 @@
             <div class="col-5 parallax rounded-5 px-0">
                 <div class="parallax-overlay rounded-5">
                     <h1 class="text-center mt-2 text-primary-light text-shadow">Kids Toys</h1>
+                    <a href="#" class="btn btn-secondary px-4 mt-2">View More</a>
                 </div>
             </div>
             <div class="col-7">
@@ -167,7 +168,7 @@
                                     <input type="email" name="email" class="form-control" placeholder="Enter Your Email"
                                         required>
                                 </div>
-                                <button type="submit" class="btn btn-primary">Subscribe</button>
+                                <button type="submit" class="btn btn-secondary">Subscribe</button>
                             </form>
                         </div>
                         <div class="col-md-6">
