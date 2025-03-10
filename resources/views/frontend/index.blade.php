@@ -152,6 +152,32 @@
             </div>
         </div>
     </div>
+    <div class="container mb-5">
+        <div class="col-md-12 mb-3 mb-md-0">
+            <div class="card text-center lighter-secondary-bg rounded-5">
+                <div class="card-body">
+                    <div class="row ps-4">
+                        <div class="col-md-6 text-start d-flex flex-column justify-content-center">
+                            <h2 class="text-secondary-dark text-white-shadow mb-3">Join Our Newsletter</h2>
+                            <p class="text-secondary mb-3">Join our e-mail subscription now to get the latest updates about
+                                upcoming promotions, discounts, and new products!</p>
+                            <form action="#" method="POST">
+                                @csrf
+                                <div class="mb-3">
+                                    <input type="email" name="email" class="form-control" placeholder="Enter Your Email"
+                                        required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">Subscribe</button>
+                            </form>
+                        </div>
+                        <div class="col-md-6">
+                            <img src="{{asset('frontend/images/email-signup.png')}}" alt="" class="img-fluid email-img">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script>
         $(document).ready(function () {
