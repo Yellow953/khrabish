@@ -55,7 +55,8 @@
                                 alt="Toy 1">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
@@ -69,7 +70,8 @@
                                 alt="Toy 2">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
@@ -85,7 +87,8 @@
                                 alt="Toy 1">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
@@ -99,7 +102,8 @@
                                 alt="Toy 2">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
@@ -115,7 +119,8 @@
                                 alt="Toy 1">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
@@ -129,7 +134,8 @@
                                 alt="Toy 2">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
@@ -145,7 +151,8 @@
                                 alt="Toy 1">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
@@ -159,7 +166,8 @@
                                 alt="Toy 2">
                             <div class="card-body">
                                 <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
+                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
+                                    consectetur
                                     adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>

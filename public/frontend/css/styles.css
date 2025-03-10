@@ -313,22 +313,6 @@ body {
     border-color: var(--dark-secondary-color);
 }
 
-.btn-cta {
-    border-radius: 5px;
-    width: 100%;
-    background-color: var(--secondary-color);
-    color: var(--light-text);
-    border: var(--secondary-color) solid 2px;
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-cta:hover {
-    color: var(--dark-primary-color) !important;
-    background-color: var(--light);
-    transition: all 0.3s ease-in-out;
-    border: var(--dark-primary-color) solid 2px;
-}
-
 .shake:hover {
     animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
@@ -442,6 +426,22 @@ a.text-secondary-dark:hover {
 
 .text-shadow-sm {
     text-shadow: var(--dark-primary-color) 1px 1px 0px !important;
+}
+
+.text-shadow-secondary {
+    text-shadow: var(--dark-secondary-color) 2px 2px 0px !important;
+}
+
+.text-shadow-secondary-sm {
+    text-shadow: var(--dark-secondary-color) 1px 1px 0px !important;
+}
+
+.text-shadow-secondary:hover {
+    text-shadow: var(--secondary-color) 2px 2px 0px !important;
+}
+
+.text-shadow-secondary-sm:hover {
+    text-shadow: var(--secondary-color) 1px 1px 0px !important;
 }
 
 a.text-shadow-sm:hover {
@@ -608,6 +608,10 @@ footer {
 
 .border-primary {
     border: 2px solid var(--primary-color) !important;
+}
+
+.border-secondary {
+    border: 2px solid var(--secondary-color) !important;
 }
 
 /* start checkout */
