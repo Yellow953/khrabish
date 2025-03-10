@@ -23,7 +23,7 @@
         <h2 class="text-primary text-shadow fw-bold text-center mb-4">Categories</h2>
         <div class="owl-carousel owl-theme categories">
             @foreach($categories as $category)
-                <div class="category-item my-2">
+                <div class="category-item y-on-hover my-2">
                     <a href="{{ route('shop') }}" class="text-decoration-none text-primary">
                         <div class="category-image">
                             <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="img-fluid category-img">
@@ -42,7 +42,9 @@
             <div class="col-5 parallax rounded-5 px-0">
                 <div class="parallax-overlay rounded-5">
                     <h1 class="text-center mt-2 text-primary-light text-shadow">Kids Toys</h1>
-                    <a href="#" class="btn btn-secondary px-4 mt-2">View More</a>
+                    <div class="y-on-hover-sm">
+                        <a href="#" class="btn btn-secondary px-4 mt-2">View More</a>
+                    </div>
                 </div>
             </div>
             <div class="col-7">
@@ -52,10 +54,12 @@
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 1</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -64,10 +68,12 @@
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 2</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -78,10 +84,12 @@
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 1</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -90,10 +98,12 @@
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 2</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -104,10 +114,12 @@
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 1</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -116,10 +128,12 @@
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 2</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -130,10 +144,12 @@
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 1</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -142,10 +158,12 @@
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow">Toy 2</h5>
+                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
                                 <p class="text-secondary-light text-shadow-sm">Lorem ipsum dolor sit amet, consectetur
                                     adipiscing elit.</p>
-                                <a href="#" class="btn btn-primary">View</a>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -168,7 +186,9 @@
                                     <input type="email" name="email" class="form-control" placeholder="Enter Your Email"
                                         required>
                                 </div>
-                                <button type="submit" class="btn btn-secondary">Subscribe</button>
+                                <div class="y-on-hover-sm">
+                                    <button type="submit" class="btn btn-secondary">Subscribe</button>
+                                </div>
                             </form>
                         </div>
                         <div class="col-md-6">

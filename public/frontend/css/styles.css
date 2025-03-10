@@ -23,8 +23,9 @@
 }
 
 body {
-    font-family: "DynaPuff", sans-serif;
-    background-color: var(--light-bg) !important;
+    font-family: "Lexend Deca", sans-serif;
+    background-color: white !important;
+    font-weight: 800;
 }
 
 .lighter-primary-bg {
@@ -39,19 +40,42 @@ body {
     background-color: var(--light-primary-color);
 }
 
+.light-secondary-bg {
+    background-color: var(--light-secondary-color);
+}
+
 .y-on-hover {
     transition: all 0.3s ease-in-out;
 }
 
 .y-on-hover:hover {
-    transform: translateY(-5px);
+    transform: translateY(-3px);
+    transition: all 0.3s ease-in-out;
+}
+
+.active.y-on-hover:hover {
+    transform: translateY(0px);
+    transition: all 0.3s ease-in-out;
+}
+
+.y-on-hover-sm {
+    transition: all 0.3s ease-in-out;
+}
+
+.y-on-hover-sm:hover {
+    transform: translateY(-1px);
+    transition: all 0.3s ease-in-out;
+}
+
+.active.y-on-hover-sm:hover {
+    transform: translateY(0px);
     transition: all 0.3s ease-in-out;
 }
 
 /* ----------Navbar---------- */
 
 .navbar {
-    background-color: var(--primary-color);
+    background-color: var(--light-secondary-color);
     padding: 20px 0px !important;
 }
 
@@ -67,23 +91,23 @@ body {
 
 .navbar-brand,
 .nav-link {
-    color: var(--secondary-color) !important;
-    font-weight: 600;
+    color: var(--primary-color) !important;
+    font-weight: 700;
     font-size: 1.15rem;
     padding: 5px 15px !important;
     transition: all 0.2s ease-in-out;
-    text-shadow: var(--light-primary-color) 1px 1px 0px;
+    text-shadow: var(--dark-primary-color) 1px 1px 0px;
 }
 
 .nav-link:hover {
-    color: var(--light-text) !important;
+    color: var(--light-primary-color) !important;
     transition: all 0.2s ease-in-out;
-    text-shadow: var(--dark-primary-color) 2px 2px 0px;
+    text-shadow: var(--darker-primary-color) 2px 2px 0px;
 }
 
 .active {
-    color: var(--light-text) !important;
-    text-shadow: var(--dark-primary-color) 2px 2px 0px;
+    color: var(--light-primary-color) !important;
+    text-shadow: var(--darker-primary-color) 2px 2px 0px;
 }
 
 .desktop-hidden {
@@ -245,7 +269,7 @@ body {
     color: var(--light-text) !important;
     background-color: var(--primary-color);
     border: var(--primary-color) solid 2px;
-    font-weight: 600;
+    font-weight: 700;
     transition: all 0.3s ease-in-out;
     border-radius: 20px;
     box-shadow: var(--dark-primary-color) 2px 2px 0px;
@@ -269,7 +293,7 @@ body {
     color: var(--lightest-secondary-color) !important;
     background-color: var(--light-secondary-color);
     border: var(--light-secondary-color) solid 2px;
-    font-weight: 600;
+    font-weight: 700;
     transition: all 0.3s ease-in-out;
     border-radius: 20px;
     box-shadow: var(--dark-secondary-color) 2px 2px 0px;
@@ -463,7 +487,7 @@ a.text-shadow-sm:hover {
 }
 
 .card-title {
-    font-weight: 600;
+    font-weight: 700;
     font-size: 1.5rem;
     color: var(--secondary-color);
     text-shadow: var(--light-bg) 1px 2px 5px;

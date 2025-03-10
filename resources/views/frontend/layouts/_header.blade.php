@@ -37,25 +37,27 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto center-menu text-center">
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('home') ? 'active' : '' }}" href="{{ route('home') }}">Home</a>
+                    <a class="nav-link {{ Route::is('home') ? 'active' : '' }} y-on-hover"
+                        href="{{ route('home') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('shop') ? 'active' : '' }}" href="{{ route('shop') }}">Shop</a>
+                    <a class="nav-link {{ Route::is('shop') ? 'active' : '' }} y-on-hover"
+                        href="{{ route('shop') }}">Shop</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ Route::is('contact') ? 'active' : '' }}"
+                    <a class="nav-link {{ Route::is('contact') ? 'active' : '' }} y-on-hover"
                         href="{{ route('contact') }}">Contact</a>
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto m-hidden">
                 <li class="nav-item">
-                    <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
+                    <a class="nav-link y-on-hover" href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
                         <i class="fa fa-search"></i>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button" id="cartButton"
-                        aria-controls="offcanvasCart">
+                    <a class="nav-link y-on-hover" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
+                        id="cartButton" aria-controls="offcanvasCart">
                         <i class="fa-solid fa-cart-shopping"></i>
                     </a>
                 </li>

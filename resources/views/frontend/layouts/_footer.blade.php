@@ -86,7 +86,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-secondary">
+    <div class="light-secondary-bg">
         <div class="container">
             <div class="row py-3">
                 <div class=" d-flex col-12 text-center justify-content-center gap-5">
@@ -99,7 +99,7 @@
             </div>
         </div>
     </div>
-    <div class="bg-secondary pt-1">
+    <div class="light-secondary-bg pt-1">
         <div class="container">
             <div class="row">
                 <div class="col-12">
