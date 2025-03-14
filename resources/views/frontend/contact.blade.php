@@ -52,19 +52,19 @@
                         <form class="form" action="{{ route('contact.send') }}" method="POST" enctype="multipart/form-data">
                             @csrf
 
-                            <div class="mb-3 animate-on-scroll slide-right">
+                            <div class="mb-3 animate-on-scroll slide-right text-white">
                                 <label for="name" class="form-label">Name</label>
                                 <input type="text" class="form-control input" id="name" required />
                             </div>
-                            <div class="mb-3 animate-on-scroll slide-right">
+                            <div class="mb-3 animate-on-scroll slide-right text-white">
                                 <label for="email" class="form-label">Email</label>
                                 <input type="email" class="form-control input" id="email" required />
                             </div>
-                            <div class="mb-3 animate-on-scroll slide-right">
+                            <div class="mb-3 animate-on-scroll slide-right text-white">
                                 <label for="phone" class="form-label">Phone</label>
                                 <input type="tel" class="form-control input" id="phone" required />
                             </div>
-                            <div class="mb-3 animate-on-scroll slide-up">
+                            <div class="mb-3 animate-on-scroll slide-up text-white">
                                 <label for="message" class="form-label">Message</label>
                                 <textarea class="form-control input" id="message" rows="5" required></textarea>
                             </div>

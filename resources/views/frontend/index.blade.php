@@ -243,7 +243,7 @@
                 <div class="card-body">
                     <div class="row ps-4">
                         <div class="col-md-6 text-start d-flex flex-column justify-content-center">
-                            <h2 class="text-secondary-dark text-white-shadow mb-3">Join Our Newsletter</h2>
+                            <h2 class="text-secondary-dark text-white-shadow-sm mb-3">Join Our Newsletter</h2>
                             <p class="text-secondary mb-3">Join our e-mail subscription now to get the latest updates
                                 about
                                 upcoming promotions, discounts, and new products!</p>

@@ -90,11 +90,18 @@
         <div class="container">
             <div class="row py-3">
                 <div class=" d-flex col-12 text-center justify-content-center gap-5">
-                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Home</a>
-                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Shop</a>
-                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Shipping Policy</a>
-                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Return Policy</a>
-                    <a href="" class="text-decoration-none text-primary fw-bold text-shadow-sm fs-4">Contact</a>
+                    <a href=""
+                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Home</a>
+                    <a href=""
+                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Shop</a>
+                    <a href=""
+                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Shipping
+                        Policy</a>
+                    <a href=""
+                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Return
+                        Policy</a>
+                    <a href=""
+                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Contact</a>
                 </div>
             </div>
         </div>

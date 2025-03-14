@@ -92,7 +92,7 @@ body {
 }
 
 .floating-nav:hover {
-    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.5);
+    box-shadow: 3px 5px 0px var(--primary-color);
     transition: all 0.3s ease-in-out;
 }
 
@@ -118,12 +118,12 @@ body {
 .nav-link:hover {
     color: var(--primary-color) !important;
     transition: all 0.2s ease-in-out;
-    text-shadow: black 1px 1px 0px;
+    text-shadow: var(--darker-primary-color) 1px 1px 0px;
 }
 
 .active {
     color: var(--primary-color) !important;
-    text-shadow: black 1px 1px 0px;
+    text-shadow: var(--darker-primary-color) 1px 1px 0px;
 }
 
 .desktop-hidden {
@@ -435,6 +435,26 @@ a.text-secondary-dark:hover {
     transition: all 0.3s ease-in-out;
 }
 
+.text-tertiary {
+    color: var(--tertiary-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+a.text-tertiary:hover {
+    color: var(--light-tertiary-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+.text-tertiary-light {
+    color: var(--light-tertiary-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
+a.text-tertiary-light:hover {
+    color: var(--tertiary-color) !important;
+    transition: all 0.3s ease-in-out;
+}
+
 .text-shadow {
     text-shadow: var(--dark-primary-color) 2px 2px 0px !important;
 }
@@ -459,12 +479,24 @@ a.text-secondary-dark:hover {
     text-shadow: var(--secondary-color) 1px 1px 0px !important;
 }
 
+.text-shadow-tertiary {
+    text-shadow: var(--dark-tertiary-color) 2px 2px 0px !important;
+}
+
+.text-shadow-tertiary-sm {
+    text-shadow: var(--dark-tertiary-color) 1px 1px 0px !important;
+}
+
+a.text-shadow-tertiary:hover {
+    text-shadow: var(--tertiary-color) 2px 2px 0px !important;
+}
+
 a.text-shadow-sm:hover {
     text-shadow: var(--primary-color) 1px 1px 0px !important;
 }
 
 .text-white {
-    color: var(--light-text) !important;
+    color: white !important;
 }
 
 .text-white-shadow {
