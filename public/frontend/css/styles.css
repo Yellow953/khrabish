@@ -10,21 +10,26 @@
     --secondary-color: #21897E;
     --dark-secondary-color: #085e55;
     --darker-secondary-color: #023a34;
+    --darkest-secondary-color: #1F363D;
+    --light-tertiary-color: #f7aef8;
+    --tertiary-color: #c042ed;
+    --dark-tertiary-color: #8a2dab;
     --light-text: #eaf7c6;
     --dark-text: #011627;
     --light-bg: #f7f78f;
-    --dark-bg: #1F363D;
     --darker-bg: #0e1d22;
     --danger-color: #f73319;
     --success-color: #c8ff00;
     --warning-color: #ff9f00;
     --info-color: #00ffc8;
     --white: #edf5d7;
+    --dark-bg: #313338;
+
 }
 
 body {
     font-family: "Lexend Deca", sans-serif;
-    background-color: white !important;
+    background-color: var(--dark-bg) !important;
     font-weight: 800;
 }
 
@@ -75,8 +80,20 @@ body {
 /* ----------Navbar---------- */
 
 .navbar {
-    background-color: var(--light-secondary-color);
     padding: 20px 0px !important;
+}
+
+.floating-nav {
+    background-color: white;
+    border-radius: 40px;
+    padding: 10px 20px;
+    box-shadow: 3px 5px 0px rgba(0, 0, 0, 1);
+    transition: all 0.3s ease-in-out;
+}
+
+.floating-nav:hover {
+    box-shadow: 3px 5px 5px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease-in-out;
 }
 
 .logo {
@@ -91,23 +108,22 @@ body {
 
 .navbar-brand,
 .nav-link {
-    color: var(--primary-color) !important;
+    color: black !important;
     font-weight: 700;
     font-size: 1.15rem;
     padding: 5px 15px !important;
     transition: all 0.2s ease-in-out;
-    text-shadow: var(--dark-primary-color) 1px 1px 0px;
 }
 
 .nav-link:hover {
-    color: var(--light-primary-color) !important;
+    color: var(--primary-color) !important;
     transition: all 0.2s ease-in-out;
-    text-shadow: var(--darker-primary-color) 2px 2px 0px;
+    text-shadow: black 1px 1px 0px;
 }
 
 .active {
-    color: var(--light-primary-color) !important;
-    text-shadow: var(--darker-primary-color) 2px 2px 0px;
+    color: var(--primary-color) !important;
+    text-shadow: black 1px 1px 0px;
 }
 
 .desktop-hidden {
@@ -130,7 +146,7 @@ body {
 
 .hero {
     width: 100%;
-    height: 85vh;
+    height: 100vh;
 }
 
 .home-overlay {
@@ -141,8 +157,7 @@ body {
 
 .hero-img {
     width: 100vw;
-    height: 84vh;
-    margin-top: 15vh;
+    height: 100vh;
     object-fit: cover;
 }
 
@@ -666,13 +681,13 @@ footer {
 .custom_scroller::-webkit-scrollbar-track {
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     border-radius: 7px;
-    background-color: var(--dark-bg);
+    background-color: var(--darkest-secondary-color);
 }
 
 #kt_app_body::-webkit-scrollbar,
 .custom_scroller::-webkit-scrollbar {
     width: 12px;
-    background-color: var(--dark-bg);
+    background-color: var(--darkest-secondary-color);
 }
 
 #kt_app_body::-webkit-scrollbar-thumb,

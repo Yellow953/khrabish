@@ -1,7 +1,7 @@
 <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container">
         <a class="navbar-brand" href="{{Route('home')}}">
-            <img src="{{ asset('frontend/images/khrabish-white.webp') }}" alt="Khrabish Logo" class="logo" />
+            <img src="{{ asset('frontend/images/khrabish-white.png') }}" alt="Khrabish Logo" class="logo" />
         </a>
         <ul class="navbar-nav ms-auto tab-display me-4">
             <li class="nav-item">
@@ -35,7 +35,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto center-menu text-center">
+            <ul class="navbar-nav ms-auto center-menu text-center floating-nav">
                 <li class="nav-item">
                     <a class="nav-link {{ Route::is('home') ? 'active' : '' }} y-on-hover"
                         href="{{ route('home') }}">Home</a>
@@ -49,7 +49,7 @@
                         href="{{ route('contact') }}">Contact</a>
                 </li>
             </ul>
-            <ul class="navbar-nav ms-auto m-hidden">
+            <ul class="navbar-nav ms-auto m-hidden floating-nav">
                 <li class="nav-item">
                     <a class="nav-link y-on-hover" href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
                         <i class="fa fa-search"></i>

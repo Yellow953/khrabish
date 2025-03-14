@@ -48,7 +48,7 @@
 
     {{-- @include('frontend.layouts._announcement') --}}
 
-    <div class="mt-5 mt-md-2">
+    <div>
         @yield('content')
     </div>
 
