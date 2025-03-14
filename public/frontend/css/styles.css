@@ -744,3 +744,73 @@ footer {
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
 }
+
+/* -----------------transitions---------------- */
+
+.animate-on-scroll {
+    opacity: 0;
+    transition: all 0.4s ease-out;
+}
+
+/* Different animation classes */
+.fade-in {
+    opacity: 0;
+}
+
+.slide-up {
+    opacity: 0;
+    transform: translateY(50px);
+}
+
+.slide-left {
+    opacity: 0;
+    transform: translateX(-50px);
+}
+
+.slide-right {
+    opacity: 0;
+    transform: translateX(50px);
+}
+
+.slide-down {
+    opacity: 0;
+    transform: translateY(-50px);
+}
+
+/* Active states when element is visible */
+.fade-in.active {
+    opacity: 1;
+}
+
+.slide-up.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.slide-left.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-right.active {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.slide-down.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Optional animation delay classes */
+.delay-200 {
+    transition-delay: 200ms;
+}
+
+.delay-400 {
+    transition-delay: 400ms;
+}
+
+.delay-600 {
+    transition-delay: 600ms;
+}

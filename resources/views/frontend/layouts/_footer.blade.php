@@ -7,7 +7,7 @@
             <img src="{{ asset('frontend/images/footer.png') }}" alt="" class="img-fluid img-footer">
         </div>
         <div class="col-12 col-md-2 align-content-center text-center">
-            <img src="{{ asset('frontend/images/white-logo.png') }}" alt="" width="200" height="200"
+            <img src="{{ asset('frontend/images/khrabish-white.webp') }}" alt="" width="200" height="200"
                 class="img-fluid img-footer-logo ms-md-4 mt-5 mt-md-0">
         </div>
         <div class="col-12 col-md-7 text-shadow">

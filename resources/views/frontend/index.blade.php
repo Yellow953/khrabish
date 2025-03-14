@@ -20,10 +20,10 @@
     </div>
 
     <div class="container py-5">
-        <h2 class="text-primary text-shadow fw-bold text-center mb-4">Categories</h2>
+        <h2 class="text-primary text-shadow fw-bold text-center mb-4 animate-on-scroll fade-in">Categories</h2>
         <div class="owl-carousel owl-theme categories">
             @foreach($categories as $category)
-                <div class="category-item y-on-hover my-2">
+                <div class="category-item y-on-hover my-2 animate-on-scroll fade-in">
                     <a href="{{ route('shop') }}" class="text-decoration-none text-primary">
                         <div class="category-image">
                             <img src="{{ asset($category->image) }}" alt="{{ $category->name }}" class="img-fluid category-img">
@@ -39,7 +39,7 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-4">
-                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-left">
                     <img src="{{ asset('frontend/images/categories/banners/home-items.png') }}" alt="Home Items"
                         class="banner-card-img">
                     <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Home Items</h5>
@@ -49,7 +49,7 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-up">
                     <img src="{{ asset('frontend/images/categories/banners/kids.png') }}" alt="Kids Toys"
                         class="banner-card-img">
                     <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Kids Toys</h5>
@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="col-4">
-                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-right">
                     <img src="{{ asset('frontend/images/categories/banners/bathroom.png') }}" alt="Bathroom"
                         class="banner-card-img">
                     <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Bathroom</h5>
@@ -216,7 +216,7 @@
     <div class="container py-5">
         <div class="row">
             <div class="col-6">
-                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-left">
                     <img src="{{ asset('frontend/images/categories/banners/cleaning.png') }}" alt="Cleaning Supplies"
                         class="banner-card-img">
                     <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Cleaning Supplies</h5>
@@ -226,7 +226,7 @@
                 </div>
             </div>
             <div class="col-6">
-                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-right">
                     <img src="{{ asset('frontend/images/categories/banners/phone-accessories.png') }}"
                         alt="Phone Accessories" class="banner-card-img">
                     <h5 class="text-secondary-light text-shadow-sm z-index-1 pt-5">Phone Accessories</h5>
@@ -239,7 +239,7 @@
     </div>
     <div class="container mb-5">
         <div class="col-md-12 mb-3 mb-md-0">
-            <div class="card text-center lighter-secondary-bg rounded-5">
+            <div class="card text-center lighter-secondary-bg rounded-5 animate-on-scroll fade-in">
                 <div class="card-body">
                     <div class="row ps-4">
                         <div class="col-md-6 text-start d-flex flex-column justify-content-center">

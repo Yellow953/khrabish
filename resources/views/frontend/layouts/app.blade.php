@@ -64,6 +64,7 @@
 
     <script src="{{ asset('frontend/js/bootstrap-carousel.js') }}"></script>
     <script src="{{ asset('frontend/js/frontend.js') }}"></script>
+    <script src="{{ asset('frontend/js/animations.js') }}"></script>
 </body>
 
 </html>
