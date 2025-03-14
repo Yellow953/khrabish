@@ -29,7 +29,7 @@
 
 body {
     font-family: "Lexend Deca", sans-serif;
-    background-color: var(--dark-bg) !important;
+    background-color: white !important;
     font-weight: 800;
 }
 
@@ -524,6 +524,20 @@ a.text-shadow-sm:hover {
 
 .email-img {
     height: 300px;
+}
+
+.banner-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    object-fit: cover;
+    z-index: 0;
+    border-radius: 20px;
+    height: 100%;
+}
+
+.z-index-1 {
+    z-index: 1;
 }
 
 /* ----------Item Card---------- */

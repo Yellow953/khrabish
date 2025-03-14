@@ -36,6 +36,40 @@
             @endforeach
         </div>
     </div>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-4">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                    <img src="{{ asset('frontend/images/categories/banners/home-items.png') }}" alt="Home Items"
+                        class="banner-card-img">
+                    <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Home Items</h5>
+                    <div class=" d-flex flex-column y-on-hover-sm">
+                        <a href="#" class="btn btn-primary z-index-1 mb-5">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                    <img src="{{ asset('frontend/images/categories/banners/kids.png') }}" alt="Kids Toys"
+                        class="banner-card-img">
+                    <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Kids Toys</h5>
+                    <div class=" d-flex flex-column y-on-hover-sm">
+                        <a href="#" class="btn btn-primary z-index-1 mb-5">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                    <img src="{{ asset('frontend/images/categories/banners/bathroom.png') }}" alt="Bathroom"
+                        class="banner-card-img">
+                    <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Bathroom</h5>
+                    <div class=" d-flex flex-column y-on-hover-sm">
+                        <a href="#" class="btn btn-primary z-index-1 mb-5">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="container py-5">
         <div class="row">
@@ -179,6 +213,30 @@
             </div>
         </div>
     </div>
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-6">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                    <img src="{{ asset('frontend/images/categories/banners/cleaning.png') }}" alt="Cleaning Supplies"
+                        class="banner-card-img">
+                    <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Cleaning Supplies</h5>
+                    <div class=" d-flex flex-column y-on-hover-sm">
+                        <a href="#" class="btn btn-primary z-index-1 mb-5">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card rounded-5 py-5 text-start align-items-start ps-3">
+                    <img src="{{ asset('frontend/images/categories/banners/phone-accessories.png') }}"
+                        alt="Phone Accessories" class="banner-card-img">
+                    <h5 class="text-secondary-light text-shadow-sm z-index-1 pt-5">Phone Accessories</h5>
+                    <div class=" d-flex flex-column y-on-hover-sm">
+                        <a href="#" class="btn btn-secondary z-index-1 mb-5">Shop Now</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container mb-5">
         <div class="col-md-12 mb-3 mb-md-0">
             <div class="card text-center lighter-secondary-bg rounded-5">
@@ -186,7 +244,8 @@
                     <div class="row ps-4">
                         <div class="col-md-6 text-start d-flex flex-column justify-content-center">
                             <h2 class="text-secondary-dark text-white-shadow mb-3">Join Our Newsletter</h2>
-                            <p class="text-secondary mb-3">Join our e-mail subscription now to get the latest updates about
+                            <p class="text-secondary mb-3">Join our e-mail subscription now to get the latest updates
+                                about
                                 upcoming promotions, discounts, and new products!</p>
                             <form action="#" method="POST">
                                 @csrf
