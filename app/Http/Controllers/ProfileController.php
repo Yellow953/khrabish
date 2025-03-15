@@ -2,13 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\Helper;
-use App\Models\Category;
-use App\Models\Currency;
 use App\Models\Log;
-use App\Models\Tax;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Intervention\Image\Facades\Image;
 

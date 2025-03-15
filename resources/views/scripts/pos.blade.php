@@ -4,7 +4,7 @@
     var KTPosSystem = function() {
         var form;
         var orderItems = [];
-        var taxRate = {{ auth()->user()->business->tax->rate ?? 0 }};
+        var taxRate = 0;
         var discount = 0;
         var grandTotal = 0;
         var orderNumber = {{ $last_order ? (int)$last_order->order_number : 0 }}
@@ -17,23 +17,20 @@
 
         var calculateTotals = function() {
             var total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
-            var tax = total * (taxRate / 100);
-            grandTotal = total + tax - discount;
+            grandTotal = total - discount;
 
-            if (discount > total + tax) {
-                discount = total + tax;
+            if (discount > total) {
+                discount = total;
             }
 
-            grandTotal = total + tax - discount;
+            grandTotal = total - discount;
 
             form.querySelector('[data-kt-pos-element="total"]').innerHTML = moneyFormat.format(total);
             form.querySelector('[data-kt-pos-element="discount"]').innerHTML = moneyFormat.format(discount);
-            form.querySelector('[data-kt-pos-element="tax"]').innerHTML = moneyFormat.format(tax);
             form.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = moneyFormat.format(
             grandTotal);
 
             form.querySelector('input[name="total"]').value = total;
-            form.querySelector('input[name="tax"]').value = tax;
             form.querySelector('input[name="discount"]').value = discount;
             form.querySelector('input[name="grand_total"]').value = grandTotal;
         }
