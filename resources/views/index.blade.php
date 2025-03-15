@@ -43,7 +43,7 @@
                                 <div class="fs-6 fw-bold">
                                     <span class="d-block lh-1 mb-4">Subtotal</span>
                                     <span class="d-block mb-4">Discounts</span>
-                                    <span class="d-block mb-9">Tax({{ auth()->user()->business->tax->rate }}%)</span>
+                                    <span class="d-block mb-9">Tax(0%)</span>
                                     <span class="d-block fs-2qx lh-1">Total</span>
                                 </div>
                                 <div class="fs-6 fw-bold text-end">

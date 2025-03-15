@@ -15,7 +15,6 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DebtController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TaxController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ShopController;
@@ -55,17 +54,6 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/update/{user}', [UserController::class, 'update'])->name('users.update');
             Route::get('/delete/{user}', [UserController::class, 'destroy'])->name('users.destroy');
             Route::get('/', [UserController::class, 'index'])->name('users');
-        });
-
-        // Taxes Routes
-        Route::prefix('taxes')->group(function () {
-            Route::get('/export', [TaxController::class, 'export'])->name('taxes.export');
-            Route::get('/new', [TaxController::class, 'new'])->name('taxes.new');
-            Route::post('/create', [TaxController::class, 'create'])->name('taxes.create');
-            Route::get('/{tax}/edit', [TaxController::class, 'edit'])->name('taxes.edit');
-            Route::post('/{tax}/update', [TaxController::class, 'update'])->name('taxes.update');
-            Route::get('/{tax}/delete', [TaxController::class, 'destroy'])->name('taxes.destroy');
-            Route::get('/', [TaxController::class, 'index'])->name('taxes');
         });
 
         // Backup

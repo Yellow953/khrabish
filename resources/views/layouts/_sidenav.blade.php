@@ -260,18 +260,6 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
-                    <a class="menu-link {{ request()->routeIs('taxes*') ? 'active' : '' }}" href="{{ route('taxes') }}">
-                        <span class="menu-icon">
-                            <i class="bi bi-bank2"></i>
-                        </span>
-                        <span class="menu-title">Taxes</span>
-                    </a>
-                    <!--end:Menu link-->
-                </div>
-                <!--end:Menu item-->
-                <!--begin:Menu item-->
-                <div class="menu-item">
-                    <!--begin:Menu link-->
                     <a class="menu-link {{ request()->routeIs('backup*') ? 'active' : '' }}"
                         href="{{ route('backup') }}">
                         <span class="menu-icon">

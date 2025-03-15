@@ -41,14 +41,14 @@ class AppController extends Controller
                 'currency_id' => auth()->user()->currency_id,
                 'order_number' => Order::generate_number(),
                 'sub_total' => $request->total,
-                'tax' => $request->tax,
+                'tax' => 0,
                 'discount' => $request->discount,
                 'total' => $request->grand_total,
                 'products_count' => count(json_decode($request->order_items, true)),
                 'note' => $request->note ?? null,
             ]);
 
-            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$request->tax}, discount: {$request->discount}, Total: {$request->grand_total}";
+            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$request->discount}, Total: {$request->grand_total}";
 
             $orderItems = json_decode($request->order_items, true);
 
@@ -102,21 +102,21 @@ class AppController extends Controller
             ]);
 
             $text = '';
-            $tax = $request->tax ?? 0;
+            $tax = 0;
             $discount = $request->discount ?? 0;
 
             $order = Order::create([
                 'cashier_id' => auth()->user()->id,
                 'currency_id' => auth()->user()->currency_id,
                 'order_number' => Order::generate_number(),
-                'sub_total' => $request->total - $tax + $discount,
-                'tax' => $tax,
+                'sub_total' => $request->total + $discount,
+                'tax' => 0,
                 'discount' => $discount,
                 'total' => $request->total,
                 'products_count' => count($request->orderItems),
                 'note' => $request->note,
             ]);
-            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$tax}, discount: {$discount}, Total: {$request->grand_total}";
+            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$discount}, Total: {$request->grand_total}";
 
             foreach ($request->orderItems as $item) {
                 $product = Product::find($item['id']);

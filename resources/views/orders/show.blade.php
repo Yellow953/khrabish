@@ -204,13 +204,6 @@
                                                                     number_format($order->sub_total, 2) }}</td>
                                                             </tr>
                                                             <!--end::Subtotal-->
-                                                            <!--begin::VAT-->
-                                                            <tr class="text-dark fw-bold text-end">
-                                                                <td colspan="2">Tax</td>
-                                                                <td class="text-end">{{ $currency->symbol }}{{
-                                                                    number_format($order->tax, 2) }}</td>
-                                                            </tr>
-                                                            <!--end::VAT-->
                                                             <!--begin::Shipping-->
                                                             <tr class="text-dark fw-bold text-end">
                                                                 <td colspan="2">Discount

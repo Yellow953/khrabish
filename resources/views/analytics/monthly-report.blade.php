@@ -71,9 +71,7 @@
                                 <th>Order No.</th>
                                 <th>Date</th>
                                 <th>Cashier</th>
-
                                 <th>Sub Total</th>
-                                <th>Tax</th>
                                 <th>Discount</th>
                                 <th>Total</th>
 
@@ -87,7 +85,6 @@
                                 <td>{{ ucwords($order->cashier->name) }}</td>
 
                                 <td>{{ $order->currency->symbol }}{{ number_format($order->sub_total, 2) }}</td>
-                                <td>{{ $order->currency->symbol }}{{ number_format($order->tax_amount, 2) }}</td>
                                 <td>{{ $order->currency->symbol }}{{ number_format($order->discount_amount, 2) }}
                                 </td>
                                 <td>{{ $order->currency->symbol }}{{ number_format($order->total, 2) }}</td>
