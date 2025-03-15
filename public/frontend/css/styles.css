@@ -84,7 +84,7 @@ body {
 }
 
 .floating-nav {
-    background-color: white;
+    background-color: var(--white);
     border-radius: 40px;
     padding: 10px 20px;
     box-shadow: 3px 5px 0px rgba(0, 0, 0, 1);
@@ -102,8 +102,8 @@ body {
 
 .navbar-nav.center-menu {
     position: absolute;
-    left: 50%;
-    transform: translatex(-50%);
+    left: 40%;
+    transform: translatex(-40%);
 }
 
 .navbar-brand,
@@ -124,6 +124,10 @@ body {
 .active {
     color: var(--primary-color) !important;
     text-shadow: var(--darker-primary-color) 1px 1px 0px;
+}
+
+.dropdown-menu {
+    width: max-content;
 }
 
 .desktop-hidden {
@@ -650,8 +654,9 @@ footer {
 /* ----------Form---------- */
 
 .input {
-    border: var(--secondary-color) 2px solid;
-    background-color: var(--light-text);
+    border: var(--primary-color) 2px solid;
+    background-color: white;
+    box-shadow: black 3px 3px 0px;
     transition: all 0.3s ease-in-out;
     border-radius: 20px;
     text-align: center;
@@ -665,6 +670,8 @@ footer {
 .input:focus {
     background-color: var(--light-primary-color);
     transition: all 0.3s ease-in-out;
+    box-shadow: var(--primary-color) 3px 3px 0px !important;
+    border: var(--dark-primary-color) 2px solid;
 }
 
 .border-primary {
