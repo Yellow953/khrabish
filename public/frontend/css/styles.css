@@ -165,27 +165,29 @@ body {
     object-fit: cover;
 }
 
-.about-header {
-    width: 70%;
-}
-
-.about-title {
-    font-size: 4rem;
-}
-
-.hero-logo {
-    width: 20vw;
-}
-
 .h-100vh {
     height: 100vh;
 }
 
+.hero-title {
+    color: white;
+    font-weight: 700;
+    font-size: 2.5rem;
+    position: absolute;
+    top: 50%;
+    left: 10%;
+    transform: translateY(-50%);
+    transform: translateX(-10%);
+}
 
-.overlay {
-    background: linear-gradient(0deg,
-            rgba(224, 224, 224, 1),
-            rgba(255, 255, 255, 0) 50%) !important;
+.hero-button {
+    position: absolute;
+    top: 60%;
+    left: 7%;
+    transform: translateY(-50%);
+    transform: translateX(-7%);
+    font-size: larger !important;
+    border-radius: 40px !important;
 }
 
 /* ----------Media Queries---------- */
@@ -332,6 +334,24 @@ body {
     border-color: var(--dark-secondary-color);
 }
 
+.btn-tertiary {
+    color: var(--light-text) !important;
+    background-color: var(--tertiary-color);
+    border: var(--tertiary-color) solid 2px;
+    font-weight: 700;
+    transition: all 0.3s ease-in-out;
+    border-radius: 20px;
+    box-shadow: var(--dark-tertiary-color) 2px 2px 0px;
+    text-shadow: var(--dark-tertiary-color) 1px 1px 0px;
+}
+
+.btn-tertiary:hover {
+    color: white !important;
+    background-color: var(--tertiary-color);
+    border-color: var(--dark-tertiary-color);
+    transition: all 0.3s ease-in-out;
+}
+
 .shake:hover {
     animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
 }
@@ -459,12 +479,20 @@ a.text-tertiary-light:hover {
     transition: all 0.3s ease-in-out;
 }
 
+.text-shadow-lg {
+    text-shadow: var(--dark-primary-color) 2px 3px 0px !important;
+}
+
 .text-shadow {
     text-shadow: var(--dark-primary-color) 2px 2px 0px !important;
 }
 
 .text-shadow-sm {
     text-shadow: var(--dark-primary-color) 1px 1px 0px !important;
+}
+
+.text-shadow-secondary-lg {
+    text-shadow: var(--dark-secondary-color) 2px 3px 0px !important;
 }
 
 .text-shadow-secondary {
@@ -481,6 +509,10 @@ a.text-tertiary-light:hover {
 
 .text-shadow-secondary-sm:hover {
     text-shadow: var(--secondary-color) 1px 1px 0px !important;
+}
+
+.text-shadow-tertiary-lg {
+    text-shadow: var(--dark-tertiary-color) 2px 3px 0px !important;
 }
 
 .text-shadow-tertiary {
@@ -537,13 +569,6 @@ a.text-shadow-sm:hover {
     justify-content: end;
 }
 
-.card-title {
-    font-weight: 700;
-    font-size: 1.5rem;
-    color: var(--secondary-color);
-    text-shadow: var(--light-bg) 1px 2px 5px;
-}
-
 .secondary-img {
     border-radius: 20px;
     height: 200px;
@@ -581,17 +606,24 @@ a.text-shadow-sm:hover {
 .product-card {
     width: fit-content !important;
     height: fit-content !important;
-    height: fit-content !important;
+    background-color: white;
+    border: white 2px solid;
+    box-shadow: var(--primary-color) 3px 3px 0px;
+    transition: all 0.3s ease-in-out;
+}
+
+.product-card:hover {
+    border: var(--primary-color) 2px solid !important;
+    transition: all 0.3s ease-in-out;
 }
 
 .category-item {
-    border-radius: 20px;
     padding: 10px;
 }
 
 .category-title {
-    height: 74px;
     justify-content: center;
+    font-size: 1rem !important;
 }
 
 .category-img {

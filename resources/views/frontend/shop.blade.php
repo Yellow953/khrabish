@@ -32,10 +32,16 @@
                         @foreach($products as $product)
                             <div class="col-12 col-sm-6 col-md-3 mb-3">
                                 <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
-                                    <div class="card item-card overflow-hidden shadow-sm">
+                                    <div class="card item-card product-card overflow-hidden y-on-hover">
                                         <img src="{{ $product->image }}" class="img-fluid product-img">
                                         <div class="card-body">
-                                            <h5 class="card-title text-center text-shadow-sm">{{ $product->name }}</h5>
+                                            <div class="d-flex flex-column justify-content-between">
+                                                <h5 class="text-primary text-shadow-sm">{{ $product->name }}</h5>
+                                                <div class="d-flex justify-content-end">
+                                                    <h6 class="text-muted"><s>$40.00</s></h6>
+                                                    <h5 class="text-secondary">$30.00</h5>
+                                                </div>
+                                            </div>
                                             <div class="d-flex flex-column y-on-hover">
                                                 <a href="{{ route('product', $product->name) }}"
                                                     class="btn btn-primary mt-3">View

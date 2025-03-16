@@ -8,12 +8,21 @@
             <div class="carousel-inner">
                 <div class="carousel-item">
                     <img src="{{ asset('frontend/images/hero.png') }}" class="d-block w-100 hero-img" alt="Hero Image">
+                    <h1 class="z-index-1 hero-title text-shadow-lg">Shop Your Favorite Khrabish Online</h1>
+                    <a href="#" class="btn btn-tertiary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
+                    <!-- phone image goes here -->
                 </div>
                 <div class="carousel-item">
                     <img src="{{ asset('frontend/images/hero-2.png') }}" class="d-block w-100 hero-img" alt="Hero Image 2">
+                    <h1 class="z-index-1 hero-title text-shadow-tertiary-lg">Take A Look At Our Kitchen Items</h1>
+                    <a href="#" class="btn btn-secondary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
+                    <!-- kitchen items image goes here -->
                 </div>
                 <div class="carousel-item active">
                     <img src="{{ asset('frontend/images/hero-3.png') }}" class="d-block w-100 hero-img" alt="Hero Image 3">
+                    <h1 class="z-index-1 hero-title text-shadow-secondary-lg">Get Your Kids Toys Here</h1>
+                    <a href="#" class="btn btn-primary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
+                    <!-- kids toys image goes here -->
                 </div>
             </div>
         </div>
@@ -52,9 +61,9 @@
                 <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-up">
                     <img src="{{ asset('frontend/images/categories/banners/kids.png') }}" alt="Kids Toys"
                         class="banner-card-img">
-                    <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Kids Toys</h5>
+                    <h5 class="text-secondary-light text-shadow-secondary-sm z-index-1 pt-5">Kids Toys</h5>
                     <div class=" d-flex flex-column y-on-hover-sm">
-                        <a href="#" class="btn btn-primary z-index-1 mb-5">Shop Now</a>
+                        <a href="#" class="btn btn-secondary z-index-1 mb-5">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -84,14 +93,18 @@
             <div class="col-7">
                 <div class="row pb-3">
                     <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
+                        <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 1</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
+                                </div>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
                                 </div>
@@ -99,14 +112,18 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
+                        <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 2</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
+                                </div>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
                                 </div>
@@ -116,14 +133,18 @@
                 </div>
                 <div class="row pb-3">
                     <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
+                        <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 1</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
+                                </div>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
                                 </div>
@@ -131,14 +152,58 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
+                        <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 2</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
+                                </div>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row pb-3">
+                    <div class="col-6">
+                        <div class="card product-card rounded-5">
+                            <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
+                                alt="Toy 1">
+                            <div class="card-body">
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 1</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
+                                </div>
+                                <div class=" d-flex flex-column y-on-hover-sm">
+                                    <a href="#" class="btn btn-primary">View</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="card product-card rounded-5">
+                            <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
+                                alt="Toy 2">
+                            <div class="card-body">
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 2</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
+                                </div>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
                                 </div>
@@ -148,14 +213,18 @@
                 </div>
                 <div class="row">
                     <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
+                        <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 1</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
+                                </div>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
                                 </div>
@@ -163,46 +232,18 @@
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
+                        <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
                             <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
-                                <div class=" d-flex flex-column y-on-hover-sm">
-                                    <a href="#" class="btn btn-primary">View</a>
+                                <div class="d-flex flex-column justify-content-between">
+                                    <h5 class="text-primary text-shadow-sm">Toy 2</h5>
+                                    <div class="d-flex justify-content-end">
+                                        <h6 class="text-muted"><s>$40.00</s>
+                                        </h6>
+                                        <h5 class="text-secondary">$29.00</h5>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
-                            <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
-                                alt="Toy 1">
-                            <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 1</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
-                                <div class=" d-flex flex-column y-on-hover-sm">
-                                    <a href="#" class="btn btn-primary">View</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
-                        <div class="card lighter-primary-bg rounded-5">
-                            <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
-                                alt="Toy 2">
-                            <div class="card-body">
-                                <h5 class="text-primary text-shadow-sm">Toy 2</h5>
-                                <p class="text-secondary-light text-shadow-secondary-sm">Lorem ipsum dolor sit amet,
-                                    consectetur
-                                    adipiscing elit.</p>
                                 <div class=" d-flex flex-column y-on-hover-sm">
                                     <a href="#" class="btn btn-primary">View</a>
                                 </div>
@@ -219,9 +260,9 @@
                 <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-left">
                     <img src="{{ asset('frontend/images/categories/banners/cleaning.png') }}" alt="Cleaning Supplies"
                         class="banner-card-img">
-                    <h5 class="text-primary text-shadow-sm z-index-1 pt-5">Cleaning Supplies</h5>
+                    <h5 class="text-secondary-light text-shadow-tertiary-sm z-index-1 pt-5">Cleaning Supplies</h5>
                     <div class=" d-flex flex-column y-on-hover-sm">
-                        <a href="#" class="btn btn-primary z-index-1 mb-5">Shop Now</a>
+                        <a href="#" class="btn btn-secondary z-index-1 mb-5">Shop Now</a>
                     </div>
                 </div>
             </div>
@@ -229,7 +270,7 @@
                 <div class="card rounded-5 py-5 text-start align-items-start ps-3 animate-on-scroll slide-right">
                     <img src="{{ asset('frontend/images/categories/banners/phone-accessories.png') }}"
                         alt="Phone Accessories" class="banner-card-img">
-                    <h5 class="text-secondary-light text-shadow-sm z-index-1 pt-5">Phone Accessories</h5>
+                    <h5 class="text-secondary-light text-shadow-secondary-sm z-index-1 pt-5">Phone Accessories</h5>
                     <div class=" d-flex flex-column y-on-hover-sm">
                         <a href="#" class="btn btn-secondary z-index-1 mb-5">Shop Now</a>
                     </div>

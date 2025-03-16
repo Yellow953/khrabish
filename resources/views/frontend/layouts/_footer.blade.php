@@ -91,17 +91,17 @@
             <div class="row py-3">
                 <div class=" d-flex col-12 text-center justify-content-center gap-5">
                     <a href=""
-                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Home</a>
+                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Home</a>
                     <a href=""
-                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Shop</a>
+                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Shop</a>
                     <a href=""
-                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Shipping
+                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Shipping
                         Policy</a>
                     <a href=""
-                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Return
+                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Return
                         Policy</a>
                     <a href=""
-                        class="text-decoration-none text-tertiary fw-bold text-shadow-tertiary-sm fs-4 y-on-hover">Contact</a>
+                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Contact</a>
                 </div>
             </div>
         </div>
