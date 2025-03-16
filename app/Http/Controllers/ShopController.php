@@ -15,7 +15,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $categories = Category::all();
+        $categories = Category::select('id', 'name', 'image')->get();
         return view('frontend.index', compact('categories'));
     }
 
@@ -36,20 +36,17 @@ class ShopController extends Controller
 
     public function product(Product $product)
     {
+        $categories = Category::select('id', 'name', 'image')->get();
         $products = Product::select('id', 'name', 'image')->where('category_id', $product->category_id)->limit(8)->get();
 
-        $data = compact('product', 'products');
+        $data = compact('product', 'products', 'categories');
         return view('frontend.product', $data);
-    }
-
-    public function about()
-    {
-        return view('frontend.about');
     }
 
     public function contact()
     {
-        return view('frontend.contact');
+        $categories = Category::select('id', 'name', 'image')->get();
+        return view('frontend.contact', compact('categories'));
     }
 
     public function checkout()
@@ -255,8 +252,9 @@ class ShopController extends Controller
             "Zambia",
             "Zimbabwe",
         ];
+        $categories = Category::select('id', 'name', 'image')->get();
 
-        return view('frontend.checkout', compact('countries'));
+        return view('frontend.checkout', compact('countries', 'categories'));
     }
 
     public function order(Request $request)
