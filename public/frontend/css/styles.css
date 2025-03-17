@@ -153,12 +153,6 @@ body {
     height: 100vh;
 }
 
-.home-overlay {
-    background: linear-gradient(-90deg,
-            var(--light-bg),
-            rgba(255, 255, 255, 0)) !important;
-}
-
 .hero-img {
     margin-top: 18vh;
     width: 90%;

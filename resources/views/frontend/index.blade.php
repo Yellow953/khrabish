@@ -278,6 +278,9 @@
             </div>
         </div>
     </div>
+
+
+    </div>
     <div class="container mb-5">
         <div class="col-md-12 mb-3 mb-md-0">
             <div class="card text-center lighter-secondary-bg rounded-5 animate-on-scroll fade-in">
