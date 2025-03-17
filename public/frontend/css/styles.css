@@ -160,9 +160,13 @@ body {
 }
 
 .hero-img {
-    width: 100vw;
-    height: 100vh;
+    margin-top: 18vh;
+    width: 90%;
+    height: 80vh;
     object-fit: cover;
+    margin-left: auto;
+    margin-right: auto;
+    border-radius: 50px;
 }
 
 .h-100vh {
@@ -175,17 +179,13 @@ body {
     font-size: 2.5rem;
     position: absolute;
     top: 50%;
-    left: 10%;
-    transform: translateY(-50%);
-    transform: translateX(-10%);
+    left: 7%;
 }
 
 .hero-button {
     position: absolute;
     top: 60%;
     left: 7%;
-    transform: translateY(-50%);
-    transform: translateX(-7%);
     font-size: larger !important;
     border-radius: 40px !important;
 }
