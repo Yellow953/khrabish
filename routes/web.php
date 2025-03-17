@@ -206,7 +206,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Search
-Route::get('/search/products', [HomeController::class, 'search'])->name('products.search');
+Route::get('/search/products', [ShopController::class, 'search'])->name('products.search');
 
 // Shop
 Route::get('/product/{product:name}', [ShopController::class, 'product'])->name('product');
