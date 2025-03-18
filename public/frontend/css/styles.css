@@ -79,6 +79,12 @@ body {
 
 /* ----------Navbar---------- */
 
+.contact-header {
+    background-color: var(--primary-color);
+    color: var(--light-text);
+    padding: 0px !important;
+}
+
 .navbar {
     padding: 20px 0px !important;
 }
@@ -102,8 +108,8 @@ body {
 
 .navbar-nav.center-menu {
     position: absolute;
-    left: 40%;
-    transform: translatex(-40%);
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .navbar-brand,
@@ -154,9 +160,9 @@ body {
 }
 
 .hero-img {
-    margin-top: 18vh;
+    margin-top: 23vh;
     width: 90%;
-    height: 80vh;
+    height: 75vh;
     object-fit: cover;
     margin-left: auto;
     margin-right: auto;

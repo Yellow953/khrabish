@@ -1,4 +1,10 @@
-<nav class="navbar navbar-expand-lg fixed-top bg-white">
+<div class="contact-header text-center fixed-top">
+    <a href="tel:+96170231446" class="text-secondary-light text-shadow-secondary-sm text-decoration-none"><i
+            class="fa fa-phone"></i>
+        +961 70 231 446</a>
+    <p class="text-shadow-sm"></p>
+</div>
+<nav class="navbar navbar-expand-lg fixed-top bg-white mt-4">
     <div class="container">
         <a class="navbar-brand" href="{{Route('home')}}">
             <img src="{{ asset('frontend/images/green-logo.png') }}" alt="Khrabish Logo" class="logo" />
@@ -50,7 +56,8 @@
                         </li>
                         @foreach ($categories as $category)
                             <li class="nav-item"><a class="text-decoration-none nav-link"
-                                    href="{{ route('shop', ['category' => $category->id]) }}">{{ $category->name }}</a></li>
+                                    href="{{ route('shop', ['category' => $category->id]) }}">{{ $category->name }}</a>
+                            </li>
                         @endforeach
                     </ul>
                 </li>
