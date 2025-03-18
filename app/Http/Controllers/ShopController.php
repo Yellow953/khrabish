@@ -15,8 +15,11 @@ class ShopController extends Controller
 {
     public function index()
     {
+        $products = Product::select('id', 'name', 'image')->orderBy('created_at', 'DESC')->limit(10)->get();
         $categories = Category::select('id', 'name', 'image')->get();
-        return view('frontend.index', compact('categories'));
+
+        $data = compact('categories', 'products');
+        return view('frontend.index', $data);
     }
 
     public function shop(Request $request)
