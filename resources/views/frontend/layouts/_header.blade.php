@@ -7,7 +7,7 @@
 </div>
 <div class="bg-white border-bottom">
     <div class="d-flex justify-content-between align-items-center">
-        <a class="navbar-brand ms-5" href="{{Route('home')}}">
+        <a class="navbar-brand ms-5" href="{{ route('home')}}">
             <img src="{{ asset('frontend/images/green-logo.png') }}" alt="Khrabish Logo" class="logo" />
         </a>
         <div class="d-flex align-items-center">
@@ -22,14 +22,18 @@
                 </li>
             </ul>
         </div>
-        <div class="d-flex align-items-center">
-            <input type="text" class="form-control input px-5" name="q" id="searchInput" placeholder="Type To Search"
-                autocomplete="off" autofocus>
-            <a class="nav-link y-on-hover" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
-                id="cartButton" aria-controls="offcanvasCart">
-                <i class="fa-solid fa-cart-shopping"></i>
-            </a>
+        <div class="position-relative">
+            <div class="d-flex align-items-center">
+                <input type="text" class="form-control input px-5" name="q" id="searchInput"
+                    placeholder="Type To Search" autocomplete="off">
+                <a class="nav-link y-on-hover ms-2" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
+                    id="cartButton" aria-controls="offcanvasCart">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                </a>
+            </div>
+            <div id="searchResults" class="list-group position-absolute w-100 mt-1 shadow bg-white"></div>
         </div>
+
         <div class="bg-tertiary p-4 shadow">
             <a href="tel:+96170231446" class="text-decoration-none text-white text-shadow-tertiary-sm text-lg"><i
                     class="fa fa-phone"></i> +961 70 231 446</a>
@@ -39,11 +43,6 @@
 <nav class="navbar navbar-expand-lg fixed-top bg-white">
     <ul class="navbar-nav ms-auto tab-display me-4">
         <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
-                <i class="fa fa-search"></i>
-            </a>
-        </li>
-        <li class="nav-item">
             <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
                 aria-controls="offcanvasCart">
                 <i class="fa-solid fa-cart-shopping"></i>
@@ -51,12 +50,6 @@
         </li>
     </ul>
     <ul class="navbar-nav ms-auto desktop-hidden">
-        <li class="nav-item">
-            <a class="nav-link" href="#" data-bs-toggle="modal" data-bs-target="#searchModal">
-                <i class="fa fa-search"></i>
-            </a>
-        </li>
-
         <li class="nav-item">
             <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
                 aria-controls="offcanvasCart">
@@ -73,9 +66,9 @@
                     Products</a>
             </li>
             @foreach ($categories as $category)
-                <li class="nav-item"><a class="text-decoration-none nav-link y-on-hover"
-                        href="{{ route('shop', ['category' => $category->id]) }}">{{ $category->name }}</a>
-                </li>
+            <li class="nav-item"><a class="text-decoration-none nav-link y-on-hover"
+                    href="{{ route('shop', ['category' => $category->name]) }}">{{ $category->name }}</a>
+            </li>
             @endforeach
         </ul>
 

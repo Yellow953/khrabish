@@ -1,4 +1,4 @@
-<div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+{{-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-md">
         <div class="modal-content">
             <div class="modal-body">
@@ -11,8 +11,7 @@
             </div>
         </div>
     </div>
-</div>
-
+</div> --}}
 <div class="offcanvas offcanvas-end" tabindex="-2" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title text-secondary fw-bold text-shadow-sm" id="offcanvasCartLabel">Your Cart</h5>
@@ -50,6 +49,7 @@
 
         if (query === "") {
             resultsContainer.innerHTML = "";
+            resultsContainer.style.display = "none";
             return;
         }
 
@@ -64,23 +64,35 @@
                 resultsContainer.innerHTML = "";
 
                 if (data.length === 0) {
-                    resultsContainer.innerHTML = `<div class="text-muted text-center">No products found.</div>`;
+                    resultsContainer.innerHTML = `<div class="text-muted text-center p-2">No products found.</div>`;
+                    resultsContainer.style.display = "block";
                     return;
                 }
 
                 data.forEach(product => {
-                    const resultItem = `
-                        <a href="${product.url}" class="list-group-item list-group-item-action d-flex align-items-center">
-                            <img src="${product.image || 'https://via.placeholder.com/50'}" alt="${product.name}" class="img-thumbnail me-3" style="width: 50px; height: 50px;">
-                            <span>${product.name}</span>
-                        </a>
+                    const resultItem = document.createElement("a");
+                    resultItem.href = product.url;
+                    resultItem.className = "list-group-item list-group-item-action d-flex align-items-center";
+                    resultItem.innerHTML = `
+                        <img src="${product.image || 'https://via.placeholder.com/50'}" alt="${product.name}"
+                            class="img-thumbnail me-3" style="width: 50px; height: 50px;">
+                        <span>${product.name}</span>
                     `;
-                    resultsContainer.innerHTML += resultItem;
+                    resultsContainer.appendChild(resultItem);
                 });
+
+                resultsContainer.style.display = "block";
             })
             .catch(error => {
                 console.error("Error fetching search results:", error);
             });
+    });
+
+    // Hide search results when clicking outside
+    document.addEventListener("click", function (event) {
+        if (!searchInput.contains(event.target) && !resultsContainer.contains(event.target)) {
+            resultsContainer.style.display = "none";
+        }
     });
 
     const cartButton = document.getElementById('cartButton');
