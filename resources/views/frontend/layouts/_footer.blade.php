@@ -95,12 +95,6 @@
                     <a href=""
                         class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Shop</a>
                     <a href=""
-                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Shipping
-                        Policy</a>
-                    <a href=""
-                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Return
-                        Policy</a>
-                    <a href=""
                         class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Contact</a>
                 </div>
             </div>

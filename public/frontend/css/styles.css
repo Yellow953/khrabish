@@ -86,7 +86,9 @@ body {
 }
 
 .navbar {
-    padding: 20px 0px !important;
+    padding: 0px 0px;
+    position: -webkit-sticky;
+    position: sticky;
 }
 
 .floating-nav {
@@ -104,6 +106,10 @@ body {
 
 .logo {
     width: 80px;
+}
+
+.header-search {
+    padding: 5px 100px;
 }
 
 .navbar-nav.center-menu {
@@ -146,10 +152,6 @@ body {
 
 .tab-display {
     display: none;
-}
-
-.mt-nav {
-    margin-top: 30px;
 }
 
 /* ----------Hero---------- */
@@ -556,6 +558,14 @@ a.text-shadow-sm:hover {
     background-color: var(--light-primary-color) !important;
 }
 
+.bg-tertiary {
+    background-color: var(--tertiary-color) !important;
+}
+
+.text-lg {
+    font-size: 1.2rem !important;
+}
+
 /* ----------Card---------- */
 .home-card {
     border: none !important;
@@ -695,12 +705,12 @@ footer {
 }
 
 .input:hover {
-    background-color: var(--light-primary-color);
+    background-color: var(--light-bg);
     transition: all 0.3s ease-in-out;
 }
 
 .input:focus {
-    background-color: var(--light-primary-color);
+    background-color: var(--light-bg);
     transition: all 0.3s ease-in-out;
     box-shadow: var(--primary-color) 3px 3px 0px !important;
     border: var(--dark-primary-color) 2px solid;
