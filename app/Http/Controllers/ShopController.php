@@ -40,7 +40,7 @@ class ShopController extends Controller
     public function product(Product $product)
     {
         $categories = Category::select('id', 'name', 'image')->get();
-        $products = Product::select('id', 'name', 'image')->where('category_id', $product->category_id)->limit(8)->get();
+        $products = Product::select('id', 'name', 'image')->where('category_id', $product->category_id)->limit(10)->get();
 
         $data = compact('product', 'products', 'categories');
         return view('frontend.product', $data);
