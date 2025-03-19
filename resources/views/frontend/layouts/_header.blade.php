@@ -1,3 +1,10 @@
+<div class="bg-tertiary shadow border-bottom text-center py-1 announcement-bar">
+    <div class="announcement-slider">
+        <p class="text-white text-shadow-tertiary-sm mb-0">We provide delivery all over Lebanon!</p>
+        <p class="text-white text-shadow-tertiary-sm mb-0">We're ready to serve you 24/7</p>
+        <p class="text-white text-shadow-tertiary-sm mb-0">Shop your Favorite Khrabish Online</p>
+    </div>
+</div>
 <div class="bg-white border-bottom">
     <div class="d-flex justify-content-between align-items-center">
         <a class="navbar-brand ms-5" href="{{Route('home')}}">

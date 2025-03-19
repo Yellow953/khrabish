@@ -43,9 +43,7 @@
 <body class="custom_scroller">
     @include('frontend.layouts._header')
 
-    <div>
-        @yield('content')
-    </div>
+    @yield('content')
 
     @include('frontend.layouts._footer')
     @include('frontend.layouts._modals')
@@ -60,6 +58,7 @@
     <!-- Custom JS -->
     <script src="{{ asset('frontend/js/animations.js') }}"></script>
     <script src="{{ asset('frontend/js/frontend.js') }}"></script>
+    <script src="{{ asset('frontend/js/slider.js') }}"></script>
 </body>
 
 </html>

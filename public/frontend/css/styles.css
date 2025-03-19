@@ -78,6 +78,33 @@ body {
 }
 
 /* ----------Navbar---------- */
+.announcement-slider {
+    display: flex;
+    animation: slide 15s infinite;
+}
+
+.announcement-slider p {
+    margin: 0;
+    flex: 0 0 100%;
+}
+
+@keyframes slide {
+    0% {
+        transform: translateX(0%);
+    }
+
+    33% {
+        transform: translateX(-100%);
+    }
+
+    66% {
+        transform: translateX(-200%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
 
 .contact-header {
     background-color: var(--primary-color);
@@ -162,7 +189,7 @@ body {
 }
 
 .hero-img {
-    margin-top: 23vh;
+    margin-top: 5vh;
     width: 90%;
     height: 75vh;
     object-fit: cover;
