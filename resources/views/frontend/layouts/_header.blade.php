@@ -1,4 +1,4 @@
-<div class="bg-tertiary shadow border-bottom text-center py-1 announcement-bar">
+<div class="bg-tertiary shadow border-bottom text-center py-1 overflow-hidden">
     <div class="announcement-slider">
         <p class="text-white text-shadow-tertiary-sm mb-0">We provide delivery all over Lebanon!</p>
         <p class="text-white text-shadow-tertiary-sm mb-0">We're ready to serve you 24/7</p>
