@@ -412,7 +412,7 @@ body {
 /* ----------Sections---------- */
 
 section {
-    padding-top: 120px;
+    padding-top: 30px;
 }
 
 /* ----------Text---------- */
@@ -576,6 +576,13 @@ a.text-shadow-sm:hover {
     background-color: var(--secondary-color) !important;
 }
 
+.bg-secondary-light {
+    background-color: var(--light-secondary-color) !important;
+}
+
+.bg-secondary-lighter {
+    background-color: var(--lighter-secondary-color) !important;
+}
 
 .bg-primary {
     background-color: var(--primary-color) !important;
@@ -667,6 +674,7 @@ a.text-shadow-sm:hover {
     width: 100% !important;
     height: 100% !important;
     object-fit: cover;
+    border-radius: 100px;
 }
 
 .item-card {
