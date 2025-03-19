@@ -40,7 +40,7 @@
                                                 <p class="text-muted">{{ $product->category->name }}</p>
                                                 <div class="d-flex justify-content-end">
                                                     <h6 class="text-muted"><s>$40.00</s></h6>
-                                                    <h5 class="text-secondary">$30.00</h5>
+                                                    <h5 class="text-secondary ms-2">$30.00</h5>
                                                 </div>
                                             </div>
                                             <div class="d-flex flex-column y-on-hover">

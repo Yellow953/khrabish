@@ -93,7 +93,7 @@
                                 <h5 class="text-black">{{ $product->name }}</h5>
                                 <div class="d-flex justify-content-end">
                                     <h6 class="text-muted"><s>$40.00</s></h6>
-                                    <h5 class="text-secondary">$30.00</h5>
+                                    <h5 class="text-secondary ms-2">$30.00</h5>
                                 </div>
                             </div>
                             <div class="d-flex flex-column y-on-hover">
@@ -316,7 +316,7 @@
                                     <h5 class="text-black">{{ $product->name }}</h5>
                                     <div class="d-flex justify-content-end">
                                         <h6 class="text-muted"><s>$40.00</s></h6>
-                                        <h5 class="text-secondary">$30.00</h5>
+                                        <h5 class="text-secondary ms-2">$30.00</h5>
                                     </div>
                                 </div>
                                 <div class="d-flex flex-column y-on-hover">
@@ -330,27 +330,22 @@
             </div>
 
             <div class="col-md-12 my-4">
-                <div class="card text-center lighter-secondary-bg rounded-5 animate-on-scroll fade-in">
+                <div class="card text-center lighter-secondary-bg rounded-5 animate-on-scroll fade-in py-4">
                     <div class="card-body">
                         <div class="row ps-4">
                             <div class="col-md-6 text-start d-flex flex-column justify-content-center">
-                                <h2 class="text-secondary-dark text-white-shadow-sm mb-3">Join Our Newsletter</h2>
-                                <p class="text-secondary mb-3">Join our e-mail subscription now to get the latest updates
-                                    about
-                                    upcoming promotions, discounts, and new products!</p>
-                                <form action="#" method="POST">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <input type="email" name="email" class="form-control" placeholder="Enter Your Email"
-                                            required>
-                                    </div>
-                                    <div class="y-on-hover-sm">
-                                        <button type="submit" class="btn btn-secondary">Subscribe</button>
-                                    </div>
-                                </form>
+                                <h2 class="text-tertiary text-shadow-secondary-sm mb-3 fw-bold">We Deliver</h2>
+                                <p class="text-white text-shadow-secondary-sm mb-3">You can now order and we will deliver
+                                    your khrabish all
+                                    over
+                                    Lebanon</p>
+                                <div class="d-flex">
+                                    <a href="{{ route('shop') }}" class="btn btn-tertiary y-on-hover">Shop
+                                        Now</a>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <img src="{{asset('frontend/images/email-signup.png')}}" alt="" class="img-fluid email-img">
+                                <img src="{{asset('frontend/images/delivery.png')}}" alt="" class="img-fluid email-img">
                             </div>
                         </div>
                     </div>
@@ -368,7 +363,7 @@
                                 <h5 class="text-black">{{ $product->name }}</h5>
                                 <div class="d-flex justify-content-end">
                                     <h6 class="text-muted"><s>$40.00</s></h6>
-                                    <h5 class="text-secondary">$30.00</h5>
+                                    <h5 class="text-secondary ms-2">$30.00</h5>
                                 </div>
                             </div>
                             <div class="d-flex flex-column y-on-hover">

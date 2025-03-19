@@ -629,6 +629,8 @@ a.text-shadow-sm:hover {
 
 .email-img {
     height: 300px;
+    position: absolute;
+    top: -20px;
 }
 
 .banner-card-img {
