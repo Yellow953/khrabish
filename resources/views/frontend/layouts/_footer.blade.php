@@ -90,11 +90,11 @@
         <div class="container">
             <div class="row py-3">
                 <div class=" d-flex col-12 text-center justify-content-center gap-5">
-                    <a href=""
+                    <a href="{{ route('home') }}"
                         class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Home</a>
-                    <a href=""
+                    <a href="{{ route('shop') }}"
                         class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Shop</a>
-                    <a href=""
+                    <a href="{{ route('contact') }}"
                         class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Contact</a>
                 </div>
             </div>

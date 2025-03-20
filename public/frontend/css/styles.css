@@ -1,16 +1,16 @@
 :root {
-    --lighter-primary-color: #F0F0A1;
-    --light-primary-color: #ECEC5E;
-    --primary-color: #D0CF37;
+    --lighter-primary-color: #f0f0a1;
+    --light-primary-color: #ecec5e;
+    --primary-color: #d0cf37;
     --dark-primary-color: #808000;
     --darker-primary-color: #383800;
     --lightest-secondary-color: #c8faf6;
     --lighter-secondary-color: #84e4da;
     --light-secondary-color: #61c7bd;
-    --secondary-color: #21897E;
+    --secondary-color: #21897e;
     --dark-secondary-color: #085e55;
     --darker-secondary-color: #023a34;
-    --darkest-secondary-color: #1F363D;
+    --darkest-secondary-color: #1f363d;
     --light-tertiary-color: #f7aef8;
     --tertiary-color: #c042ed;
     --dark-tertiary-color: #8a2dab;
@@ -24,7 +24,6 @@
     --info-color: #00ffc8;
     --white: #edf5d7;
     --dark-bg: #313338;
-
 }
 
 body {
@@ -386,7 +385,6 @@ a.active {
 }
 
 @keyframes shake {
-
     10%,
     90% {
         transform: translateX(-1px);
@@ -871,7 +869,11 @@ footer {
     border-radius: 7px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background: var(--primary-color);
-    background: linear-gradient(180deg, var(--primary-color) 50%, var(--light-primary-color) 100%);
+    background: linear-gradient(
+        180deg,
+        var(--primary-color) 50%,
+        var(--light-primary-color) 100%
+    );
 }
 
 /* ----------Parallax---------- */
@@ -975,4 +977,18 @@ footer {
 
 .delay-600 {
     transition-delay: 600ms;
+}
+
+.whish_section {
+    background-color: white;
+}
+
+#searchResults {
+    z-index: 9999;
+}
+
+.spam-input {
+    width: 100px;
+    height: 50px;
+    border-radius: 5px;
 }

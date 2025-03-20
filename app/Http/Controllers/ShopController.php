@@ -40,9 +40,9 @@ class ShopController extends Controller
     public function product(Product $product)
     {
         $categories = Category::select('id', 'name', 'image')->get();
-        $products = Product::select('id', 'name', 'image')->where('category_id', $product->category_id)->limit(10)->get();
+        $simillar_products = Product::select('id', 'name', 'image')->where('category_id', $product->category_id)->limit(10)->get();
 
-        $data = compact('product', 'products', 'categories');
+        $data = compact('product', 'simillar_products', 'categories');
         return view('frontend.product', $data);
     }
 
@@ -349,7 +349,7 @@ class ShopController extends Controller
         }
 
         $products = Product::where('name', 'like', '%' . $query . '%')
-            ->take(10)
+            ->take(5)
             ->get(['id', 'name', 'image']);
 
         $products = $products->map(function ($product) {
@@ -367,16 +367,21 @@ class ShopController extends Controller
             'email' => 'required|email',
             'phone' => 'required|string|max:12',
             'message' => 'required|string',
+            'spam' => 'required|numeric',
         ]);
 
-        $data = $request->all();
+        if ($request->spam == 19) {
+            $data = $request->all();
 
-        Mail::send('emails.contact', ['data' => $data,], function ($message) {
-            $message->to('Khrabish.store@gmail.com')
-                ->subject('New Contact');
-        });
+            Mail::send('emails.contact', ['data' => $data,], function ($message) {
+                $message->to('Khrabish.store@gmail.com')
+                    ->subject('New Contact');
+            });
 
-        return redirect()->back()->with('success', 'Contact Form Submitted Successfully');
+            return redirect()->back()->with('success', 'Contact Form Submitted Successfully');
+        } else {
+            return redirect()->back()->with('error', 'Unable to Send...');
+        }
     }
 
     private function sendOrderEmails(Order $order, User $user)

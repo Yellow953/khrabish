@@ -3,171 +3,150 @@
 @section('title', 'Checkout')
 
 @section('content')
-    <section class="pb-5">
-        <div class="container">
-            <div class="checkout-container">
-                {{-- @include('app.layouts._flash') --}}
+<section class="pb-5">
+    <div class="container">
+        <div class="checkout-container">
+            {{-- @include('app.layouts._flash') --}}
 
-                <form class="form" action="{{ route('checkout.order') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
+            <form class="form" action="{{ route('checkout.order') }}" method="POST" enctype="multipart/form-data">
+                @csrf
 
-                    <input type="hidden" name="cart" id="cart-data" value="">
-                    <input type="hidden" name="shipping" id="shipping-cost" value="">
+                <input type="hidden" name="cart" id="cart-data" value="">
+                <input type="hidden" name="shipping" id="shipping-cost" value="">
 
-                    <div class="row">
-                        <div class="col-md-12">
-                            <h2 class="text-primary text-shadow text-center mb-4">Checkout</h2>
-                        </div>
-                        <!-- Left Column -->
-                        <div class="col-md-7 mt-2">
-                            <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
-                                <!-- Shipping Information -->
-                                <div class="mb-4">
-                                    <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Shipping Address
-                                    </h4>
-                                    <div class="row">
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="name" class="form-label text-secondary">Name *
-                                                </label>
-                                                <input type="text" id="name" name="name" class="form-control"
-                                                    placeholder="John Doe" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="phone" class="form-label text-secondary">Phone *
-                                                </label>
-                                                <input type="tel" id="phone" name="phone" class="form-control"
-                                                    placeholder="+961 70 231 446" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="country" class="form-label text-secondary">Country *
-                                                </label>
-                                                <select name="country" id="country" class="form-select" required>
-                                                    @foreach ($countries as $country)
-                                                                                                <option value="{{ $country }}" {{ $country == "Lebanon" ? 'selected' : ''
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    }}>{{
-                                                        $country }}</option>
-                                                    @endforeach
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="email" class="form-label text-secondary">Email</label>
-                                                <input type="email" name="email" class="form-control"
-                                                    placeholder="you@example.com">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="city" class="form-label text-secondary">City *
-                                                </label>
-                                                <input type="text" id="city" name="city" class="form-control"
-                                                    placeholder="Beirut" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="mb-3">
-                                                <label for="zip" class="form-label text-secondary">Zip</label>
-                                                <input type="number" min="0" step="1" id="zip" name="zip"
-                                                    class="form-control" placeholder="1234">
-                                            </div>
-                                        </div>
-                                        <div class="col-md-12">
-                                            <div class="mb-3">
-                                                <label for="address" class="form-label text-secondary">Address *
-                                                </label>
-                                                <textarea name="address" id="address" rows="3" class="form-control"
-                                                    placeholder="123 Main St" required></textarea>
-                                            </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <h2 class="text-primary text-shadow text-center mb-4">Checkout</h2>
+                    </div>
+                    <!-- Left Column -->
+                    <div class="col-md-7 mt-2">
+                        <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
+                            <!-- Shipping Information -->
+                            <div class="mb-4">
+                                <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Shipping Address
+                                </h4>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label text-secondary">Name *
+                                            </label>
+                                            <input type="text" id="name" name="name" class="form-control"
+                                                placeholder="John Doe" required>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Payment Info</h4>
-
-                                    <div class="mb-3">
-                                        <label for="method" class="form-label text-secondary">Payment Method</label>
-                                        <select id="method" name="payment_method" class="form-select" required>
-                                        </select>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="phone" class="form-label text-secondary">Phone *
+                                            </label>
+                                            <input type="tel" id="phone" name="phone" class="form-control"
+                                                placeholder="+961 70 231 446" required>
+                                        </div>
                                     </div>
-                                </div>
-
-                                <div class="mb-4">
-                                    <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Additional Info
-                                    </h4>
-
-                                    <div class="mb-3">
-                                        <label for="notes" class="form-label text-secondary">Notes (Optional)</label>
-                                        <textarea type="text" id="notes" name="notes" class="form-control" rows="3"
-                                            placeholder="Notes about your order..."></textarea>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="country" class="form-label text-secondary">Country *
+                                            </label>
+                                            <select name="country" id="country" class="form-select" required>
+                                                @foreach ($countries as $country)
+                                                <option value="{{ $country }}" {{ $country=="Lebanon" ? 'selected' : ''
+                                                    }}>{{
+                                                    $country }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label text-secondary">Email</label>
+                                            <input type="email" name="email" class="form-control"
+                                                placeholder="you@example.com">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="city" class="form-label text-secondary">City *
+                                            </label>
+                                            <input type="text" id="city" name="city" class="form-control"
+                                                placeholder="Beirut" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="zip" class="form-label text-secondary">Zip</label>
+                                            <input type="number" min="0" step="1" id="zip" name="zip"
+                                                class="form-control" placeholder="1234">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <div class="mb-3">
+                                            <label for="address" class="form-label text-secondary">Address *
+                                            </label>
+                                            <textarea name="address" id="address" rows="3" class="form-control"
+                                                placeholder="123 Main St" required></textarea>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
 
-                        <!-- Right Column -->
-                        <div class="col-md-5 mt-2">
-                            <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
-                                <h4 class="text-secondary text-shadow-secondary-sm text-center mb-4">Order Summary</h4>
-                                <div class="summary-card" id="cart-items-container">
-                                    <!-- Cart Items will be populated here dynamically -->
-                                </div>
+                            <div class="mb-4">
+                                <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Payment Info</h4>
 
-                                <!-- Price Breakdown -->
-                                <div class="summary-item">
-                                    <span>Subtotal</span>
-                                    <span id="subtotal-price">$0.00</span>
+                                <div class="mb-3">
+                                    <label for="method" class="form-label text-secondary">Payment Method</label>
+                                    <select id="method" name="payment_method" class="form-select" required>
+                                    </select>
                                 </div>
-                                <div class="summary-item">
-                                    <span>Shipping</span>
-                                    <span id="shipping-price">$10.00</span>
-                                </div>
-                                <div class="summary-item total-price">
-                                    <span>Total</span>
-                                    <span id="total-price">$0.00</span>
-                                </div>
+                            </div>
 
-                                <button type="submit" class="btn btn-primary">Complete Order</button>
+                            <div class="mb-4">
+                                <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Additional Info
+                                </h4>
+
+                                <div class="mb-3">
+                                    <label for="notes" class="form-label text-secondary">Notes (Optional)</label>
+                                    <textarea type="text" id="notes" name="notes" class="form-control" rows="3"
+                                        placeholder="Notes about your order..."></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </form>
-            </div>
-        </div>
-    </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Shipping costs per country (per 1kg)
+                    <!-- Right Column -->
+                    <div class="col-md-5 mt-2">
+                        <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
+                            <h4 class="text-secondary text-shadow-secondary-sm text-center mb-4">Order Summary</h4>
+                            <div class="summary-card" id="cart-items-container">
+                                <!-- Cart Items will be populated here dynamically -->
+                            </div>
+
+                            <!-- Price Breakdown -->
+                            <div class="summary-item">
+                                <span>Subtotal</span>
+                                <span id="subtotal-price">$0.00</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Shipping</span>
+                                <span id="shipping-price">$10.00</span>
+                            </div>
+                            <div class="summary-item total-price">
+                                <span>Total</span>
+                                <span id="total-price">$0.00</span>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary">Complete Order</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
             const shippingCosts = {
-                Qatar: 60,
-                Kuwait: 60,
-                Saudi: 60,
-                Bahrain: 60,
-                Egypt: 30,
-                Jordan: 30,
-                Turkey: 30,
-                UAE: 50,
-                Sweden: 60,
-                Algeria: 70,
-                London: 70,
-                Libya: 45,
-                France: 60,
-                Germany: 70,
-                Tunisia: 45,
-                Iraq: 50,
-                Oman: 45,
-                Lebanon: 4,
-                Zambia: 80,
-                Gambia: 80,
-                USA: 60,
-                Others: 80,
+                Lebanon: 3,
+                Others: 10,
             };
 
             const cart = document.cookie
@@ -195,13 +174,12 @@
                 cartItem.classList.add('cart-item', 'd-flex', 'align-items-center', 'mb-3');
 
                 cartItem.innerHTML = `
-                                                                                        <img src="${item.image}" alt="${item.name}" class="me-3" style="width: 60px; height: 60px; object-fit: cover;">
-                                                                                            <div>
-                                                                                                <p class="mb-0">${item.name}</p>
-                                                                                                <small>Quantity: ${item.quantity}</small>
-                                                                                            </div>
-                                                                                            <p class="ms-auto">$${(item.price * item.quantity).toFixed(2)}</p>
-                                                                                        `;
+                    <img src="${item.image}" alt="${item.name}" class="me-3" style="width: 60px; height: 60px; object-fit: cover;">
+                        <div>
+                            <p class="mb-0">${item.name}</p>
+                                <small>Quantity: ${item.quantity}</small>
+                        </div>
+                        <p class="ms-auto">$${(item.price * item.quantity).toFixed(2)}</p>`;
                 cartItemsContainer.appendChild(cartItem);
             });
 
@@ -234,9 +212,9 @@
             const whishInfoSection = document.createElement('div');
 
             whishInfoSection.innerHTML = `
-                                                                                        <h5>Whish Transfer</h5>
-                                                                                        <p>Transfer To: +961 70 231 446</p>
-                                                                                    `;
+                <h5>Whish Transfer</h5>
+                <p>Transfer To: +961 70 231 446</p>`;
+
             whishInfoSection.classList.add('whish_section');
             whishInfoSection.style.display = 'none';
 
@@ -281,5 +259,5 @@
 
             updatePaymentMethods(countrySelect.value);
         });
-    </script>
+</script>
 @endsection
