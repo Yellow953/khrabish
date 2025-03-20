@@ -168,12 +168,12 @@ a.active {
     width: max-content;
 }
 
-.desktop-hidden {
-    display: none;
+.desktop-display {
+    display: flex;
 }
 
-.m-hidden {
-    display: flex;
+.m-display {
+    display: none;
 }
 
 .tab-display {
@@ -222,7 +222,7 @@ a.active {
 
 @media (max-width: 768px) {
     .navbar {
-        background: var(--light-text) !important;
+        background: white !important;
         padding: 20px 0px !important;
     }
 
@@ -231,18 +231,19 @@ a.active {
     }
 
     .navbar-collapse.collapse.show ul {
-        background: var(--light-text) !important;
+        background: white !important;
         width: 100%;
         transition: all 0.2s ease-in-out;
     }
 
-    .m-hidden {
-        display: none;
-    }
-
-    .desktop-hidden {
+    .m-display {
         display: flex;
         flex-direction: row;
+
+    }
+
+    .desktop-display {
+        display: none;
     }
 
     .img-footer {
@@ -250,12 +251,22 @@ a.active {
     }
 
     .hero {
-        height: 50vh !important;
+        height: 20vh !important;
     }
 
     .hero-img {
-        height: 50vh;
+        height: 20vh;
     }
+
+    .hero-title {
+        font-size: 1rem;
+    }
+
+    .btn {
+        font-size: 0.8rem !important;
+        padding: 5px 10px !important;
+    }
+
 
     .tab-display {
         display: none;
@@ -264,12 +275,29 @@ a.active {
     .h-50vh {
         height: 50vh;
     }
+
+    .parallax {
+        top: 50vh !important;
+    }
+
+    .parallax-overlay {
+        padding-left: 0px !important;
+        padding-right: 0px !important;
+    }
+
+    p {
+        font-size: 0.7rem !important;
+    }
+
+    .email-img {
+        height: 200px !important;
+    }
 }
 
 @media (min-width: 769px) and (max-width: 1024px) {
     .img-footer {
         height: 100% !important;
-        object-fit: cover;
+        object-fit: contain;
     }
 
     .hero {
@@ -281,7 +309,7 @@ a.active {
     }
 
     .navbar {
-        background: var(--light-text) !important;
+        background: white !important;
         padding: 20px 0px !important;
     }
 
@@ -290,7 +318,7 @@ a.active {
     }
 
     .navbar-collapse.collapse.show ul {
-        background: var(--light-text) !important;
+        background: white !important;
         width: 100%;
         transition: all 0.2s ease-in-out;
     }
@@ -300,16 +328,20 @@ a.active {
         flex-direction: row;
     }
 
-    .m-hidden {
+    .m-display {
         display: none;
     }
 
-    .desktop-hidden {
+    .desktop-display {
         display: none;
     }
 
     .h-50vh {
         height: 50vh;
+    }
+
+    .email-img {
+        right: 5%;
     }
 }
 
@@ -385,6 +417,7 @@ a.active {
 }
 
 @keyframes shake {
+
     10%,
     90% {
         transform: translateX(-1px);
@@ -869,11 +902,9 @@ footer {
     border-radius: 7px;
     -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
     background: var(--primary-color);
-    background: linear-gradient(
-        180deg,
-        var(--primary-color) 50%,
-        var(--light-primary-color) 100%
-    );
+    background: linear-gradient(180deg,
+            var(--primary-color) 50%,
+            var(--light-primary-color) 100%);
 }
 
 /* ----------Parallax---------- */
