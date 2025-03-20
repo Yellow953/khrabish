@@ -160,7 +160,7 @@ body {
     text-shadow: var(--darker-primary-color) 1px 1px 0px;
 }
 
-.active {
+a.active {
     color: var(--primary-color) !important;
     text-shadow: var(--darker-primary-color) 1px 1px 0px;
 }
@@ -509,55 +509,55 @@ a.text-tertiary-light:hover {
 }
 
 .text-shadow-lg {
-    text-shadow: var(--dark-primary-color) 2px 3px 0px !important;
+    text-shadow: var(--dark-primary-color) 2px 3px 0px;
 }
 
 .text-shadow {
-    text-shadow: var(--dark-primary-color) 2px 2px 0px !important;
+    text-shadow: var(--dark-primary-color) 2px 2px 0px;
 }
 
 .text-shadow-sm {
-    text-shadow: var(--dark-primary-color) 1px 1px 0px !important;
+    text-shadow: var(--dark-primary-color) 1px 1px 0px;
 }
 
 .text-shadow-secondary-lg {
-    text-shadow: var(--dark-secondary-color) 2px 3px 0px !important;
+    text-shadow: var(--dark-secondary-color) 2px 3px 0px;
 }
 
 .text-shadow-secondary {
-    text-shadow: var(--dark-secondary-color) 2px 2px 0px !important;
+    text-shadow: var(--dark-secondary-color) 2px 2px 0px;
 }
 
 .text-shadow-secondary-sm {
-    text-shadow: var(--dark-secondary-color) 1px 1px 0px !important;
+    text-shadow: var(--dark-secondary-color) 1px 1px 0px;
 }
 
 .text-shadow-secondary:hover {
-    text-shadow: var(--secondary-color) 2px 2px 0px !important;
+    text-shadow: var(--secondary-color) 2px 2px 0px;
 }
 
 .text-shadow-secondary-sm:hover {
-    text-shadow: var(--secondary-color) 1px 1px 0px !important;
+    text-shadow: var(--secondary-color) 1px 1px 0px;
 }
 
 .text-shadow-tertiary-lg {
-    text-shadow: var(--dark-tertiary-color) 2px 3px 0px !important;
+    text-shadow: var(--dark-tertiary-color) 2px 3px 0px;
 }
 
 .text-shadow-tertiary {
-    text-shadow: var(--dark-tertiary-color) 2px 2px 0px !important;
+    text-shadow: var(--dark-tertiary-color) 2px 2px 0px;
 }
 
 .text-shadow-tertiary-sm {
-    text-shadow: var(--dark-tertiary-color) 1px 1px 0px !important;
+    text-shadow: var(--dark-tertiary-color) 1px 1px 0px;
 }
 
 a.text-shadow-tertiary:hover {
-    text-shadow: var(--tertiary-color) 2px 2px 0px !important;
+    text-shadow: var(--tertiary-color) 2px 2px 0px;
 }
 
 a.text-shadow-sm:hover {
-    text-shadow: var(--primary-color) 1px 1px 0px !important;
+    text-shadow: var(--primary-color) 1px 1px 0px;
 }
 
 .text-white {
@@ -592,12 +592,56 @@ a.text-shadow-sm:hover {
     background-color: var(--light-primary-color) !important;
 }
 
+.bg-primary-lighter {
+    background-color: var(--lighter-primary-color) !important;
+}
+
 .bg-tertiary {
     background-color: var(--tertiary-color) !important;
 }
 
+.bg-tertiary-light {
+    background-color: var(--light-tertiary-color) !important;
+}
+
 .text-lg {
     font-size: 1.2rem !important;
+}
+
+.box-shadow {
+    box-shadow: var(--dark-primary-color) 3px 3px 0px;
+}
+
+.box-shadow-lg {
+    box-shadow: var(--dark-primary-color) 5px 5px 0px;
+}
+
+.box-shadow-sm {
+    box-shadow: var(--dark-primary-color) 2px 2px 0px;
+}
+
+.box-shadow-secondary {
+    box-shadow: var(--dark-secondary-color) 3px 3px 0px;
+}
+
+.box-shadow-secondary-lg {
+    box-shadow: var(--dark-secondary-color) 5px 5px 0px;
+}
+
+.box-shadow-secondary-sm {
+    box-shadow: var(--dark-secondary-color) 2px 2px 0px;
+}
+
+.box-shadow-tertiary {
+    box-shadow: var(--dark-tertiary-color) 3px 3px 0px;
+}
+
+.box-shadow-tertiary-lg {
+    box-shadow: var(--dark-tertiary-color) 5px 5px 0px;
+}
+
+.box-shadow-tertiary-sm {
+    box-shadow: var(--dark-tertiary-color) 2px 2px 0px;
 }
 
 /* ----------Card---------- */

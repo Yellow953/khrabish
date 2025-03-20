@@ -375,5 +375,28 @@
                 @endforeach
             </div>
         </div>
+        <div class="row mt-5 mb-4">
+            <div class="col-4">
+                <div
+                    class="card rounded-5 py-5 text-center bg-primary-lighter animate-on-scroll slide-left border-0 box-shadow">
+                    <i class="fas fa-comments fa-3x text-primary mb-3"></i>
+                    <h5 class="text-black">24/7 Support</h5>
+                </div>
+            </div>
+            <div class="col-4">
+                <div
+                    class="card rounded-5 py-5 text-center bg-secondary-light animate-on-scroll slide-left border-0 box-shadow-secondary">
+                    <i class="fas fa-lock fa-3x text-secondary mb-3"></i>
+                    <h5 class="text-black">Secure Payments</h5>
+                </div>
+            </div>
+            <div class="col-4">
+                <div
+                    class="card rounded-5 py-5 text-center bg-tertiary-light animate-on-scroll slide-left border-0 box-shadow-tertiary">
+                    <i class="fas fa-shipping-fast fa-3x text-tertiary mb-3"></i>
+                    <h5 class="text-black">Delivery All Over Lebanon</h5>
+                </div>
+            </div>
+        </div>
     </div>
 @endsection
