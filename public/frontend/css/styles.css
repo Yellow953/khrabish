@@ -277,7 +277,9 @@ a.active {
     }
 
     .parallax {
-        top: 50vh !important;
+        top: 9vh !important;
+        z-index: 1000;
+        height: 20vh !important;
     }
 
     .parallax-overlay {
@@ -342,6 +344,12 @@ a.active {
 
     .email-img {
         right: 5%;
+    }
+
+    .parallax {
+        top: 10vh !important;
+        z-index: 1000 !important;
+        height: 25vh !important;
     }
 }
 
@@ -913,8 +921,8 @@ footer {
     background: url("../images/kids-toys.jpg") no-repeat;
     background-position: center;
     background-size: cover;
-    height: 500px;
-    top: 17vh;
+    height: 88vh;
+    top: 12vh;
     position: -webkit-sticky;
     position: sticky;
 }

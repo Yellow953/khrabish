@@ -112,7 +112,7 @@
 
     <div class="container py-5">
         <div class="row">
-            <div class="col-5 parallax rounded-5 px-0">
+            <div class="col-12 col-xl-5 parallax rounded-5 px-0">
                 <div class="parallax-overlay rounded-5">
                     <h1 class="text-center mt-2 text-primary-light text-shadow">Kids Toys</h1>
                     <div class="y-on-hover-sm">
@@ -120,9 +120,9 @@
                     </div>
                 </div>
             </div>
-            <div class="col-7">
+            <div class="col-12 col-xl-7">
                 <div class="row pb-3">
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
@@ -141,7 +141,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
@@ -162,7 +162,7 @@
                     </div>
                 </div>
                 <div class="row pb-3">
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
@@ -181,7 +181,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
@@ -202,7 +202,7 @@
                     </div>
                 </div>
                 <div class="row pb-3">
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
@@ -221,7 +221,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">
@@ -242,7 +242,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 1">
@@ -261,7 +261,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div class="col-6">
                         <div class="card product-card rounded-5">
                             <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
                                 alt="Toy 2">

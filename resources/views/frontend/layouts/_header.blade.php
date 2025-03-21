@@ -52,7 +52,11 @@
             <div id="searchResults" class="list-group position-absolute w-100 mt-1 shadow bg-white"></div>
         </div>
 
-        <div class="bg-tertiary p-4 shadow">
+        <div class="bg-tertiary p-4 shadow desktop-display">
+            <a href="tel:+96170231446" class="text-decoration-none text-white text-shadow-tertiary-sm text-lg"><i
+                    class="fa fa-phone"></i> +961 70 231 446</a>
+        </div>
+        <div class="bg-tertiary p-4 shadow tab-display">
             <a href="tel:+96170231446" class="text-decoration-none text-white text-shadow-tertiary-sm text-lg"><i
                     class="fa fa-phone"></i> +961 70 231 446</a>
         </div>
