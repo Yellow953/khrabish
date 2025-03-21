@@ -24,7 +24,7 @@
     <!--begin::Page bg image-->
     <style>
         body {
-            background-image: url("{{ asset('frontend/images/hero-3.png') }}");
+            background-image: url("{{ asset('assets/images/404.png') }}");
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;

@@ -11,10 +11,10 @@
                 <div class="card login-card-custom rounded-3 w-md-400px">
                     <div class="card-body text-center">
                         <!--begin::Title-->
-                        <h1 class="fw-bolder fs-2hx text-gray-900 mb-4">Oops!</h1>
+                        <h1 class="fw-bolder fs-2hx text-white mb-4">Oops!</h1>
                         <!--end::Title-->
                         <!--begin::Text-->
-                        <div class="fw-semibold fs-6 text-gray-500 mb-7">We can't find that page.</div>
+                        <div class="fw-semibold fs-6 text-gray-300 mb-7">We can't find that page.</div>
                         <!--end::Text-->
 
                         <!--begin::Link-->
