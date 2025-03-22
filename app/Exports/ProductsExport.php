@@ -17,6 +17,7 @@ class ProductsExport implements FromCollection, WithHeadings
                 'quantity' => $product->quantity,
                 'cost' => $product->cost,
                 'price' => $product->price,
+                'compare_price' => $product->compare_price,
                 'description' => $product->description,
                 'created_at' => $product->created_at,
             ];
@@ -31,6 +32,7 @@ class ProductsExport implements FromCollection, WithHeadings
             'Quantity',
             'Cost',
             'Price',
+            'Compare Price',
             'Description',
             'Created At',
         ];

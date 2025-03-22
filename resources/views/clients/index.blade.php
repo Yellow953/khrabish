@@ -69,6 +69,34 @@
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label class="fs-6 form-label fw-bold text-dark">Country</label>
+                        <select name="country" class="form-select" data-control="select2"
+                            data-placeholder="Select an option">
+                            <option value=""></option>
+                            @foreach ($countries as $country)
+                            <option value="{{ $country }}" {{ request()->query('country')==$country ?
+                                'selected' :
+                                '' }}>{{ ucwords($country) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label class="fs-6 form-label fw-bold text-dark">City</label>
+                        <select name="city" class="form-select" data-control="select2"
+                            data-placeholder="Select an option">
+                            <option value=""></option>
+                            @foreach ($cities as $city)
+                            <option value="{{ $city }}" {{ request()->query('city')==$city ?
+                                'selected' :
+                                '' }}>{{ ucwords($city) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
                     <div class="col-md-12">
                         <label class="fs-6 form-label fw-bold text-dark">Address</label>
                         <input type="text" class="form-control form-control-solid border" name="address"
@@ -129,7 +157,11 @@
                                 </div>
                             </td>
                             <td class="d-flex justify-content-end border-0">
-                                <a href="{{ route('clients.edit', $client->id) }}"
+                                <a href="{{ route('clients.history', $client->id) }}"
+                                    class="btn btn-icon btn-primary btn-sm me-1">
+                                    <i class="bi bi-clock-history"></i>
+                                </a>
+                                <a href="{{ route('clients.history', $client->id) }}"
                                     class="btn btn-icon btn-warning btn-sm me-1">
                                     <i class="bi bi-pen-fill"></i>
                                 </a>

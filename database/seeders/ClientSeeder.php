@@ -12,8 +12,10 @@ class ClientSeeder extends Seeder
         DB::table('clients')->insert([
             'name' => 'Client 1',
             'phone' => '123456789',
-            'address' => 'test address',
             'email' => 'client1@gmail.com',
+            'country' => 'Lebanon',
+            'city' => 'Beirut',
+            'address' => 'test address',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

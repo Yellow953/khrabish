@@ -15,7 +15,6 @@ return new class extends Migration
             $table->date('date')->nullable();
             $table->bigInteger("currency_id")->unsigned();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('currency_id')->references('id')->on('currencies');
         });

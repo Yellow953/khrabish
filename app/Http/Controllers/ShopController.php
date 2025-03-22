@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\Category;
+use App\Models\Client;
+use App\Models\Currency;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
-use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -15,7 +17,7 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $products = Product::select('id', 'name', 'image')->orderBy('created_at', 'DESC')->limit(10)->get();
+        $products = Product::select('id', 'name', 'image', 'price', 'compare_price')->orderBy('created_at', 'DESC')->limit(10)->get();
         $categories = Category::select('id', 'name', 'image')->get();
 
         $data = compact('categories', 'products');
@@ -28,9 +30,9 @@ class ShopController extends Controller
 
         if ($request->input('category')) {
             $category = Category::where('name', $request->input('category'))->firstOrFail();
-            $products = Product::select('id', 'name', 'category_id', 'image')->where('category_id', $category->id)->paginate(12);
+            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price')->where('category_id', $category->id)->paginate(12);
         } else {
-            $products = Product::select('id', 'name', 'category_id', 'image')->paginate(12);
+            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price')->paginate(12);
         }
 
         $data = compact('categories', 'products');
@@ -54,210 +56,10 @@ class ShopController extends Controller
 
     public function checkout()
     {
-        $countries = [
-            "Afghanistan",
-            "Albania",
-            "Algeria",
-            "American Samoa",
-            "Andorra",
-            "Angola",
-            "Anguilla",
-            "Antarctica",
-            "Antigua and Barbuda",
-            "Argentina",
-            "Armenia",
-            "Aruba",
-            "Australia",
-            "Austria",
-            "Azerbaijan",
-            "Bahamas",
-            "Bahrain",
-            "Bangladesh",
-            "Barbados",
-            "Belarus",
-            "Belgium",
-            "Belize",
-            "Benin",
-            "Bermuda",
-            "Bhutan",
-            "Bolivia",
-            "Bosnia and Herzegovina",
-            "Botswana",
-            "Brazil",
-            "Brunei Darussalam",
-            "Bulgaria",
-            "Burkina Faso",
-            "Burundi",
-            "Cabo Verde",
-            "Cambodia",
-            "Cameroon",
-            "Canada",
-            "Cayman Islands",
-            "Central African Republic",
-            "Chad",
-            "Chile",
-            "China",
-            "Colombia",
-            "Comoros",
-            "Congo",
-            "Congo (DRC)",
-            "Costa Rica",
-            "Côte d'Ivoire",
-            "Croatia",
-            "Cuba",
-            "Cyprus",
-            "Czechia",
-            "Denmark",
-            "Djibouti",
-            "Dominica",
-            "Dominican Republic",
-            "Ecuador",
-            "Egypt",
-            "El Salvador",
-            "Equatorial Guinea",
-            "Eritrea",
-            "Estonia",
-            "Eswatini",
-            "Ethiopia",
-            "Fiji",
-            "Finland",
-            "France",
-            "Gabon",
-            "Gambia",
-            "Georgia",
-            "Germany",
-            "Ghana",
-            "Greece",
-            "Grenada",
-            "Guam",
-            "Guatemala",
-            "Guinea",
-            "Guinea-Bissau",
-            "Guyana",
-            "Haiti",
-            "Honduras",
-            "Hong Kong",
-            "Hungary",
-            "Iceland",
-            "India",
-            "Indonesia",
-            "Iran",
-            "Iraq",
-            "Ireland",
-            "Israel",
-            "Italy",
-            "Jamaica",
-            "Japan",
-            "Jordan",
-            "Kazakhstan",
-            "Kenya",
-            "Kiribati",
-            "Korea (North)",
-            "Korea (South)",
-            "Kuwait",
-            "Kyrgyzstan",
-            "Laos",
-            "Latvia",
-            "Lebanon",
-            "Lesotho",
-            "Liberia",
-            "Libya",
-            "Liechtenstein",
-            "Lithuania",
-            "Luxembourg",
-            "Madagascar",
-            "Malawi",
-            "Malaysia",
-            "Maldives",
-            "Mali",
-            "Malta",
-            "Marshall Islands",
-            "Mauritania",
-            "Mauritius",
-            "Mexico",
-            "Micronesia",
-            "Moldova",
-            "Monaco",
-            "Mongolia",
-            "Montenegro",
-            "Morocco",
-            "Mozambique",
-            "Myanmar",
-            "Namibia",
-            "Nauru",
-            "Nepal",
-            "Netherlands",
-            "New Zealand",
-            "Nicaragua",
-            "Niger",
-            "Nigeria",
-            "Norway",
-            "Oman",
-            "Pakistan",
-            "Palau",
-            "Palestine",
-            "Panama",
-            "Papua New Guinea",
-            "Paraguay",
-            "Peru",
-            "Philippines",
-            "Poland",
-            "Portugal",
-            "Qatar",
-            "Romania",
-            "Russia",
-            "Rwanda",
-            "Samoa",
-            "San Marino",
-            "São Tomé and Príncipe",
-            "Saudi Arabia",
-            "Senegal",
-            "Serbia",
-            "Seychelles",
-            "Sierra Leone",
-            "Singapore",
-            "Slovakia",
-            "Slovenia",
-            "Solomon Islands",
-            "Somalia",
-            "South Africa",
-            "South Sudan",
-            "Spain",
-            "Sri Lanka",
-            "Sudan",
-            "Suriname",
-            "Sweden",
-            "Switzerland",
-            "Syria",
-            "Taiwan",
-            "Tajikistan",
-            "Tanzania",
-            "Thailand",
-            "Timor-Leste",
-            "Togo",
-            "Tonga",
-            "Trinidad and Tobago",
-            "Tunisia",
-            "Turkey",
-            "Turkmenistan",
-            "Tuvalu",
-            "Uganda",
-            "Ukraine",
-            "United Arab Emirates",
-            "United Kingdom",
-            "United States",
-            "Uruguay",
-            "Uzbekistan",
-            "Vanuatu",
-            "Venezuela",
-            "Vietnam",
-            "Yemen",
-            "Zambia",
-            "Zimbabwe",
-        ];
+        $cities = Helper::get_cities();
         $categories = Category::select('id', 'name', 'image')->get();
 
-        return view('frontend.checkout', compact('countries', 'categories'));
+        return view('frontend.checkout', compact('cities', 'categories'));
     }
 
     public function order(Request $request)
@@ -265,14 +67,12 @@ class ShopController extends Controller
         $request->validate([
             'email' => 'nullable|email',
             'name' => 'required|string|max:255',
-            'phone' => 'required|string|max:30|unique:users,phone',
+            'phone' => 'required|string|max:30',
             'address' => 'required|string|max:255',
             'city' => 'required|string|max:100',
-            'country' => 'required|string|max:100',
-            'zip' => 'nullable|numeric|min:0',
             'payment_method' => 'required|string',
             'notes' => 'nullable|string',
-            'shipping' => 'required|numeric|min:1',
+            'shipping' => 'required|numeric|min:0',
         ]);
 
         $cart = json_decode($request->cart, true);
@@ -291,28 +91,28 @@ class ShopController extends Controller
 
         DB::beginTransaction();
         try {
-            $user = User::firstOrCreate(
+            $client = Client::firstOrCreate(
                 ['phone' => $request->phone],
                 [
                     'name' => $request->name,
                     'email' => $request->email,
-                    'address' => $request->address,
                     'city' => $request->city,
                     'country' => $request->country,
-                    'zip' => $request->zip,
-                    'password' => bcrypt('password'),
+                    'address' => $request->address,
                 ]
             );
 
+            $currency = Currency::where('code', 'USD')->firstOrFail();
+
             $order = Order::create([
-                'client_id' => $user->id,
-                'order_number' => 'ORD-' . strtoupper(uniqid()),
+                'currency_id' => $currency->id,
+                'client_id' => $client->id,
+                'order_number' => Order::generate_number(),
                 'payment_method' => $request->payment_method,
                 'sub_total' => $subTotal,
                 'total' => $total,
                 'products_count' => $productsCount,
-                'notes' => $request->notes,
-                'status' => 'new',
+                'note' => $request->notes,
             ]);
 
             // Create order items
@@ -329,7 +129,7 @@ class ShopController extends Controller
 
             DB::commit();
 
-            $this->sendOrderEmails($order, $user);
+            $this->sendOrderEmails($order, $client);
 
             setcookie('cart', '', time() - 3600, '/');
 
@@ -384,11 +184,11 @@ class ShopController extends Controller
         }
     }
 
-    private function sendOrderEmails(Order $order, User $user)
+    private function sendOrderEmails(Order $order, Client $client)
     {
-        if ($user->email) {
-            Mail::send('emails.order-confirmation', ['order' => $order, 'user' => $user], function ($message) use ($user) {
-                $message->to($user->email)
+        if ($client->email) {
+            Mail::send('emails.order-confirmation', ['order' => $order, 'client' => $client], function ($message) use ($client) {
+                $message->to($client->email)
                     ->subject('Order Confirmation');
             });
         }

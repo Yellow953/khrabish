@@ -42,6 +42,7 @@ class ProductController extends Controller
             'quantity' => 'required|numeric|min:1',
             'cost' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0',
+            'compare_price' => 'nullable|numeric|min:0',
             'category_id' => 'required',
             'barcodes' => 'array',
         ]);
@@ -65,6 +66,7 @@ class ProductController extends Controller
             'quantity' => $request->quantity,
             'cost' => $request->cost,
             'price' => $request->price,
+            'compare_price' => $request->compare_price,
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $path,
@@ -96,6 +98,7 @@ class ProductController extends Controller
             'name' => 'required',
             'cost' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0',
+            'compare_price' => 'nullable|numeric|min:0',
             'category_id' => 'required',
         ]);
 
@@ -117,6 +120,7 @@ class ProductController extends Controller
             'name' => $request->name,
             'cost' => $request->cost,
             'price' => $request->price,
+            'compare_price' => $request->compare_price,
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $path,

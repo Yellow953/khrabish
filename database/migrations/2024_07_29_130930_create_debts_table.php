@@ -18,7 +18,6 @@ return new class extends Migration
             $table->text('note')->nullable();
             $table->string('type');
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('currency_id')->references('id')->on('currencies');
             $table->foreign('supplier_id')->references('id')->on('suppliers');

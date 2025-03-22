@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Client extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $guarded = [];
 
@@ -17,10 +16,15 @@ class Client extends Model
         return $this->hasMany(Debt::class);
     }
 
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
     // Permissions
     public function can_delete()
     {
-        return auth()->user()->role == 'admin' && $this->debts->count() == 0;
+        return auth()->user()->role == 'admin' && $this->debts->count() == 0 && $this->orders->count() == 0;
     }
 
     // Filter
@@ -37,6 +41,14 @@ class Client extends Model
         if (request('phone')) {
             $phone = request('phone');
             $q->where('phone', 'LIKE', "%{$phone}%");
+        }
+        if (request('country')) {
+            $country = request('country');
+            $q->where('country', 'LIKE', "%{$country}%");
+        }
+        if (request('city')) {
+            $city = request('city');
+            $q->where('city', 'LIKE', "%{$city}%");
         }
         if (request('address')) {
             $address = request('address');

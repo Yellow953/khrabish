@@ -10,7 +10,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <link rel="shortcut icon" href="{{ asset('assets/images/yellowpos_favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('frontend/images/white-logo.png') }}" />
 
     <!--begin::Fonts(mandatory for all pages)-->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700" />
@@ -115,12 +115,41 @@
                                                 <span class="text-muted">Date</span>
                                                 <span class="fs-5">{{ $order->created_at }}</span>
                                             </div>
+                                            @if ($order->payment_method)
+                                            <div class="flex-root d-flex flex-column mt-4">
+                                                <span class="text-muted">Payment Mehtod</span>
+                                                <span class="fs-5">{{ ucwords($order->payment_method) }}</span>
+                                            </div>
+                                            @endif
                                         </div>
+                                        @if ($order->client_id)
+                                        <div>
+                                            <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7">Client</h4>
+                                            <div class="flex-root d-flex flex-column mt-4">
+                                                <span class="text-muted">Name</span>
+                                                <span class="fs-5">{{ ucwords($order->client->name) }}</span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column mt-4">
+                                                <span class="text-muted">Phone</span>
+                                                <span class="fs-5">{{ $order->client->phone }}</span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column mt-4">
+                                                <span class="text-muted">Email</span>
+                                                <span class="fs-5">{{ $order->client->email }}</span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column mt-4">
+                                                <span class="text-muted">Address</span>
+                                                <span class="fs-5">{{ $order->client->city }}, {{
+                                                    $order->client->address }}</span>
+                                            </div>
+                                        </div>
+                                        @endif
                                         <!--end::Logo-->
                                         <div class="text-sm-end">
                                             <!--begin::Logo-->
                                             <a href="#" class="d-block mw-150px ms-sm-auto">
-                                                <img alt="Logo" src="//Logo" class="w-50" />
+                                                <img alt="Logo" src="{{ asset('frontend/images/white-logo.png') }}"
+                                                    class="w-50" />
                                             </a>
                                             <!--end::Logo-->
                                             <!--begin::Text-->

@@ -70,6 +70,20 @@
                     <!--end::Col-->
                     <!--begin::Col-->
                     <div class="col-md-6">
+                        <label class="fs-6 form-label fw-bold text-dark">Client</label>
+                        <select name="client_id" class="form-select" data-control="select2"
+                            data-placeholder="Select an option">
+                            <option value=""></option>
+                            @foreach ($clients as $client)
+                            <option value="{{ $client->id }}" {{ request()->query('client_id')==$client->id ?
+                                'selected' :
+                                '' }}>{{ ucwords($client->name) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-12">
                         <label class="fs-6 form-label fw-bold text-dark">Note</label>
                         <input type="text" class="form-control form-control-solid border" name="note"
                             value="{{ request()->query('note') }}" placeholder="Enter Note..." />
@@ -102,7 +116,8 @@
                     <thead>
                         <tr class="text-center">
                             <th class="col-4 p-3">Order</th>
-                            <th class="col-4 p-3">Amount</th>
+                            <th class="col-2 p-3">User</th>
+                            <th class="col-2 p-3">Amount</th>
                             <th class="col-2 p-3">Products</th>
                             <th class="col-2 p-3">Actions</th>
                         </tr>
@@ -113,7 +128,20 @@
                         @forelse ($orders as $order)
                         <tr>
                             <td class="text-center">
-                                <span class="text-primary fw-bold"># {{ $order->order_number }}</span>
+                                <span class="text-primary fw-bold"># {{ $order->order_number }}</span> <br>
+
+                                @if ($order->cashier_id)
+                                <span class="badge badge-primary">POS</span>
+                                @elseif($order->client_id)
+                                <span class="badge badge-primary">SHOP</span>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                @if ($order->cashier_id)
+                                Cashier: {{ ucwords($order->cashier->name) }}
+                                @elseif($order->client_id)
+                                Client: {{ ucwords($order->client->name) }}
+                                @endif
                             </td>
                             <td>
                                 <div class="text-center">

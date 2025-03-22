@@ -14,7 +14,6 @@ return new class extends Migration
             $table->string('description')->nullable();
             $table->string('image')->default('/assets/images/default.png');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 

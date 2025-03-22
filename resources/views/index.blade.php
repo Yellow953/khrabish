@@ -25,6 +25,19 @@
                             </div>
                         </div>
                         <div class="card-body px-4 pt-0">
+                            <div class="form-group mb-1">
+                                <label class="fs-6 form-label fw-bold text-dark">Client</label>
+                                <select name="client_id" id="client_id" class="form-select" data-control="select2"
+                                    data-placeholder="Select an option">
+                                    <option value=""></option>
+                                    @foreach ($clients as $client)
+                                    <option value="{{ $client->id }}" {{ request()->query('client_id')==$client->id ?
+                                        'selected' :
+                                        '' }}>{{ ucwords($client->name) }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                             <div class="table-responsive mb-8">
                                 <table class="table align-middle gs-0 gy-4 my-0">
                                     <thead>

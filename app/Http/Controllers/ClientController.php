@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ClientsExport;
+use App\Helpers\Helper;
 use App\Models\Client;
 use App\Models\Log;
 use Illuminate\Http\Request;
@@ -17,15 +18,22 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::select('id', 'name', 'email', 'phone', 'address')->filter()->orderBy('id', 'desc')->paginate(25);
+        $clients = Client::select('id', 'name', 'email', 'phone', 'country', 'city', 'address')->filter()->orderBy('id', 'desc')->paginate(25);
+        $countries = Helper::get_countries();
+        $cities = Helper::get_cities();
 
-        return view('clients.index', compact('clients'));
+        $data = compact('clients', 'countries', 'cities');
+        return view('clients.index', $data);
     }
 
 
     public function new()
     {
-        return view('clients.new');
+        $countries = Helper::get_countries();
+        $cities = Helper::get_cities();
+
+        $data = compact('countries', 'cities');
+        return view('clients.new', $data);
     }
 
     public function create(Request $request)
@@ -34,6 +42,8 @@ class ClientController extends Controller
             'name' => 'required|max:255',
             'phone' => 'required|max:255',
             'email' => 'nullable|email|max:255',
+            'country' => 'nullable|max:255',
+            'city' => 'nullable|max:255',
             'address' => 'nullable|max:255',
         ]);
 
@@ -41,6 +51,8 @@ class ClientController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'country' => $request->country,
+            'city' => $request->city,
             'address' => $request->address,
         ]);
 
@@ -55,7 +67,10 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        $data = compact('client');
+        $countries = Helper::get_countries();
+        $cities = Helper::get_cities();
+
+        $data = compact('countries', 'cities', 'client');
         return view('clients.edit', $data);
     }
 
@@ -65,6 +80,8 @@ class ClientController extends Controller
             'name' => 'required|max:255',
             'phone' => 'required|max:255',
             'email' => 'nullable|email|max:255',
+            'country' => 'nullable|max:255',
+            'city' => 'nullable|max:255',
             'address' => 'nullable|max:255',
         ]);
 
@@ -125,6 +142,8 @@ class ClientController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
+            'country' => 'Lebanon',
+            'city' => null,
             'address' => $request->address,
         ]);
 
@@ -134,5 +153,13 @@ class ClientController extends Controller
         ]);
 
         return response()->json(['success' => true, 'message' => 'Client created successfully!']);
+    }
+
+    public function history(Client $client)
+    {
+        $orders = $client->orders;
+
+        $data = compact('client', 'orders');
+        return view('clients.history', $data);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\BankNote;
 use App\Models\Category;
+use App\Models\Client;
 use App\Models\Currency;
 use App\Models\Log;
 use App\Models\Order;
@@ -21,11 +22,12 @@ class AppController extends Controller
     {
         $currency = auth()->user()->currency;
         $categories = Category::select('id', 'name', 'image')->with('products')->get();
+        $clients = Client::select('id', 'name')->orderBy('created_at', 'DESC')->get();
         $currencies = Currency::select('id', 'code')->get();
         $bank_notes = BankNote::where('currency_code', auth()->user()->currency->code)->get();
         $last_order = Order::get()->last();
 
-        $data = compact('categories', 'currency', 'currencies', 'bank_notes', 'last_order');
+        $data = compact('categories', 'clients', 'currency', 'currencies', 'bank_notes', 'last_order');
         return view('index', $data);
     }
 
@@ -38,6 +40,7 @@ class AppController extends Controller
 
             $order = Order::create([
                 'cashier_id' => auth()->user()->id,
+                'client_id' => $request->client_id,
                 'currency_id' => auth()->user()->currency_id,
                 'order_number' => Order::generate_number(),
                 'sub_total' => $request->total,
@@ -46,6 +49,7 @@ class AppController extends Controller
                 'total' => $request->grand_total,
                 'products_count' => count(json_decode($request->order_items, true)),
                 'note' => $request->note ?? null,
+                'payment_method' => null,
             ]);
 
             $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$request->discount}, Total: {$request->grand_total}";
@@ -107,6 +111,7 @@ class AppController extends Controller
 
             $order = Order::create([
                 'cashier_id' => auth()->user()->id,
+                'client_id' => $request->client_id,
                 'currency_id' => auth()->user()->currency_id,
                 'order_number' => Order::generate_number(),
                 'sub_total' => $request->total + $discount,
@@ -115,6 +120,7 @@ class AppController extends Controller
                 'total' => $request->total,
                 'products_count' => count($request->orderItems),
                 'note' => $request->note,
+                'payment_method' => null,
             ]);
             $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$discount}, Total: {$request->grand_total}";
 

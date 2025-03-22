@@ -159,6 +159,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/fetch', [ClientController::class, 'fetch'])->name('clients.fetch');
             Route::get('/new', [ClientController::class, 'new'])->name('clients.new');
             Route::post('/create', [ClientController::class, 'create'])->name('clients.create');
+            Route::get('/{client}/history', [ClientController::class, 'history'])->name('clients.history');
             Route::get('/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
             Route::post('/{client}/update', [ClientController::class, 'update'])->name('clients.update');
             Route::get('/{client}/delete', [ClientController::class, 'destroy'])->name('clients.destroy');

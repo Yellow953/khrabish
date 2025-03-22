@@ -18,7 +18,6 @@ return new class extends Migration
             $table->double('discount')->unsigned()->default(0);
             $table->double('total')->unsigned();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->foreign('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreign('order_id')->references('id')->on('orders')->onDelete('cascade');

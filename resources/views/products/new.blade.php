@@ -44,25 +44,32 @@
                 </div>
 
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="required form-label">Quantity</label>
                             <input type="number" class="form-control" name="quantity" step="any" min="0"
                                 placeholder="Enter Quantity..." value="{{ old('quantity') }}" required />
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="required form-label">Cost</label>
                             <input type="number" class="form-control" name="cost" step="any" min="0"
                                 placeholder="Enter Cost..." value="{{ old('cost') }}" required />
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-3">
                         <div class="form-group">
                             <label class="required form-label">Price</label>
                             <input type="number" class="form-control" name="price" step="any" min="0"
                                 placeholder="Enter Price..." value="{{ old('price') }}" required />
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label class="form-label">Compare Price</label>
+                            <input type="number" class="form-control" name="compare_price" step="any" min="0"
+                                placeholder="Enter Compare Price..." value="{{ old('compare_price') }}" />
                         </div>
                     </div>
                 </div>

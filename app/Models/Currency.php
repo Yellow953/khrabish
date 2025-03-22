@@ -4,11 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Currency extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $guarded = [];
 
@@ -35,7 +34,7 @@ class Currency extends Model
     // Permissions
     public function can_delete()
     {
-        return $this->users->count() == 0 && $this->debts->count() == 0 && $this->reports->count() == 0 && $this->orders->count() == 0 && auth()->user()->role == "super admin";
+        return $this->users->count() == 0 && $this->debts->count() == 0 && $this->reports->count() == 0 && $this->orders->count() == 0 && auth()->user()->role == "admin";
     }
 
     // Filter

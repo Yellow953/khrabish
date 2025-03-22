@@ -15,6 +15,8 @@ class ClientsExport implements FromCollection, WithHeadings
                 'name' => $client->name,
                 'email' => $client->email,
                 'phone' => $client->phone,
+                'country' => $client->country,
+                'city' => $client->city,
                 'address' => $client->address,
                 'created_at' => $client->created_at,
             ];
@@ -27,6 +29,8 @@ class ClientsExport implements FromCollection, WithHeadings
             'Name',
             'Email',
             'Phone',
+            'Country',
+            'City',
             'Address',
             'Created At',
         ];

@@ -16,7 +16,6 @@ return new class extends Migration
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-            $table->softDeletes();
 
             $table->string('role')->default('user');
             $table->string('phone')->nullable();

@@ -330,6 +330,7 @@
                 if (isProcessing) return;
 
                 var amountPaid = parseFloat(amountPaidInput.value) || 0;
+                var clientId = document.getElementById('client_id').value;
 
                 if (amountPaid >= grandTotal) {
                     isProcessing = true;
@@ -342,7 +343,8 @@
                         changeDue: amountPaid - grandTotal,
                         note: document.getElementById('note').value,
                         cashier: '{{ ucwords(auth()->user()->name) }}',
-                        orderNumber: orderNumber
+                        orderNumber: orderNumber,
+                        client_id: clientId,
                     };
 
                     addNewOrderToUI(orderData);

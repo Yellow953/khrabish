@@ -48,6 +48,35 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <select name="country" class="form-select" data-control="select2"
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($countries as $country)
+                                <option value="{{ $country }}" {{ $client->country==$country ? 'selected' : '' }}>{{
+                                    ucwords($country) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <select name="city" class="form-select" data-control="select2"
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($cities as $city)
+                                <option value="{{ $city }}" {{ $client->city==$city ? 'selected' : '' }}>{{
+                                    ucwords($city) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="form-label">Address</label>
                     <textarea name="address" class="form-control" rows="5"

@@ -28,7 +28,7 @@ $currencies = Helper::get_currencies();
         <!--begin::Mobile logo-->
         <div class="d-flex align-items-center flex-grow-1 flex-lg-grow-0">
             <a href="{{ route('dashboard') }}" class="d-lg-none">
-                <img alt="Logo" src="{{ asset('assets/images/yellowpos_black_transparent_bg.png') }}" class="h-30px" />
+                <img alt="Logo" src="{{ asset('frontend/images/white-logo.png') }}" class="h-30px" />
             </a>
         </div>
         <!--end::Mobile logo-->

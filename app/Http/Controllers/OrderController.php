@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\OrdersExport;
+use App\Models\Client;
 use App\Models\Log;
 use App\Models\Order;
 use App\Models\User;
@@ -17,10 +18,11 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::select('id', 'order_number', 'cashier_id', 'currency_id', 'sub_total', 'discount', 'total', 'products_count')->filter()->orderBy('id', 'desc')->paginate(25);
+        $orders = Order::select('id', 'order_number', 'cashier_id', 'client_id', 'currency_id', 'sub_total', 'discount', 'total', 'products_count')->filter()->orderBy('id', 'desc')->paginate(25);
         $users = User::select('id', 'name')->get();
+        $clients = Client::select('id', 'name')->get();
 
-        $data = compact('orders', 'users');
+        $data = compact('orders', 'users', 'clients');
         return view('orders.index', $data);
     }
 
