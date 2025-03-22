@@ -8,6 +8,8 @@ use App\Models\Category;
 use App\Models\Log;
 use App\Models\Product;
 use App\Models\SecondaryImage;
+use App\Models\Variant;
+use App\Models\VariantOption;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -45,7 +47,6 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'compare_price' => 'nullable|numeric|min:0',
             'category_id' => 'required',
-            'barcodes' => 'array',
         ]);
 
         if ($request->hasFile('image')) {
@@ -73,7 +74,7 @@ class ProductController extends Controller
             'image' => $path,
         ]);
 
-        if ($request->barcodes[0] != null) {
+        if ($request->barcodes) {
             foreach ($request->barcodes as $barcode) {
                 $product->barcodes()->create(['barcode' => $barcode]);
             }
@@ -98,6 +99,21 @@ class ProductController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
+        }
+
+        if ($request->variants) {
+            foreach ($request->variants as $variant) {
+                $variantModel = $product->variants()->create([
+                    'title' => $variant['title']
+                ]);
+
+                foreach ($variant['options'] as $option) {
+                    $variantModel->options()->create([
+                        'value' => $option['value'],
+                        'price' => $option['price']
+                    ]);
+                }
             }
         }
 
@@ -149,7 +165,7 @@ class ProductController extends Controller
             'image' => $path,
         ]);
 
-        if ($request->barcodes[0] != null) {
+        if ($request->barcodes) {
             $barcodes = array_filter(array_map('trim', $request->barcodes));
             $product->barcodes()->delete();
             foreach ($barcodes as $barcode) {
@@ -176,6 +192,21 @@ class ProductController extends Controller
                     'created_at' => now(),
                     'updated_at' => now(),
                 ]);
+            }
+        }
+
+        if ($request->variants) {
+            foreach ($request->variants as $variant) {
+                $variantModel = $product->variants()->create([
+                    'title' => $variant['title']
+                ]);
+
+                foreach ($variant['options'] as $option) {
+                    $variantModel->options()->create([
+                        'value' => $option['value'],
+                        'price' => $option['price']
+                    ]);
+                }
             }
         }
 
@@ -259,6 +290,24 @@ class ProductController extends Controller
         $secondary_image->delete();
 
         return redirect()->back()->with('danger', 'Image deleted successfully...');
+    }
+
+    public function variant_delete(Variant $variant)
+    {
+        foreach ($variant->options as $option) {
+            $option->delete();
+        }
+
+        $variant->delete();
+
+        return redirect()->back()->with('danger', 'Variant deleted successfully...');
+    }
+
+    public function variant_option_delete(VariantOption $variant_option)
+    {
+        $variant_option->delete();
+
+        return redirect()->back()->with('danger', 'Variant option deleted successfully...');
     }
 
     public function export()

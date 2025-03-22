@@ -140,12 +140,6 @@
                                             class="fa fa-trash"></i></button>
                                 </div>
                                 @endforeach
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" name="barcodes[]"
-                                        placeholder="Enter Barcode" />
-                                    <button type="button" class="btn btn-danger btn-sm remove-barcode"><i
-                                            class="fa fa-trash"></i></button>
-                                </div>
                             </div>
                             <button type="button" id="add-barcode" class="btn btn-success mt-2"><i
                                     class="fa fa-plus"></i> Barcode</button>
@@ -174,6 +168,43 @@
                         </div>
 
                         <div id="imagePreviewContainer" class="d-flex flex-wrap mt-2"></div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <h2 class="text-primary my-3">Product Variants</h2>
+                    <div class="col-md-12">
+                        <div id="variant-wrapper">
+                            @foreach ($product->variants as $variant)
+                            <div class="variant-group mb-3">
+                                <div class="d-flex align-items-center gap-2">
+                                    <h3 class="w-25">{{ $variant->title }}</h3>
+                                    <a href="{{ route('products.variants.delete', $variant->id) }}"
+                                        class="btn btn-danger remove-variant"><i class="fa fa-trash"></i></a>
+                                </div>
+                                <div class="variant-options mt-2">
+                                    @foreach ($variant->options as $option)
+                                    <div class="input-group mb-2">
+                                        <div class="row w-100">
+                                            <div class="col-5 my-auto">
+                                                <h4>{{ $option->value }}</h4>
+                                            </div>
+                                            <div class="col-5 my-auto">
+                                                <h4>{{ $option->price }}</h4>
+                                            </div>
+                                            <div class="col-2 my-auto"><a
+                                                    href="{{ route('products.variant_options.delete', $option->id) }}"
+                                                    class="btn btn-danger remove-option"><i class="fa fa-trash"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        <button type="button" id="add-variant" class="btn btn-primary mt-2"><i class="fa fa-plus"></i>
+                            Add Variant</button>
                     </div>
                 </div>
             </div>
@@ -277,6 +308,64 @@
 
                 secondaryImagesInput.files = dt.files;
                 event.target.parentElement.remove();
+            }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function() {
+        var variantWrapper = document.getElementById('variant-wrapper');
+        var addVariantBtn = document.getElementById('add-variant');
+        var variantIndex = 1;
+
+        addVariantBtn.addEventListener('click', function() {
+            var newVariantGroup = document.createElement('div');
+            newVariantGroup.classList.add('variant-group', 'mb-3');
+            newVariantGroup.innerHTML = `
+                <div class="d-flex align-items-center gap-2">
+                    <input type="text" class="form-control w-25" name="variants[${variantIndex}][title]" placeholder="Variant Title (e.g., Size, Color)" required>
+                    <button type="button" class="btn btn-danger remove-variant"><i class="fa fa-trash"></i></button>
+                </div>
+                <div class="variant-options mt-2">
+                    <div class="input-group mb-2">
+                        <input type="text" class="form-control w-50" name="variants[${variantIndex}][options][0][value]" placeholder="Option (e.g., S, Red)" required>
+                        <input type="number" class="form-control w-25" name="variants[${variantIndex}][options][0][price]" placeholder="Price" required step="0.01">
+                        <button type="button" class="btn btn-danger remove-option"><i class="fa fa-trash"></i></button>
+                    </div>
+                </div>
+                <button type="button" class="btn btn-success btn-sm add-option"><i class="fa fa-plus"></i> Add Option</button>
+            `;
+            variantWrapper.appendChild(newVariantGroup);
+            variantIndex++;
+        });
+
+        variantWrapper.addEventListener('click', function(event) {
+            if (event.target.closest('.remove-variant')) {
+                event.target.closest('.variant-group').remove();
+            }
+        });
+
+        variantWrapper.addEventListener('click', function(event) {
+            if (event.target.closest('.add-option')) {
+                var variantGroup = event.target.closest('.variant-group');
+                var optionsContainer = variantGroup.querySelector('.variant-options');
+                var variantInput = variantGroup.querySelector('input[name^="variants["]');
+                var variantId = variantInput.name.match(/\d+/)[0];
+                var optionIndex = optionsContainer.querySelectorAll('.input-group').length;
+
+                var newOption = document.createElement('div');
+                newOption.classList.add('input-group', 'mb-2');
+                newOption.innerHTML = `
+                    <input type="text" class="form-control w-50" name="variants[${variantId}][options][${optionIndex}][value]" placeholder="Option (e.g., M, Blue)" required>
+                    <input type="number" class="form-control w-25" name="variants[${variantId}][options][${optionIndex}][price]" placeholder="Price" required step="0.01">
+                    <button type="button" class="btn btn-danger remove-option"><i class="fa fa-trash"></i></button>
+                `;
+                optionsContainer.appendChild(newOption);
+            }
+        });
+
+        variantWrapper.addEventListener('click', function(event) {
+            if (event.target.closest('.remove-option')) {
+                event.target.closest('.input-group').remove();
             }
         });
     });

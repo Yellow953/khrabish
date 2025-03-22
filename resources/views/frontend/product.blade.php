@@ -64,14 +64,32 @@
                                 @endif
                             </div>
                         </div>
-
+                        <hr>
                         <div class="mt-3 w-100 d-flex flex-column">
-                            <input type="number" min="0" step="1" value="1" name="quantity" id="quantity"
-                                class="form-control my-2" required>
+                            @foreach ($product->variants as $variant)
+                            <div class="form-group mb-2">
+                                <label class="form-label">{{ ucwords($variant->title) }}</label>
+                                <select class="form-select" name="variant[{{$variant->id}}]"
+                                    id="variant_{{$variant->id}}" required>
+                                    @foreach ($variant->options as $option)
+                                    <option value="{{ $option->value }}" data-price="{{ $option->price }}">{{
+                                        $option->value
+                                        }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endforeach
+
+                            <div class="form-group">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" min="0" step="1" value="1" name="quantity" id="quantity"
+                                    class="form-control my-2" required>
+                            </div>
+
                             <a href="#" id="addToCart" class="btn btn-tertiary my-2 shake">
                                 Add To Cart <i class="fa-solid fa-cart-shopping"></i>
                             </a>
-                            <a href="#" id="buyNow" class="btn btn-tertiary my-2 shake">
+                            <a href="#" id="buyNow" class="btn btn-primary my-2 shake">
                                 Buy Now <i class="fa-solid fa-arrow-right"></i>
                             </a>
                         </div>

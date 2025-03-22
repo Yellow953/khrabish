@@ -106,6 +106,8 @@ Route::middleware(['auth'])->group(function () {
         // Products
         Route::prefix('products')->group(function () {
             Route::get('/secondary_images/{secondary_image}/delete', [ProductController::class, 'secondary_image_delete'])->name('products.secondary_images.delete');
+            Route::get('/variants/{variant}/delete', [ProductController::class, 'variant_delete'])->name('products.variants.delete');
+            Route::get('/variant_options/{variant_option}/delete', [ProductController::class, 'variant_option_delete'])->name('products.variant_options.delete');
             Route::get('/export', [ProductController::class, 'export'])->name('products.export');
             Route::get('/new', [ProductController::class, 'new'])->name('products.new');
             Route::post('/create', [ProductController::class, 'create'])->name('products.create');

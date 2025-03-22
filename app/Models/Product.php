@@ -37,6 +37,11 @@ class Product extends Model
         return $this->hasMany(OrderItem::class);
     }
 
+    public function variants()
+    {
+        return $this->hasMany(Variant::class);
+    }
+
     public function can_delete()
     {
         return auth()->user()->role == 'admin' && $this->items->count() == 0;
