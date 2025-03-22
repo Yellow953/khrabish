@@ -3,6 +3,8 @@
 @section('title', 'products')
 
 @section('actions')
+<a class="btn btn-primary btn-sm px-4" href="{{ route('products.generate_barcodes') }}"><i
+        class="fa-solid fa-barcode"></i> <span class="d-none d-md-inline">Generate Barcodes</span></a>
 <a class="btn btn-success btn-sm px-4" href="{{ route('products.new') }}"><i class="fa-solid fa-plus"></i> <span
         class="d-none d-md-inline">New Product</span></a>
 <a class="btn btn-primary btn-sm px-4" href="{{ route('products.export') }}"><i class="fa-solid fa-download"></i><span

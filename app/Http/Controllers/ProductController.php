@@ -202,6 +202,11 @@ class ProductController extends Controller
         return response()->json(['message' => 'Product not found.'], 404);
     }
 
+    public function generate_barcodes()
+    {
+        return view('products.generate_barcodes');
+    }
+
     public function export()
     {
         return Excel::download(new ProductsExport, 'products.xlsx');

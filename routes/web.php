@@ -108,6 +108,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/export', [ProductController::class, 'export'])->name('products.export');
             Route::get('/new', [ProductController::class, 'new'])->name('products.new');
             Route::post('/create', [ProductController::class, 'create'])->name('products.create');
+            Route::get('/generate_barcodes', [ProductController::class, 'generate_barcodes'])->name('products.generate_barcodes');
             Route::get('/{product}/edit', [ProductController::class, 'edit'])->name('products.edit');
             Route::post('/{product}/update', [ProductController::class, 'update'])->name('products.update');
             Route::get('/{product}/import', [ProductController::class, 'import'])->name('products.import');
