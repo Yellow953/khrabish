@@ -132,6 +132,7 @@
                 </div>
 
                 <div class="row">
+                    <h2 class="text-primary my-3">Barcodes and SKU</h2>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label">Barcodes</label>
@@ -149,6 +150,19 @@
                     </div>
                 </div>
 
+                <div class="row">
+                    <h2 class="text-primary my-3">Secondary Images</h2>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Secondary Images</label>
+                            <input type="file" name="secondary_images[]" class="form-control" id="secondaryImagesInput"
+                                multiple accept=".png, .jpg, .jpeg">
+                        </div>
+
+                        <div id="imagePreviewContainer" class="d-flex flex-wrap mt-2"></div>
+                    </div>
+                </div>
             </div>
             <div class="card-footer pt-0">
                 <div class="d-flex align-items-center justify-content-around">
@@ -205,6 +219,53 @@
 
         checkDuplicates();
     });
-</script>
 
+    document.addEventListener("DOMContentLoaded", function () {
+        let secondaryImagesInput = document.getElementById("secondaryImagesInput");
+        let previewContainer = document.getElementById("imagePreviewContainer");
+
+        secondaryImagesInput.addEventListener("change", function () {
+            previewContainer.innerHTML = "";
+
+            let dt = new DataTransfer();
+
+            Array.from(this.files).forEach((file, index) => {
+                dt.items.add(file);
+
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    let imagePreview = document.createElement("div");
+                    imagePreview.classList.add("position-relative", "m-1");
+                    imagePreview.dataset.index = index;
+
+                    imagePreview.innerHTML = `
+                        <img src="${e.target.result}" class="rounded border" width="100" height="100">
+                        <button type="button" class="btn bg-danger btn-sm position-absolute top-0 end-0 remove-image"
+                            data-index="${index}">&times;</button>
+                    `;
+                    previewContainer.appendChild(imagePreview);
+                };
+                reader.readAsDataURL(file);
+            });
+
+            secondaryImagesInput.files = dt.files;
+        });
+
+        previewContainer.addEventListener("click", function (event) {
+            if (event.target.classList.contains("remove-image")) {
+                let indexToRemove = event.target.dataset.index;
+
+                let dt = new DataTransfer();
+                Array.from(secondaryImagesInput.files).forEach((file, index) => {
+                    if (index != indexToRemove) {
+                        dt.items.add(file);
+                    }
+                });
+
+                secondaryImagesInput.files = dt.files;
+                event.target.parentElement.remove();
+            }
+        });
+    });
+</script>
 @endsection

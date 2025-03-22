@@ -22,6 +22,11 @@ class Product extends Model
         return $this->belongsTo(Category::class);
     }
 
+    public function images()
+    {
+        return $this->hasMany(SecondaryImage::class);
+    }
+
     public function barcodes()
     {
         return $this->hasMany(Barcode::class);

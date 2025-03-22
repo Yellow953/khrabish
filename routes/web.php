@@ -105,6 +105,7 @@ Route::middleware(['auth'])->group(function () {
 
         // Products
         Route::prefix('products')->group(function () {
+            Route::get('/secondary_images/{secondary_image}/delete', [ProductController::class, 'secondary_image_delete'])->name('products.secondary_images.delete');
             Route::get('/export', [ProductController::class, 'export'])->name('products.export');
             Route::get('/new', [ProductController::class, 'new'])->name('products.new');
             Route::post('/create', [ProductController::class, 'create'])->name('products.create');

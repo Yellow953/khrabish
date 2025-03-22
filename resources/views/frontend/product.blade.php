@@ -14,14 +14,20 @@
                 </div>
 
                 <!-- Secondary Images Carousel -->
-                @if ($product->secondary_images)
+                @if ($product->images)
                 <div class="row">
                     <div id="multi-item-example" class="col-12 carousel slide carousel-multi-item pointer-event"
                         data-bs-ride="carousel">
                         <div class="carousel-inner product-links-wap" role="listbox">
                             <div class="carousel-item active">
                                 <div class="row">
-                                    @foreach ($product->secondary_images as $image)
+                                    <div class="col-4 p-2">
+                                        <a href="#" class="secondary-image" data-image="{{ asset($product->image) }}">
+                                            <img class="card-img secondary-img border img-fluid"
+                                                src="{{ asset($product->image) }}">
+                                        </a>
+                                    </div>
+                                    @foreach ($product->images as $image)
                                     <div class="col-4 p-2">
                                         <a href="#" class="secondary-image" data-image="{{ asset($image->path) }}">
                                             <img class="card-img secondary-img border img-fluid"
