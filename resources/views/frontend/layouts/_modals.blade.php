@@ -1,17 +1,3 @@
-{{-- <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-md">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="mb-3">
-                    <input type="text" class="form-control input" name="q" id="searchInput" placeholder="Type To Search"
-                        autocomplete="off" autofocus>
-                </div>
-
-                <div id="searchResults" class="list-group"></div>
-            </div>
-        </div>
-    </div>
-</div> --}}
 <div class="offcanvas offcanvas-end" tabindex="-2" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
     <div class="offcanvas-header">
         <h5 class="offcanvas-title text-secondary fw-bold text-shadow-sm" id="offcanvasCartLabel">Your Cart</h5>
@@ -40,6 +26,80 @@
     </div>
 </div>
 
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cartButton = document.getElementById('cartButton');
+
+        cartButton.addEventListener('click', function () {
+            renderCart(getCart());
+        });
+
+        window.removeFromCart = function(variantKey) {
+            let cart = getCart();
+
+            cart = cart.filter(item => item.variantKey !== variantKey);
+
+            saveCart(cart);
+            renderCart(cart);
+        };
+
+        function getCart() {
+            const cart = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('cart='))
+                ?.split('=')[1];
+            return cart ? JSON.parse(decodeURIComponent(cart)) : [];
+        }
+
+        function saveCart(cart) {
+            document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=${30 * 24 * 60 * 60}`;
+        }
+
+        function renderCart(cart) {
+            const cartItemsContainer = document.getElementById('cart-items');
+            const totalItemsElement = document.getElementById('cart-total-items');
+            const totalPriceElement = document.getElementById('cart-total-price');
+
+            let totalItems = 0;
+            let totalPrice = 0;
+
+            cartItemsContainer.innerHTML = '';
+
+            cart.forEach((item) => {
+                totalItems += item.quantity;
+                totalPrice += item.finalPrice * item.quantity;
+
+                let variantDetails = item.variants.map(v => `${v.value} (+$${v.price_adjustment.toFixed(2)})`).join(', ');
+
+                const cartItem = document.createElement('div');
+                cartItem.classList.add('cart-item', 'd-flex', 'align-items-center', 'mb-3');
+
+                cartItem.innerHTML = `
+                    <img src="${item.image}" alt="${item.name}" class="img-fluid rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                    <div class="flex-grow-1">
+                        <h6 class="mb-0">${item.name}</h6>
+                        <small class="text-muted">
+                            ${variantDetails ? `Variants: ${variantDetails} <br>` : ''}
+                            Price: $${item.finalPrice.toFixed(2)} | Quantity: ${item.quantity}
+                        </small>
+                    </div>
+                    <button class="btn btn-sm btn-danger remove-btn" data-key="${item.variantKey}">Remove</button>
+                `;
+
+                cartItemsContainer.appendChild(cartItem);
+            });
+
+            totalItemsElement.textContent = totalItems;
+            totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
+
+            document.querySelectorAll('.remove-btn').forEach(button => {
+                button.addEventListener('click', function () {
+                    removeFromCart(this.getAttribute('data-key'));
+                });
+            });
+        }
+    });
+</script>
 <script>
     const searchInput = document.getElementById("searchInput");
     const resultsContainer = document.getElementById("searchResults");
@@ -88,64 +148,9 @@
             });
     });
 
-    // Hide search results when clicking outside
     document.addEventListener("click", function (event) {
         if (!searchInput.contains(event.target) && !resultsContainer.contains(event.target)) {
             resultsContainer.style.display = "none";
         }
     });
-
-    const cartButton = document.getElementById('cartButton');
-    cartButton.addEventListener('click', function () {
-        // Get cart from cookies
-        const cart = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('cart='))
-            ?.split('=')[1];
-        const cartData = cart ? JSON.parse(decodeURIComponent(cart)) : [];
-
-        const cartItemsContainer = document.getElementById('cart-items');
-        const totalItemsElement = document.getElementById('cart-total-items');
-        const totalPriceElement = document.getElementById('cart-total-price');
-
-        let totalItems = 0;
-        let totalPrice = 0;
-
-        cartItemsContainer.innerHTML = '';
-        cartData.forEach((item, index) => {
-            totalItems += item.quantity;
-            totalPrice += item.price * item.quantity;
-
-            const cartItem = document.createElement('div');
-            cartItem.classList.add('cart-item', 'd-flex', 'align-items-center', 'mb-3');
-
-            cartItem.innerHTML = `
-                <img src="${item.image}" alt="${item.name}" class="img-fluid rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
-                <div class="flex-grow-1">
-                    <h6 class="mb-0">${item.name}</h6>
-                    <small class="text-muted">Price: $${item.price} | Quantity: ${item.quantity}</small>
-                </div>
-                <button class="btn btn-sm btn-danger" onclick="removeFromCart(${index})">Remove</button>
-            `;
-
-            cartItemsContainer.appendChild(cartItem);
-        });
-
-        totalItemsElement.textContent = totalItems;
-        totalPriceElement.textContent = `$${totalPrice.toFixed(2)}`;
-    });
-
-    function removeFromCart(index) {
-        const cart = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('cart='))
-            ?.split('=')[1];
-        const cartData = cart ? JSON.parse(decodeURIComponent(cart)) : [];
-
-        if (index >= 0 && index < cartData.length) {
-            cartData.splice(index, 1);
-            document.cookie = `cart=${encodeURIComponent(JSON.stringify(cartData))}; path=/`;
-            location.reload();
-        }
-    }
 </script>

@@ -18,10 +18,8 @@
                     <div class="col-md-12">
                         <h2 class="text-primary text-shadow text-center mb-4">Checkout</h2>
                     </div>
-                    <!-- Left Column -->
                     <div class="col-md-7 mt-2">
                         <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
-                            <!-- Shipping Information -->
                             <div class="mb-4">
                                 <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Shipping Address
                                 </h4>
@@ -114,7 +112,6 @@
                         </div>
                     </div>
 
-                    <!-- Right Column -->
                     <div class="col-md-5 mt-2">
                         <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
                             <h4 class="text-secondary text-shadow-secondary-sm text-center mb-4">Order Summary</h4>
@@ -122,7 +119,6 @@
                                 <!-- Cart Items will be populated here dynamically -->
                             </div>
 
-                            <!-- Price Breakdown -->
                             <div class="summary-item">
                                 <span>Subtotal</span>
                                 <span id="subtotal-price">$0.00</span>
@@ -152,12 +148,15 @@
             Others: 3
         };
 
-        const cart = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('cart='))
-            ?.split('=')[1];
-        const cartData = cart ? JSON.parse(decodeURIComponent(cart)) : [];
+        function getCart() {
+            const cart = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('cart='))
+                ?.split('=')[1];
+            return cart ? JSON.parse(decodeURIComponent(cart)) : [];
+        }
 
+        const cartData = getCart();
         const cartItemsContainer = document.getElementById('cart-items-container');
         const subtotalElement = document.getElementById('subtotal-price');
         const shippingElement = document.getElementById('shipping-price');
@@ -167,11 +166,12 @@
         const hiddenShippingCost = document.getElementById('shipping-cost');
 
         let subtotal = 0;
-        let totalQuantity = 0;
+        cartItemsContainer.innerHTML = '';
 
         cartData.forEach(item => {
-            subtotal += item.price * item.quantity;
-            totalQuantity += item.quantity;
+            subtotal += item.finalPrice * item.quantity;
+
+            let variantDetails = item.variants.map(v => `${v.value} (+$${v.price_adjustment.toFixed(2)})`).join(', ');
 
             const cartItem = document.createElement('div');
             cartItem.classList.add('cart-item', 'd-flex', 'align-items-center', 'mb-3');
@@ -180,28 +180,31 @@
                 <img src="${item.image}" alt="${item.name}" class="me-3" style="width: 60px; height: 60px; object-fit: cover;">
                 <div>
                     <p class="mb-0">${item.name}</p>
-                    <small>Quantity: ${item.quantity}</small>
+                    <small>${variantDetails ? `Variants: ${variantDetails} <br>` : ''}
+                        Quantity: ${item.quantity}
+                    </small>
                 </div>
-                <p class="ms-auto">$${(item.price * item.quantity).toFixed(2)}</p>`;
+                <p class="ms-auto">$${(item.finalPrice * item.quantity).toFixed(2)}</p>
+            `;
             cartItemsContainer.appendChild(cartItem);
         });
 
-        const calculateShipping = () => {
+        function calculateShipping() {
             if (subtotal >= 25) {
                 return 0;
             }
             const selectedCity = citySelect.value;
             return selectedCity === 'Beirut' ? 0 : 3;
-        };
+        }
 
-        const updatePrices = () => {
+        function updatePrices() {
             const shippingCost = calculateShipping();
             shippingElement.textContent = `$${shippingCost.toFixed(2)}`;
             totalElement.textContent = `$${(subtotal + shippingCost).toFixed(2)}`;
 
             hiddenCartData.value = JSON.stringify(cartData);
             hiddenShippingCost.value = shippingCost.toFixed(2);
-        };
+        }
 
         citySelect.addEventListener('change', updatePrices);
 
@@ -224,8 +227,8 @@
 
         paymentMethodSelect.innerHTML = `
             <option value="cash on delivery">Cash On Delivery</option>
-            <option value="whish">Whish</option>
-        `;
+            <option value="whish">Whish</option>`
+        ;
 
         paymentMethodSelect.addEventListener('change', function () {
             if (paymentMethodSelect.value === 'whish') {

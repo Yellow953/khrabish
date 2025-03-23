@@ -193,7 +193,7 @@
                                                         </thead>
                                                         <tbody class="fw-semibold text-gray-600">
                                                             <!--begin::Products-->
-                                                            @forelse ($order->items as $item)
+                                                            @foreach ($order->items as $item)
                                                             <tr>
                                                                 <!--begin::Product-->
                                                                 <td>
@@ -208,6 +208,21 @@
                                                                         <div class="ms-5">
                                                                             <div class="fw-bold">{{
                                                                                 ucwords($item->product->name) }}</div>
+                                                                            <!-- Show variant details if available -->
+                                                                            @if ($item->variant_details != [])
+                                                                            <div class="small text-muted">
+                                                                                @php
+                                                                                $variants =
+                                                                                json_decode($item->variant_details);
+                                                                                @endphp
+                                                                                @foreach($variants as $variant)
+                                                                                <span>{{ $variant->value }}</span>
+                                                                                @if (!$loop->last)
+                                                                                ,
+                                                                                @endif
+                                                                                @endforeach
+                                                                            </div>
+                                                                            @endif
                                                                         </div>
                                                                         <!--end::Title-->
                                                                     </div>
@@ -218,13 +233,10 @@
                                                                 <!--end::Quantity-->
                                                                 <!--begin::Total-->
                                                                 <td class="text-end">{{ $currency->symbol }}{{
-                                                                    number_format($item->total, 2)
-                                                                    }}</td>
+                                                                    number_format($item->total, 2) }}</td>
                                                                 <!--end::Total-->
                                                             </tr>
-                                                            @empty
-
-                                                            @endforelse
+                                                            @endforeach
                                                             <!--end::Products-->
                                                             <!--begin::Subtotal-->
                                                             <tr class="text-dark fw-bold text-end">

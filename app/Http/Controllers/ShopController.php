@@ -82,8 +82,9 @@ class ShopController extends Controller
 
         $subTotal = 0;
         $productsCount = 0;
+
         foreach ($cart as $item) {
-            $subTotal += $item['price'] * $item['quantity'];
+            $subTotal += $item['finalPrice'] * $item['quantity'];
             $productsCount += $item['quantity'];
         }
         $shippingFee = $request->shipping;
@@ -115,15 +116,27 @@ class ShopController extends Controller
                 'note' => $request->notes,
             ]);
 
-            // Create order items
             foreach ($cart as $item) {
                 $product = Product::findOrFail($item['id']);
+
+                $variantDetails = [];
+                if (!empty($item['variants'])) {
+                    foreach ($item['variants'] as $variant) {
+                        $variantDetails[] = [
+                            'variant_id' => $variant['variant_id'],
+                            'value' => $variant['value'],
+                            'price_adjustment' => $variant['price_adjustment'],
+                        ];
+                    }
+                }
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $product->id,
                     'quantity' => $item['quantity'],
-                    'unit_price' => $item['price'],
-                    'total' => $item['price'] * $item['quantity'],
+                    'unit_price' => $item['finalPrice'],
+                    'total' => $item['finalPrice'] * $item['quantity'],
+                    'variant_details' => json_encode($variantDetails),
                 ]);
             }
 

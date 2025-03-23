@@ -8,12 +8,10 @@
         <div class="row">
             <div class="col-md-6 mt-5">
                 <div class="card mb-3 position-relative overflow-hidden">
-                    <!-- Main Image -->
                     <img class="card-img img-fluid" src="{{ asset($product->image) }}" alt="Product image"
                         id="product-detail">
                 </div>
 
-                <!-- Secondary Images Carousel -->
                 @if ($product->images)
                 <div class="row">
                     <div id="multi-item-example" class="col-12 carousel slide carousel-multi-item pointer-event"
@@ -21,12 +19,14 @@
                         <div class="carousel-inner product-links-wap" role="listbox">
                             <div class="carousel-item active">
                                 <div class="row">
+                                    @if ($product->images->count() != 0)
                                     <div class="col-4 p-2">
                                         <a href="#" class="secondary-image" data-image="{{ asset($product->image) }}">
                                             <img class="card-img secondary-img border img-fluid"
                                                 src="{{ asset($product->image) }}">
                                         </a>
                                     </div>
+                                    @endif
                                     @foreach ($product->images as $image)
                                     <div class="col-4 p-2">
                                         <a href="#" class="secondary-image" data-image="{{ asset($image->path) }}">
@@ -43,7 +43,6 @@
                 @endif
             </div>
 
-            <!-- col end -->
             <div class="col-md-6 mt-5">
                 <div class="card">
                     <div class="card-body">
@@ -67,10 +66,11 @@
                         <hr>
                         <div class="mt-3 w-100 d-flex flex-column">
                             @foreach ($product->variants as $variant)
-                            <div class="form-group mb-2">
+                            <div class="form-group mb-3">
                                 <label class="form-label">{{ ucwords($variant->title) }}</label>
                                 <select class="form-select" name="variant[{{$variant->id}}]"
                                     id="variant_{{$variant->id}}" required>
+                                    <option value=""></option>
                                     @foreach ($variant->options as $option)
                                     <option value="{{ $option->value }}" data-price="{{ $option->price }}">{{
                                         $option->value
@@ -96,6 +96,7 @@
                     </div>
                 </div>
 
+                @if ($product->description)
                 <div class="card mt-4">
                     <div class="accordion" id="accordionPanelsStayOpenExample">
                         <div class="accordion-item">
@@ -114,21 +115,18 @@
                         </div>
                     </div>
                 </div>
+                @endif
             </div>
         </div>
 
         <div class="row mt-5">
             <h2 class="my-4 text-center text-primary text-shadow">Similar Products</h2>
 
-            <!-- Start Carousel Wrapper -->
             <div id="multi-item-example" class="col-12 carousel slide carousel-multi-item pointer-event"
                 data-bs-ride="carousel">
-                <!-- Start Slides -->
                 <div class="carousel-inner product-links-wap" role="listbox">
                     @foreach ($simillar_products->chunk(6) as $key => $chunk)
-                    <!-- Group products into chunks of 6 -->
                     <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
-                        <!-- Set the first slide as active -->
                         <div class="row justify-content-center">
                             @foreach ($chunk as $pr)
                             <div class="col-4 col-md-2">
@@ -143,85 +141,123 @@
                     </div>
                     @endforeach
                 </div>
-                <!-- End Slides -->
             </div>
-            <!-- End Carousel Wrapper -->
         </div>
     </div>
 </section>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-            const product = {
-                id: "{{ $product->id }}",
-                name: "{{ $product->name }}",
-                image: "{{ asset($product->image) }}",
-                price: "{{ $product->price }}",
-            };
+        const product = {
+            id: "{{ $product->id }}",
+            name: "{{ $product->name }}",
+            image: "{{ asset($product->image) }}",
+            basePrice: parseFloat("{{ $product->price }}"),
+        };
 
-            const addToCartBtn = document.getElementById('addToCart');
-            const buyNowBtn = document.getElementById('buyNow');
-            const quantityInput = document.getElementById('quantity');
+        const priceElement = document.querySelector('.fs-5.fw-bold.text-primary');
+        const addToCartBtn = document.getElementById('addToCart');
+        const buyNowBtn = document.getElementById('buyNow');
+        const quantityInput = document.getElementById('quantity');
 
-            function getCart() {
-                const cart = document.cookie
-                    .split('; ')
-                    .find(row => row.startsWith('cart='))
-                    ?.split('=')[1];
-                return cart ? JSON.parse(decodeURIComponent(cart)) : [];
-            }
+        function getCart() {
+            const cart = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('cart='))
+                ?.split('=')[1];
+            return cart ? JSON.parse(decodeURIComponent(cart)) : [];
+        }
 
-            function saveCart(cart) {
-                document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=${30 * 24 * 60 * 60}`;
-            }
+        function saveCart(cart) {
+            document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=${30 * 24 * 60 * 60}`;
+        }
 
-            addToCartBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                const quantity = parseInt(quantityInput.value) || 1;
+        function getSelectedVariants() {
+            let selectedVariants = [];
+            let totalPrice = product.basePrice;
+            let allSelected = true;
 
-                let cart = getCart();
+            document.querySelectorAll("select[name^='variant']").forEach(select => {
+                let variantId = select.getAttribute('name').match(/\d+/)[0];
+                let optionValue = select.value;
+                let optionPrice = parseFloat(select.options[select.selectedIndex]?.getAttribute('data-price')) || 0;
 
-                const existingProduct = cart.find(item => item.id === product.id);
-                if (existingProduct) {
-                    existingProduct.quantity += quantity;
-                } else {
-                    cart.push({ ...product, quantity });
-                }
+                if (!optionValue) allSelected = false;
 
-                saveCart(cart);
-                alert('Product added to cart!');
-            });
+                totalPrice += optionPrice;
 
-            buyNowBtn.addEventListener('click', function (e) {
-                e.preventDefault();
-                const quantity = parseInt(quantityInput.value) || 1;
-
-                let cart = getCart();
-
-                const existingProduct = cart.find(item => item.id === product.id);
-                if (existingProduct) {
-                    existingProduct.quantity += quantity;
-                } else {
-                    cart.push({ ...product, quantity });
-                }
-
-                saveCart(cart);
-
-                window.location.href = "{{ route('shop.checkout') }}";
-            });
-        });
-
-        document.addEventListener('DOMContentLoaded', function () {
-            const secondaryImages = document.querySelectorAll('.secondary-image');
-            const mainImage = document.getElementById('product-detail');
-
-            secondaryImages.forEach(image => {
-                image.addEventListener('click', function (event) {
-                    event.preventDefault();
-                    const newImageSrc = this.getAttribute('data-image');
-                    mainImage.setAttribute('src', newImageSrc);
+                selectedVariants.push({
+                    variant_id: variantId,
+                    value: optionValue,
+                    price_adjustment: optionPrice
                 });
             });
+
+            return { selectedVariants, totalPrice, allSelected };
+        }
+
+        function updatePriceDisplay() {
+            let { totalPrice } = getSelectedVariants();
+            priceElement.textContent = `$${totalPrice.toFixed(2)}`;
+        }
+
+        function addToCartHandler(e, redirectToCheckout = false) {
+            e.preventDefault();
+            const quantity = parseInt(quantityInput.value) || 1;
+            let cart = getCart();
+            let { selectedVariants, totalPrice, allSelected } = getSelectedVariants();
+
+            // Validation: Ensure all variant options are selected
+            if (!allSelected) {
+                alert("Please select all required options before adding to cart.");
+                return;
+            }
+
+            let variantKey = `${product.id}-${selectedVariants.map(v => v.value).join('-')}`;
+            const existingProduct = cart.find(item => item.variantKey === variantKey);
+
+            if (existingProduct) {
+                existingProduct.quantity += quantity;
+            } else {
+                cart.push({
+                    id: product.id,
+                    name: product.name,
+                    image: product.image,
+                    basePrice: product.basePrice,
+                    finalPrice: totalPrice,
+                    quantity,
+                    variantKey,
+                    variants: selectedVariants
+                });
+            }
+
+            saveCart(cart);
+
+            if (redirectToCheckout) {
+                window.location.href = "{{ route('shop.checkout') }}";
+            } else {
+                alert('Product added to cart!');
+            }
+        }
+
+        addToCartBtn.addEventListener('click', function (e) {
+            addToCartHandler(e, false);
         });
+
+        buyNowBtn.addEventListener('click', function (e) {
+            addToCartHandler(e, true);
+        });
+
+        document.querySelectorAll('.secondary-image').forEach(image => {
+            image.addEventListener('click', function (event) {
+                event.preventDefault();
+                document.getElementById('product-detail').setAttribute('src', this.getAttribute('data-image'));
+            });
+        });
+
+        document.querySelectorAll("select[name^='variant']").forEach(select => {
+            select.addEventListener('change', updatePriceDisplay);
+        });
+    });
 </script>
 @endsection
