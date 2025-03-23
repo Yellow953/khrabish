@@ -16,7 +16,7 @@
         });
 
         var calculateTotals = function() {
-            var total = orderItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+            var total = orderItems.reduce((sum, item) => sum + (item.price + (item.options?.reduce((sum, option) => sum + option.optionPrice, 0) || 0)) * item.quantity, 0);
             grandTotal = total - discount;
 
             if (discount > total) {
@@ -27,13 +27,12 @@
 
             form.querySelector('[data-kt-pos-element="total"]').innerHTML = moneyFormat.format(total);
             form.querySelector('[data-kt-pos-element="discount"]').innerHTML = moneyFormat.format(discount);
-            form.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = moneyFormat.format(
-            grandTotal);
+            form.querySelector('[data-kt-pos-element="grant-total"]').innerHTML = moneyFormat.format(grandTotal);
 
             form.querySelector('input[name="total"]').value = total;
             form.querySelector('input[name="discount"]').value = discount;
             form.querySelector('input[name="grand_total"]').value = grandTotal;
-        }
+        };
 
         var updateOrderTable = function() {
             var orderTable = document.getElementById('order_items');
@@ -42,37 +41,42 @@
             orderItems.forEach((item, index) => {
                 var row = orderTable.insertRow();
                 row.innerHTML = `
-                <td>
-                    <div class="d-flex align-items-center">
-                        <div class="symbol symbol-40px me-3">
-                            <img src="${item.image}" class="w-100" alt="${item.name}">
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div class="symbol symbol-40px me-3">
+                                <img src="${item.image}" class="w-100" alt="${item.name}">
+                            </div>
+                            <div class="d-flex flex-column">
+                                <span class="text-gray-800 fw-bold">${item.name}</span>
+                                ${item.options && item.options.length > 0 ? `
+                                    <div class="text-gray-400 fw-semibold">
+                                        ${item.options.map(option => `${option.value}`).join(', ')}
+                                    </div>
+                                ` : ''}
+                                <span class="text-gray-400 fw-semibold">${moneyFormat.format(item.price)}</span>
+                            </div>
                         </div>
-                        <div class="d-flex flex-column">
-                            <span class="text-gray-800 fw-bold">${item.name}</span>
-                            <span class="text-gray-400 fw-semibold">${moneyFormat.format(item.price)}</span>
+                    </td>
+                    <td class="text-end">
+                        <div class="d-flex align-items-center justify-content-end">
+                            <button type="button" class="btn btn-sm btn-icon btn-light-primary me-2 quantity-decrease" data-index="${index}">
+                                <i class="bi bi-dash-lg"></i>
+                            </button>
+                            <span class="text-gray-800 fw-bold mx-2" data-kt-pos-element="item-quantity">${item.quantity}</span>
+                            <button type="button" class="btn btn-sm btn-icon btn-light-primary ms-2 quantity-increase" data-index="${index}">
+                                <i class="bi bi-plus-lg"></i>
+                            </button>
                         </div>
-                    </div>
-                </td>
-                <td class="text-end">
-                    <div class="d-flex align-items-center justify-content-end">
-                        <button type="button" class="btn btn-sm btn-icon btn-light-primary me-2 quantity-decrease" data-index="${index}">
-                            <i class="bi bi-dash-lg"></i>
+                    </td>
+                    <td class="text-end">
+                        <span class="text-gray-800 fw-bold" data-kt-pos-element="item-total">${moneyFormat.format((item.price + (item.options?.reduce((sum, option) => sum + option.optionPrice, 0) || 0)) * item.quantity)}</span>
+                    </td>
+                    <td class="text-end">
+                        <button type="button" class="btn btn-sm btn-icon btn-light-danger delete-item" data-index="${index}">
+                            <i class="bi bi-trash-fill"></i>
                         </button>
-                        <span class="text-gray-800 fw-bold mx-2" data-kt-pos-element="item-quantity">${item.quantity}</span>
-                        <button type="button" class="btn btn-sm btn-icon btn-light-primary ms-2 quantity-increase" data-index="${index}">
-                            <i class="bi bi-plus-lg"></i>
-                        </button>
-                    </div>
-                </td>
-                <td class="text-end">
-                    <span class="text-gray-800 fw-bold" data-kt-pos-element="item-total">${moneyFormat.format(item.price * item.quantity)}</span>
-                </td>
-                <td class="text-end">
-                    <button type="button" class="btn btn-sm btn-icon btn-light-danger delete-item" data-index="${index}">
-                        <i class="bi bi-trash-fill"></i>
-                    </button>
-                </td>
-            `;
+                    </td>
+                `;
             });
 
             form.querySelector('input[name="order_items"]').value = JSON.stringify(orderItems);
@@ -80,7 +84,7 @@
             attachQuantityListeners();
             attachDeleteListeners();
             calculateTotals();
-        }
+        };
 
         var attachQuantityListeners = function() {
             document.querySelectorAll('.quantity-decrease').forEach(btn => {
@@ -100,7 +104,7 @@
                     updateOrderTable();
                 });
             });
-        }
+        };
 
         var attachDeleteListeners = function() {
             document.querySelectorAll('.delete-item').forEach(btn => {
@@ -110,35 +114,90 @@
                     updateOrderTable();
                 });
             });
-        }
+        };
 
-        var handleProductSelection = function() {
+        var handleProductSelection = function () {
             var productItems = document.querySelectorAll('.product-item');
             productItems.forEach(item => {
-                item.addEventListener('click', function() {
+                item.addEventListener('click', function () {
                     var productId = this.getAttribute('data-product-id');
                     var productName = this.querySelector('.fw-bold').textContent;
                     var productPrice = parseFloat(this.querySelector('.text-success')
                         .textContent.replace(/[^0-9.-]+/g, ""));
                     var productImage = this.querySelector('img').src;
+                    var variants = JSON.parse(this.getAttribute('data-variants'));
 
-                    var existingItem = orderItems.find(item => item.id === productId);
-                    if (existingItem) {
-                        existingItem.quantity += 1;
+                    if (variants.length > 0) {
+                        showVariantSelectionModal(productId, productName, productPrice, productImage, variants);
                     } else {
-                        orderItems.push({
-                            id: productId,
-                            name: productName,
-                            price: productPrice,
-                            quantity: 1,
-                            image: productImage
-                        });
+                        addProductToOrder(productId, productName, productPrice, productImage);
                     }
-
-                    updateOrderTable();
                 });
             });
-        }
+        };
+
+        var showVariantSelectionModal = function (productId, productName, productPrice, productImage, variants) {
+            var modal = document.createElement('div');
+            modal.classList.add('modal', 'fade');
+            modal.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Select Variant for ${productName}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="variant-selection-form">
+                                ${variants.map(variant => `
+                                    <div class="mb-3">
+                                        <label class="form-label">${variant.title}</label>
+                                        <select class="form-select variant-option-select" data-variant-id="${variant.id}">
+                                            <option value="">Select an option</option>
+                                            ${variant.options.map(option => `
+                                                <option value="${option.id}" data-price="${option.price}">
+                                                    ${option.value} - ${moneyFormat.format(option.price)}
+                                                </option>
+                                            `).join('')}
+                                        </select>
+                                    </div>
+                                `).join('')}
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="add-to-order">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            var bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+
+            modal.querySelector('#add-to-order').addEventListener('click', function () {
+                var selectedOptions = [];
+                modal.querySelectorAll('.variant-option-select').forEach(select => {
+                    var selectedOption = select.options[select.selectedIndex];
+                    if (selectedOption.value) {
+                        selectedOptions.push({
+                            variantId: select.getAttribute('data-variant-id'),
+                            optionId: selectedOption.value,
+                            value: selectedOption.textContent.split(' - ')[0],
+                            optionPrice: parseFloat(selectedOption.getAttribute('data-price'))
+                        });
+                    }
+                });
+
+                if (selectedOptions.length > 0) {
+                    addProductToOrder(productId, productName, productPrice, productImage, selectedOptions);
+                    bootstrapModal.hide();
+                    modal.remove();
+                } else {
+                    alert('Please select at least one variant option.');
+                }
+            });
+        };
 
         var handleClearAll = function() {
             var clearAllBtn = document.getElementById('clear_all');
@@ -458,7 +517,7 @@
                     var barcode = scannedBarcode.trim();
                     if (barcode.length === 0) return;
 
-                    clearTimeout(debounceTimeout); // Clear any previous request
+                    clearTimeout(debounceTimeout);
                     debounceTimeout = setTimeout(() => {
                         var url = productFetchUrl.replace('test', barcode);
 
@@ -467,33 +526,117 @@
                                 if (!response.ok) throw new Error("Product not found.");
                                 return response.json();
                             })
-                            .then(product => addProductToOrder(product))
+                            .then(product => {
+                                if (product.variants && product.variants.length > 0) {
+                                    showVariantSelectionModal(product.id, product.name, product.price, product.image, product.variants);
+                                } else {
+                                    addProductToOrder(product.id, product.name, product.price, product.image);
+                                }
+                            })
                             .catch(error => console.error('Error fetching product:', error))
                             .finally(() => {
                                 scannedBarcode = "";
                             });
-                    }, 300); // Wait 300ms before making a request
+                    }, 300);
                 } else if (event.key.length === 1) {
                     scannedBarcode += event.key;
                 }
             });
         };
 
-        var addProductToOrder = function(product) {
-            var existingItem = orderItems.find(item => item.id === product.id);
+        var showVariantSelectionModal = function (productId, productName, productPrice, productImage, variants) {
+            var modal = document.createElement('div');
+            modal.classList.add('modal', 'fade');
+            modal.innerHTML = `
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Select Variant for ${productName}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form id="variant-selection-form">
+                                ${variants.map(variant => `
+                                    <div class="mb-3">
+                                        <label class="form-label">${variant.title}</label>
+                                        <select class="form-select variant-option-select" data-variant-id="${variant.id}">
+                                            <option value="">Select an option</option>
+                                            ${variant.options.map(option => `
+                                                <option value="${option.id}" data-price="${option.price}">
+                                                    ${option.value} - ${moneyFormat.format(option.price)}
+                                                </option>
+                                            `).join('')}
+                                        </select>
+                                    </div>
+                                `).join('')}
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="add-to-order">Add to Order</button>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.body.appendChild(modal);
+            var bootstrapModal = new bootstrap.Modal(modal);
+            bootstrapModal.show();
+
+            modal.querySelector('#add-to-order').addEventListener('click', function () {
+                var selectedOptions = [];
+                modal.querySelectorAll('.variant-option-select').forEach(select => {
+                    var selectedOption = select.options[select.selectedIndex];
+                    if (selectedOption.value) {
+                        selectedOptions.push({
+                            variantId: select.getAttribute('data-variant-id'),
+                            optionId: selectedOption.value,
+                            value: selectedOption.textContent.split(' - ')[0],
+                            optionPrice: parseFloat(selectedOption.getAttribute('data-price'))
+                        });
+                    }
+                });
+
+                if (selectedOptions.length > 0) {
+                    addProductToOrder(productId, productName, productPrice, productImage, selectedOptions);
+                    bootstrapModal.hide();
+                    modal.remove();
+                } else {
+                    alert('Please select at least one variant option.');
+                }
+            });
+        };
+
+        var addProductToOrder = function(productId, productName, productPrice, productImage, options = []) {
+            if (typeof productId === 'object') {
+                var product = productId;
+                productId = product.id;
+                productName = product.name;
+                productPrice = product.price;
+                productImage = product.image;
+                options = product.options || [];
+            }
+
+            var existingItem = orderItems.find(item =>
+                item.id === productId &&
+                JSON.stringify(item.options) === JSON.stringify(options)
+            );
+
             if (existingItem) {
                 existingItem.quantity += 1;
             } else {
                 orderItems.push({
-                    id: product.id,
-                    name: product.name,
-                    price: product.price,
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
                     quantity: 1,
-                    image: product.image
+                    image: productImage,
+                    options: options
                 });
             }
+
             updateOrderTable();
-        }
+        };
 
         function resetOrderForm() {
             orderItems = [];

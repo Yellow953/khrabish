@@ -209,7 +209,8 @@
                                                                             <div class="fw-bold">{{
                                                                                 ucwords($item->product->name) }}</div>
                                                                             <!-- Show variant details if available -->
-                                                                            @if ($item->variant_details != [])
+                                                                            @if ($item->variant_details != [] &&
+                                                                            $item->variant_details != "[]")
                                                                             <div class="small text-muted">
                                                                                 @php
                                                                                 $variants =

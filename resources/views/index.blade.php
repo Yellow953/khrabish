@@ -123,7 +123,8 @@
                                 <div class="d-flex flex-wrap d-grid gap-3">
                                     @forelse ($category->products as $product)
                                     <div class="card card-flush flex-row-fluid p-0 pb-5 mw-100 border-primary product-item"
-                                        data-product-id="{{ $product->id }}">
+                                        data-product-id="{{ $product->id }}"
+                                        data-variants="{{ $product->variants ? $product->variants->map(function($variant) { return ['id' => $variant->id,'title' => $variant->title,'options' => $variant->options->map(function($option) {return ['id' => $option->id,'value' => $option->value,'price' => $option->price,];}),];})->toJson() : '[]' }}">
                                         <div class="card-body text-center">
                                             <img src="{{ asset($product->image) }}"
                                                 class="rounded-3 mb-4 w-150px h-150px" alt="{{ $product->name }}" />

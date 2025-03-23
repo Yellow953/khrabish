@@ -21,7 +21,7 @@ class AppController extends Controller
     public function index()
     {
         $currency = auth()->user()->currency;
-        $categories = Category::select('id', 'name', 'image')->with('products')->get();
+        $categories = Category::select('id', 'name', 'image')->with('products.variants.options')->get();
         $clients = Client::select('id', 'name')->orderBy('created_at', 'DESC')->get();
         $currencies = Currency::select('id', 'code')->get();
         $bank_notes = BankNote::where('currency_code', auth()->user()->currency->code)->get();
@@ -64,12 +64,20 @@ class AppController extends Controller
                     continue;
                 }
 
+                $variantTotalPrice = $item['price'];
+                if (isset($item['options']) && is_array($item['options'])) {
+                    foreach ($item['options'] as $option) {
+                        $variantTotalPrice += $option['optionPrice'];
+                    }
+                }
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['id'],
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['price'],
-                    'total' => $item['price'] * $item['quantity'],
+                    'total' => $variantTotalPrice * $item['quantity'],
+                    'variant_details' => isset($item['options']) ? json_encode($item['options']) : null,
                 ]);
 
                 $product->update(['quantity' => ($product->quantity - $item['quantity'])]);
@@ -88,7 +96,7 @@ class AppController extends Controller
             return response()->json(['success' => true, 'message' => 'Order successfully created.'], 200);
         } catch (\Exception $e) {
             DB::rollBack();
-            return response()->json(['success' => false, 'message' => 'An error occurred while processing your order. $e:' . $e], 500);
+            return response()->json(['success' => false, 'message' => 'An error occurred while processing your order. Error: ' . $e->getMessage()], 500);
         }
     }
 
@@ -122,7 +130,8 @@ class AppController extends Controller
                 'note' => $request->note,
                 'payment_method' => null,
             ]);
-            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$discount}, Total: {$request->grand_total}";
+
+            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$discount}, Total: {$request->total}";
 
             foreach ($request->orderItems as $item) {
                 $product = Product::find($item['id']);
@@ -131,12 +140,20 @@ class AppController extends Controller
                     continue;
                 }
 
+                $variantTotalPrice = $item['price'];
+                if (isset($item['options']) && is_array($item['options'])) {
+                    foreach ($item['options'] as $option) {
+                        $variantTotalPrice += $option['optionPrice'];
+                    }
+                }
+
                 OrderItem::create([
                     'order_id' => $order->id,
                     'product_id' => $item['id'],
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['price'],
-                    'total' => $item['price'] * $item['quantity'],
+                    'total' => $variantTotalPrice * $item['quantity'],
+                    'variant_details' => isset($item['options']) ? json_encode($item['options']) : null,
                 ]);
 
                 $product->update(['quantity' => ($product->quantity - $item['quantity'])]);

@@ -230,6 +230,19 @@ class ProductController extends Controller
                 $barcode->delete();
             }
 
+            foreach ($product->images as $image) {
+                $path = public_path($image->path);
+                File::delete($path);
+                $image->delete();
+            }
+
+            foreach ($product->variants as $variant) {
+                foreach ($variant->options as $option) {
+                    $option->delete();
+                }
+                $variant->delete();
+            }
+
             $product->delete();
             Log::create(['text' => $text]);
 
