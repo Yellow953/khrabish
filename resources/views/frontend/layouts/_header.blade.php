@@ -64,7 +64,7 @@
 </div>
 <nav class="navbar navbar-expand-lg fixed-top bg-white">
     <div class="navbar-nav ms-auto m-display">
-        <input type="text" class="form-control input px-5" name="q" id="searchInput" placeholder="Type To Search"
+        <input type="text" class="form-control input px-4" name="q" id="searchInput" placeholder="Type To Search"
             autocomplete="off">
         <div class="nav-item">
             <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
