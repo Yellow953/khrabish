@@ -221,6 +221,10 @@ a.active {
 /* ----------Media Queries---------- */
 
 @media (max-width: 768px) {
+    .logo {
+        align-self: center;
+    }
+
     .navbar {
         background: white !important;
         padding: 20px 0px !important;
@@ -267,7 +271,6 @@ a.active {
         padding: 5px 10px !important;
     }
 
-
     .tab-display {
         display: none;
     }
@@ -292,6 +295,10 @@ a.active {
     }
 
     .email-img {
+        height: 200px !important;
+    }
+
+    .banner-card-img {
         height: 200px !important;
     }
 }

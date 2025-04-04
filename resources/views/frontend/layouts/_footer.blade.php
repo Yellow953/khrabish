@@ -1,5 +1,5 @@
 <footer>
-    <div class="d-block d-xl-flex pt-5 pt-xl-0">
+    <div class="d-block d-xl-flex pt-3 pt-md-5 pt-xl-0">
         <div class="col-lg-3 desktop-display">
             <img src="{{ asset('frontend/images/footer.png') }}" alt="" class="img-fluid img-footer">
         </div>

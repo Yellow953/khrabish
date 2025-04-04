@@ -6,7 +6,7 @@
     </div>
 </div>
 <div class="bg-white border-bottom">
-    <div class="d-flex justify-content-between align-items-center">
+    <div class="d-flex justify-content-md-between justify-content-center align-items-center">
         <a class="navbar-brand ms-md-5" href="{{ route('home')}}">
             <img src="{{ asset('frontend/images/green-logo.png') }}" alt="Khrabish Logo" class="logo" />
         </a>
@@ -63,7 +63,7 @@
     </div>
 </div>
 <nav class="navbar navbar-expand-lg fixed-top bg-white">
-    <div class="navbar-nav ms-auto m-display">
+    <div class="navbar-nav ms-auto me-auto m-display justify-content-center align-items-center">
         <input type="text" class="form-control input px-4" name="q" id="searchInput" placeholder="Type To Search"
             autocomplete="off">
         <div class="nav-item">

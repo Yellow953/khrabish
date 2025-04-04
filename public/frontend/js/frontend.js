@@ -6,7 +6,7 @@ $(document).ready(function () {
         nav: true,
         dots: false,
         responsive: {
-            0: { items: 2 },
+            0: { items: 3 },
             600: { items: 4 },
             1080: { items: 6 },
         },
