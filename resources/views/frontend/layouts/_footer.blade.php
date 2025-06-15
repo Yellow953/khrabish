@@ -7,7 +7,7 @@
             <img src="{{ asset('frontend/images/khrabish-white.webp') }}" alt="" width="200" height="200"
                 class="img-fluid img-footer-logo ms-md-4 mt-5 mt-md-0">
         </div>
-        <div class="col-12 col-xl-7 text-shadow">
+        <div class="col-12 col-xl-7">
             <div class="ms-md-5 mt-5 pb-4">
                 <h3 class="text-primary-light fw-bold text-center">Get In Touch</h3>
                 <div class="row ms-0 me-0">
@@ -83,28 +83,27 @@
             </div>
         </div>
     </div>
-    <div class="light-secondary-bg">
+    <div class="bg-tertiary">
         <div class="container">
             <div class="row py-3">
                 <div class=" d-flex col-12 text-center justify-content-center gap-5">
                     <a href="{{ route('home') }}"
-                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Home</a>
+                        class="text-decoration-none text-white fw-bold fs-4 y-on-hover">Home</a>
                     <a href="{{ route('shop') }}"
-                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Shop</a>
+                        class="text-decoration-none text-white fw-bold fs-4 y-on-hover">Shop</a>
                     <a href="{{ route('contact') }}"
-                        class="text-decoration-none text-white fw-bold text-shadow-secondary-sm fs-4 y-on-hover">Contact</a>
+                        class="text-decoration-none text-white fw-bold fs-4 y-on-hover">Contact</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="light-secondary-bg pt-1">
+    <div class="bg-tertiary pt-1">
         <div class="container">
             <div class="row">
                 <div class="col-12">
                     <div class="text-center py-2">
                         Powered By
-                        <a href="https://yellowtech.dev"
-                            class="text-primary text-shadow-sm text-decoration-none fw-bold mx-1"
+                        <a href="https://yellowtech.dev" class="text-primary text-decoration-none fw-bold mx-1"
                             target="_blank">YellowTech</a>
                     </div>
                 </div>

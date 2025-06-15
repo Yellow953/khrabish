@@ -46,7 +46,7 @@
             <div class="col-md-6 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="h2 text-primary text-shadow">{{ $product->name }}</h1>
+                        <h1 class="h2 text-primary">{{ $product->name }}</h1>
                         <div class="my-3">
                             <div class="d-flex justify-content-between my-2">
                                 <span class="fw-bold">Category:</span> {{ $product->category->name }}
@@ -54,7 +54,7 @@
                         </div>
                         <div class="d-flex justify-content-between align-content-center">
                             <div class="fw-bold">Price</div>
-                            <div><span class="fs-5 fw-bold text-primary text-shadow-sm">${{
+                            <div><span class="fs-5 fw-bold text-primary">${{
                                     number_format($product->price) }}</span>
                                 @if ($product->compare_price)
                                 <span
@@ -120,7 +120,7 @@
         </div>
 
         <div class="row mt-5">
-            <h2 class="my-4 text-center text-primary text-shadow">Similar Products</h2>
+            <h2 class="my-4 text-center text-primary">Similar Products</h2>
 
             <div id="multi-item-example" class="col-12 carousel slide carousel-multi-item pointer-event"
                 data-bs-ride="carousel">
@@ -133,7 +133,7 @@
                                 <a href="{{ route('product', $pr->name) }}" class="text-decoration-none">
                                     <img class="card-img border img-fluid" src="{{ asset($pr->image) }}"
                                         alt="{{ $pr->name }}">
-                                    <h5 class="text-center text-primary text-shadow-sm mt-2">{{ $pr->name }}</h5>
+                                    <h5 class="text-center text-primary mt-2">{{ $pr->name }}</h5>
                                 </a>
                             </div>
                             @endforeach

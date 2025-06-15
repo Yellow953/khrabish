@@ -16,12 +16,12 @@
 
                 <div class="row">
                     <div class="col-md-12">
-                        <h2 class="text-primary text-shadow text-center mb-4">Checkout</h2>
+                        <h2 class="text-primary text-center mb-4">Checkout</h2>
                     </div>
                     <div class="col-md-7 mt-2">
                         <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
                             <div class="mb-4">
-                                <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Shipping Address
+                                <h4 class="text-secondary text-center mb-3">Shipping Address
                                 </h4>
                                 <div class="row">
                                     <div class="col-md-12">
@@ -90,7 +90,7 @@
                             </div>
 
                             <div class="mb-4">
-                                <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Payment Info</h4>
+                                <h4 class="text-secondary text-center mb-3">Payment Info</h4>
 
                                 <div class="mb-3">
                                     <label for="method" class="form-label text-secondary">Payment Method</label>
@@ -100,7 +100,7 @@
                             </div>
 
                             <div class="mb-4">
-                                <h4 class="text-secondary text-shadow-secondary-sm text-center mb-3">Additional Info
+                                <h4 class="text-secondary text-center mb-3">Additional Info
                                 </h4>
 
                                 <div class="mb-3">
@@ -114,7 +114,7 @@
 
                     <div class="col-md-5 mt-2">
                         <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
-                            <h4 class="text-secondary text-shadow-secondary-sm text-center mb-4">Order Summary</h4>
+                            <h4 class="text-secondary text-center mb-4">Order Summary</h4>
                             <div class="summary-card" id="cart-items-container">
                                 <!-- Cart Items will be populated here dynamically -->
                             </div>
