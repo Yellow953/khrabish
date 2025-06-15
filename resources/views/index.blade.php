@@ -17,11 +17,18 @@
                     <input type="hidden" name="grand_total" value="0">
                     <input type="text" id="barcode_input" class="form-control d-none">
 
-                    <div class="card card-flush bg-body" id="kt_pos_form">
-                        <div class="card-header px-4 pt-5">
+                    <div class="card card-flush bg-body border-custom">
+                        <div class="card-header px-4 py-5">
                             <h3 class="card-title fw-bold text-gray-800 fs-2qx">Current Order</h3>
                             <div class="card-toolbar">
-                                <a href="#" class="btn btn-danger fs-4 fw-bold py-4" id="clear_all">Clear All</a>
+                                <a href="#" class="btn btn-sm btn-primary mx-1" id="save-as-draft">
+                                    <i class="fa fa-save"></i>
+                                    Save
+                                </a>
+                                <a href="#" class="btn btn-sm btn-danger mx-1" id="clear_all">
+                                    <i class="fa fa-trash"></i>
+                                    Clear
+                                </a>
                             </div>
                         </div>
                         <div class="card-body px-4 pt-0">
@@ -79,7 +86,8 @@
 
                             <div class="form-group mt-8">
                                 <label for="note" class="form-label">Note</label>
-                                <textarea name="note" id="note" rows="5" class="form-control"></textarea>
+                                <textarea name="note" id="note" rows="5" placeholder="Write any order notes..."
+                                    class="form-control"></textarea>
                             </div>
                         </div>
                     </div>
@@ -88,11 +96,11 @@
 
             <!-- Main content with product categories and items -->
             <div class="d-flex flex-row-fluid justify-content-center mb-10 mb-xl-0">
-                <div class="card card-p-0 p-5 mx-3 border-0">
+                <div class="card card-p-0 p-5 mx-3 border-custom">
                     <div class="card-body">
                         <div class="mb-5">
                             <input type="text" id="product_search" class="form-control"
-                                placeholder="Search Products by Name...">
+                                placeholder="Search Products by Name or Barcode...">
                         </div>
 
                         <ul
@@ -104,7 +112,8 @@
                                     style="width: 150px;height: 150px">
                                     <div class="nav-icon mb-3">
                                         <img src="{{ asset($category->image) }}" class="w-50px"
-                                            alt="{{ $category->name }}" />
+                                            alt="{{ $category->name }}" loading="lazy" decoding="async"
+                                            fetchpriority="high" />
                                     </div>
                                     <div class="">
                                         <span class="text-gray-800 fw-bold fs-4 d-block">{{ ucwords($category->name)
@@ -122,20 +131,21 @@
                                 id="kt_pos_food_content_{{ $category->id }}">
                                 <div class="d-flex flex-wrap d-grid gap-3">
                                     @forelse ($category->products as $product)
-                                    <div class="card card-flush flex-row-fluid p-0 pb-5 mw-100 border-primary product-item"
-                                        data-product-id="{{ $product->id }}"
+                                    <div class="card card-flush flex-row-fluid p-0 pb-5 mw-100 border-primary product-item align-items-center"
+                                        data-product-id="{{ $product->id }}" data-quantity="{{ $product->quantity }}"
+                                        data-barcodes="{{ $product->barcodes ? $product->barcodes->map(function($barcode) { return ['barcode' => $barcode->barcode ];})->toJson() : '[]' }}"
                                         data-variants="{{ $product->variants ? $product->variants->map(function($variant) { return ['id' => $variant->id,'title' => $variant->title,'options' => $variant->options->map(function($option) {return ['id' => $option->id,'value' => $option->value,'price' => $option->price,];}),];})->toJson() : '[]' }}">
-                                        <div class="card-body text-center">
-                                            <img src="{{ asset($product->image) }}"
-                                                class="rounded-3 mb-4 w-150px h-150px" alt="{{ $product->name }}" />
+                                        <div class="card-body text-center w-150px">
+                                            <img src="{{ asset($product->image) }}" loading="lazy" decoding="async"
+                                                fetchpriority="low" class="rounded-3 mb-4 w-150px h-150px"
+                                                alt="{{ $product->name }}" />
                                             <div class="mb-2">
-                                                <div class="text-center">
-                                                    <span
-                                                        class="fw-bold text-gray-800 cursor-pointer text-hover-primary fs-3 fs-xl-1">{{
-                                                        ucwords($product->name) }}</span>
+                                                <div
+                                                    class="text-center fw-bold text-gray-800 cursor-pointer text-hover-primary px-2 w-150px">
+                                                    {{ ucwords($product->name) }}
                                                 </div>
                                             </div>
-                                            <span class="text-success text-end fw-bold fs-1">{{
+                                            <span class="text-success text-end fw-bold">{{
                                                 number_format($product->price * $currency->rate, 2) }}
                                                 {{ $currency->symbol }}</span>
                                         </div>
@@ -157,34 +167,25 @@
             </div>
 
             <!-- Quick actions -->
-            <div class="d-flex flex-row flex-md-column justify-content-center justify-content-md-start">
-                <div class="card p-4 d-flex flex-row flex-md-column">
-                    <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 rotate-90"
+            <div class="d-flex flex-row flex-md-column">
+                <div class="card p-1 p-md-4 d-flex flex-row flex-md-column border-custom" id="quick-actions">
+                    <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 p-3 p-md-4 rotate-90"
                         data-bs-toggle="modal" data-bs-target="#kt_modal_new_client">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-plus-lg" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                        </svg>
+                        </svg> <br>
                         Client
                     </a>
-                    <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 rotate-90"
+                    <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 p-3 p-md-4 rotate-90"
                         data-bs-toggle="modal" data-bs-target="#kt_modal_new_debt">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                             class="bi bi-plus-lg" viewBox="0 0 16 16">
                             <path fill-rule="evenodd"
                                 d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                        </svg>
+                        </svg> <br>
                         Debt
-                    </a>
-                    <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 rotate-90"
-                        data-bs-toggle="modal" data-bs-target="#kt_modal_new_report">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                            class="bi bi-plus-lg" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd"
-                                d="M8 2a.5.5 0 0 1 .5.5v5h5a.5.5 0 0 1 0 1h-5v5a.5.5 0 0 1-1 0v-5h-5a.5.5 0 0 1 0-1h5v-5A.5.5 0 0 1 8 2" />
-                        </svg>
-                        Report
                     </a>
                     <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 py-6"
                         data-bs-toggle="modal" data-bs-target="#kt_modal_calculator">
@@ -194,10 +195,21 @@
                                 d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2zm2 .5v2a.5.5 0 0 0 .5.5h7a.5.5 0 0 0 .5-.5v-2a.5.5 0 0 0-.5-.5h-7a.5.5 0 0 0-.5.5m0 4v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5M4.5 9a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM4 12.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5M7.5 6a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM7 9.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m.5 2.5a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5zM10 6.5v1a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-1a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5m.5 2.5a.5.5 0 0 0-.5.5v4a.5.5 0 0 0 .5.5h1a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 0-.5-.5z" />
                         </svg>
                     </a>
-                    <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0" data-bs-toggle="modal"
-                        data-bs-target="#kt_modal_last_order">
+                    <a href="#" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 p-3 p-md-4"
+                        data-bs-toggle="modal" data-bs-target="#kt_modal_last_order">
                         Last <br>
                         Order
+                    </a>
+                    <a href="#" id="open_cash_drawer"
+                        class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 p-3 p-md-4">
+                        Cash <br>
+                        Drawer
+                    </a>
+                    <a href="#" id="z_report" class="btn btn-primary text-center mb-0 mb-md-4 mx-2 mx-md-0 p-3 p-md-4"
+                        onclick="generateZReport()">
+                        <span id="z_report_text">Z <br> Report</span>
+                        <span id="z_report_loading" class="spinner-border spinner-border-sm d-none"
+                            role="status"></span>
                     </a>
                 </div>
             </div>
@@ -209,4 +221,5 @@
 
 @section('scripts')
 @include('scripts.pos')
+@include('scripts._reports')
 @endsection

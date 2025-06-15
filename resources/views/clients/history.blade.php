@@ -16,7 +16,7 @@
     <div class="row mb-4">
         <!-- Client Information Card -->
         <div class="col-md-4">
-            <div class="card">
+            <div class="card border-custom">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Client Information</h5>
                 </div>
@@ -44,14 +44,14 @@
                 </div>
             </div>
             <div class="mt-4">
-                <img src="{{ asset('assets/images/history.png') }}" class="img-fluid" alt="Description of image"
-                    style="border-radius: 10px">
+                <img src="{{ asset('assets/images/history.png') }}" class="img-fluid border-custom"
+                    alt="Description of image" style="border-radius: 10px">
             </div>
         </div>
 
         <!-- Order History Card -->
         <div class="col-md-8">
-            <div class="card">
+            <div class="card border-custom">
                 <div class="card-header">
                     <h5 class="card-title mb-0">Order History</h5>
                 </div>

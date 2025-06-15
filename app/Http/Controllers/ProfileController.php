@@ -36,7 +36,7 @@ class ProfileController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = auth()->user()->id . '_' . time() . '.' . $ext;
             $image = Image::make($file);
-            $image->fit(300, 300, function ($constraint) {
+            $image->fit(560, 560, function ($constraint) {
                 $constraint->upsize();
             });
             $image->save(public_path('uploads/users/' . $filename));
@@ -88,7 +88,7 @@ class ProfileController extends Controller
             'text' => ucwords($user->name) . ' deactivated his account, datetime: ' . now(),
         ]);
 
-        $user->subscription->delete();
+        $user->delete();
 
         return redirect()->route('custom_logout');
     }

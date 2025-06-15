@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Debt;
-use App\Models\Report;
+use App\Models\Expense;
 use App\Models\OrderItem;
 use App\Models\Order;
 use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\PurchaseItem;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -73,14 +75,6 @@ class AnalyticsController extends Controller
 
         // Cash flow
 
-        $reports = $this->getCashFlowData();
-        $cash_flow_dates = [];
-        $cash_flow_diff = [];
-        foreach ($reports as $report) {
-            $cash_flow_dates[] = $report->date;
-            $cash_flow_diff[] = $report->cash_in - $report->cash_out;
-        }
-
         // Fetch products with category and calculate profit
         $products = Product::with('category')->get()->map(function ($product) {
             $profit = $product->price - $product->cost;
@@ -120,8 +114,35 @@ class AnalyticsController extends Controller
                 $todays_profit += (($item->quantity * ($item->product->price - $item->product->cost)));
             }
         }
+        $purchaseAnalytics = $this->getPurchaseAnalytics();
 
-        $data = compact('totalClientDebt',   'reports', 'currency', 'totalSupplierDebt', 'hourly_orders', 'quantityData', 'revenueData', 'salesByDay', 'salesByWeek', 'salesByMonth', 'cash_flow_dates', 'cash_flow_diff', 'products', 'todays_orders', 'todays_orders_count', 'todays_sales', 'todays_profit');
+        // Fetch recent expenses
+        $recentExpenses = Expense::orderBy('date', 'desc')
+            ->limit(5)
+            ->get();
+
+
+        $data = compact(
+            'totalClientDebt',
+            'currency',
+            'totalSupplierDebt',
+            'hourly_orders',
+            'quantityData',
+            'revenueData',
+            'salesByDay',
+            'salesByWeek',
+            'salesByMonth',
+            'products',
+            'todays_orders',
+            'todays_orders_count',
+            'todays_sales',
+            'todays_profit',
+            'recentExpenses'
+        );
+
+
+        $data = array_merge($data, $purchaseAnalytics);
+
         return view('analytics.index', $data);
     }
 
@@ -148,7 +169,6 @@ class AnalyticsController extends Controller
         return response()->json(['hourly_orders' => $hourly_orders]);
     }
 
-
     private function getSalesData($period)
     {
         switch ($period) {
@@ -172,16 +192,128 @@ class AnalyticsController extends Controller
             ->get();
     }
 
-    private function getCashFlowData()
+    public function dailyReport()
     {
-        return Report::select(
-            'date',
-            'start_cash',
-            'end_cash'
-        )
-            ->orderBy('date', 'asc')
-            ->limit(30)
+        $currency = auth()->user()->currency;
+        $startOfDay = now()->startOfDay();
+        $endOfDay = now()->endOfDay();
+
+        $dailyOrders = Order::whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->with(['cashier', 'currency'])
+            ->withCount('items')
+            ->paginate(10);
+
+        $dailyTotalSales = $dailyOrders->sum(function ($order) {
+            return $order->total;
+        });
+        $dailyTotalProfit = $dailyOrders->sum(function ($order) {
+            return $order->items->sum(function ($item) {
+                return $item->quantity * ($item->product->price - $item->product->cost);
+            });
+        });
+
+        $dailyOrderCount = $dailyOrders->count();
+
+        $topSeller = OrderItem::with('product')
+            ->select('product_id', DB::raw('SUM(quantity) as total_quantity'), DB::raw('SUM(quantity * unit_price) as total_sales'))
+            ->whereBetween('created_at', [$startOfDay, $endOfDay])
+            ->groupBy('product_id')
+            ->orderByDesc('total_sales')
+            ->first();
+
+        $topSellerDetails = $topSeller && $topSeller->product ? [
+            'name' => $topSeller->product->name,
+            'total_sales' => $topSeller->total_sales,
+        ] : null;
+
+        $hourlyOrders = Order::whereDate('created_at', now())
+            ->selectRaw('HOUR(created_at) as hour, COUNT(*) as count')
+            ->groupBy('hour')
+            ->orderBy('hour')
             ->get();
+
+        $hourlyLabels = $hourlyOrders->pluck('hour')->map(function ($hour) {
+            $period = $hour >= 12 ? 'PM' : 'AM';
+            $displayHour = $hour % 12 || 12;
+            return "$displayHour $period";
+        });
+
+        $hourlyData = $hourlyOrders->pluck('count');
+
+        return view('analytics.daily-report', [
+            'currency' => $currency,
+            'daily_total_sales' => $dailyTotalSales,
+            'daily_total_profit' => $dailyTotalProfit,
+            'daily_order_count' => $dailyOrderCount,
+            'top_seller' => $topSellerDetails,
+            'hourly_labels' => $hourlyLabels,
+            'hourly_data' => $hourlyData,
+            'daily_orders' => $dailyOrders,
+            'report_date' => now()->format('Y-m-d'),
+        ]);
+    }
+
+    public function weeklyReport()
+    {
+        $currency = auth()->user()->currency;
+        $startOfWeek = now()->startOfWeek();
+        $endOfWeek = now()->endOfWeek();
+
+        $weeklyOrders = Order::whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->with(['cashier', 'currency'])
+            ->withCount('items')
+            ->paginate(10);
+
+        $weeklyTotalSales = $weeklyOrders->sum(function ($order) {
+            return $order->total;
+        });
+        $weeklyTotalProfit = $weeklyOrders->sum(function ($order) {
+            return $order->items->sum(function ($item) {
+                return $item->quantity * ($item->product->price - $item->product->cost);
+            });
+        });
+
+        $weeklyOrderCount = $weeklyOrders->count();
+
+        $topSeller = OrderItem::with('product')
+            ->select('product_id', DB::raw('SUM(quantity) as total_quantity'), DB::raw('SUM(quantity * unit_price) as total_sales'))
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->groupBy('product_id')
+            ->orderByDesc('total_sales')
+            ->first();
+
+        $topSellerDetails = $topSeller && $topSeller->product ? [
+            'name' => $topSeller->product->name,
+            'total_sales' => $topSeller->total_sales,
+        ] : null;
+
+        $dailySales = Order::select(
+            DB::raw('DATE(created_at) as date'),
+            DB::raw('SUM(total) as total_sales')
+        )
+            ->whereBetween('created_at', [$startOfWeek, $endOfWeek])
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        $dailySalesLabels = $dailySales->pluck('date')->map(function ($date) {
+            return Carbon::parse($date)->format('D, M d');
+        });
+
+        $dailySalesData = $dailySales->pluck('total_sales');
+
+        return view('analytics.weekly-report', [
+            'currency' => $currency,
+            'weekly_total_sales' => $weeklyTotalSales,
+            'weekly_total_profit' => $weeklyTotalProfit,
+            'weekly_order_count' => $weeklyOrderCount,
+            'top_seller' => $topSellerDetails,
+            'daily_sales_labels' => $dailySalesLabels,
+            'daily_sales_data' => $dailySalesData,
+            'weekly_orders' => $weeklyOrders,
+            'start_date' => $startOfWeek->format('Y-m-d'),
+            'end_date' => $endOfWeek->format('Y-m-d'),
+        ]);
     }
 
     public function monthlyReport()
@@ -288,6 +420,98 @@ class AnalyticsController extends Controller
             'top_seller' => $topSeller,
             'start_date' => $startDate->toDateString(),
             'end_date' => $endDate->toDateString(),
+        ]);
+    }
+
+    private function getPurchaseAnalytics()
+    {
+        $currency = auth()->user()->currency;
+
+        // Recent purchases (last 30 days)
+        $recentPurchases = Purchase::where('purchase_date', '>=', now()->subDays(30))
+            ->orderBy('purchase_date', 'desc')
+            ->limit(10)
+            ->get();
+
+        // Total purchases value (last 30 days)
+        $totalPurchasesValue = Purchase::where('purchase_date', '>=', now()->subDays(30))
+            ->sum('total');
+
+        // Most purchased products
+        $topPurchasedProducts = PurchaseItem::select('product_id', DB::raw('SUM(quantity) as total_quantity'), DB::raw('SUM(total) as total_cost'))
+            ->groupBy('product_id')
+            ->orderBy('total_quantity', 'desc')
+            ->limit(5)
+            ->with('product:id,name,image')
+            ->get();
+
+        // Purchase trend by day (last 30 days)
+        $purchaseTrend = Purchase::select(DB::raw('DATE(purchase_date) as date'), DB::raw('SUM(total) as daily_total'))
+            ->where('purchase_date', '>=', now()->subDays(30))
+            ->groupBy('date')
+            ->orderBy('date')
+            ->get();
+
+        // Format for chart
+        $purchaseDates = $purchaseTrend->pluck('date')->toArray();
+        $purchaseAmounts = $purchaseTrend->pluck('daily_total')->toArray();
+
+        // Supplier with most purchases
+        $topSupplier = Purchase::select('supplier_id', DB::raw('COUNT(*) as purchase_count'), DB::raw('SUM(total) as total_amount'))
+            ->with('supplier:id,name')
+            ->groupBy('supplier_id')
+            ->orderBy('total_amount', 'desc')
+            ->first();
+
+        return [
+            'recentPurchases' => $recentPurchases,
+            'totalPurchasesValue' => $totalPurchasesValue,
+            'topPurchasedProducts' => $topPurchasedProducts,
+            'purchaseDates' => $purchaseDates,
+            'purchaseAmounts' => $purchaseAmounts,
+            'topSupplier' => $topSupplier,
+        ];
+    }
+
+    public function getSalesVsPurchases(Request $request)
+    {
+        $days = $request->input('days', 30);
+        $startDate = now()->subDays($days)->startOfDay();
+        $endDate = now()->endOfDay();
+
+        // Get all dates in range
+        $dateRange = collect();
+        for ($date = $startDate->copy(); $date->lte($endDate); $date->addDay()) {
+            $dateRange->push($date->format('Y-m-d'));
+        }
+
+        // Get sales data
+        $salesData = Order::select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as daily_total'))
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy('date')
+            ->pluck('daily_total', 'date')
+            ->toArray();
+
+        // Get purchase data
+        $purchaseData = Purchase::select(DB::raw('DATE(purchase_date) as date'), DB::raw('SUM(total) as daily_total'))
+            ->whereBetween('purchase_date', [$startDate, $endDate])
+            ->groupBy('date')
+            ->pluck('daily_total', 'date')
+            ->toArray();
+
+        // Format data for chart
+        $formattedSalesData = [];
+        $formattedPurchaseData = [];
+
+        foreach ($dateRange as $date) {
+            $formattedSalesData[] = $salesData[$date] ?? 0;
+            $formattedPurchaseData[] = $purchaseData[$date] ?? 0;
+        }
+
+        return response()->json([
+            'dates' => $dateRange->toArray(),
+            'salesData' => $formattedSalesData,
+            'purchaseData' => $formattedPurchaseData,
         ]);
     }
 }

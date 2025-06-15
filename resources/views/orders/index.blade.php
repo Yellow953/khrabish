@@ -103,7 +103,7 @@
 @section('content')
 <div class="container">
     <!--begin::Tables Widget 10-->
-    <div class="card mb-5 mb-xl-8">
+    <div class="card border-custom mb-5 mb-xl-8">
         @yield('filter')
 
         <!--begin::Body-->

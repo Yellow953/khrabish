@@ -20,6 +20,10 @@ return new class extends Migration
             $table->double('total')->unsigned()->default(0);
             $table->unsignedInteger('products_count');
             $table->string('payment_method')->nullable();
+            $table->string('payment_currency')->default('USD');
+            $table->double('exchange_rate')->unsigned()->default(1);
+            $table->double('amount_paid')->unsigned()->default(0);
+            $table->double('change_due')->unsigned()->default(0);
             $table->text('note')->nullable();
             $table->timestamps();
 

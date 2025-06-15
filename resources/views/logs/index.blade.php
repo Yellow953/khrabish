@@ -15,7 +15,7 @@
         <form action="{{ route('logs') }}" method="GET" enctype="multipart/form-data">
             @csrf
             <!--begin::Card-->
-            <div class="card">
+            <div class="card border-custom">
                 <!--begin::Card body-->
                 <div class="card-body pt-0 pt-3 px-2 px-md-4">
                     <!--begin::Compact form-->
@@ -91,7 +91,7 @@
     @yield('filter')
 
     <!--begin::Timeline-->
-    <div class="card">
+    <div class="card border-custom">
         <!--begin::Card head-->
         <div class="card-header card-header-stretch">
             <!--begin::Title-->

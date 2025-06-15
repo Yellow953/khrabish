@@ -40,13 +40,16 @@ class OrderController extends Controller
             $text = ucwords(auth()->user()->name) .  " deleted Order " . $order->id . ", datetime: " . now();
 
             foreach ($order->items() as $item) {
+                $item->product->update([
+                    'quantity' => ($item->product->quantity + $item->quantity),
+                ]);
                 $item->delete();
             }
 
             $order->delete();
             Log::create(['text' => $text]);
 
-            return redirect()->back()->with('success', "Order successfully deleted!");
+            return redirect()->back()->with('success', "Order successfully deleted and Products returned!");
         } else {
             return redirect()->back()->with('danger', 'Unable to delete');
         }

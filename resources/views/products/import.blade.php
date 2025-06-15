@@ -15,12 +15,12 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-4">
-            <div class="card shadow-sm mb-4 overflow-hidden">
-                <img src="{{ asset('assets/images/import.png') }}" alt="" class="img-fluid">
+            <div class="card border-custom shadow-sm mb-4 overflow-hidden">
+                <img src="{{ asset('assets/images/stock.png') }}" alt="" class="img-fluid">
             </div>
         </div>
         <div class="col-md-8">
-            <div class="card shadow-sm mb-4">
+            <div class="card border-custom shadow-sm mb-4">
                 <form action="{{ route('products.save', $product->id) }}" method="POST" enctype="multipart/form-data"
                     class="form">
                     @csrf

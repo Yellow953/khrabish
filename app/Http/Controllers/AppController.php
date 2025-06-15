@@ -21,13 +21,21 @@ class AppController extends Controller
     public function index()
     {
         $currency = auth()->user()->currency;
-        $categories = Category::select('id', 'name', 'image')->with('products.variants.options')->get();
-        $clients = Client::select('id', 'name')->orderBy('created_at', 'DESC')->get();
+        $exchange_rate = Currency::where('code', 'LBP')->firstOrFail()->rate;
         $currencies = Currency::select('id', 'code')->get();
-        $bank_notes = BankNote::where('currency_code', auth()->user()->currency->code)->get();
+        $bank_notes = BankNote::get();
         $last_order = Order::whereNotNull('cashier_id')->latest()->first();
+        $clients = Client::select('id', 'name')->orderBy('created_at', 'DESC')->get();
+        $categories = Category::select('id', 'name', 'image')
+            ->with([
+                'products' => function ($query) {
+                    $query->where('quantity', '>', 0)
+                        ->with(['variants.options', 'barcodes']);
+                }
+            ])
+            ->get();
 
-        $data = compact('categories', 'clients', 'currency', 'currencies', 'bank_notes', 'last_order');
+        $data = compact('categories', 'currency', 'currencies', 'exchange_rate', 'bank_notes', 'last_order', 'clients');
         return view('index', $data);
     }
 
@@ -50,6 +58,10 @@ class AppController extends Controller
                 'products_count' => count(json_decode($request->order_items, true)),
                 'note' => $request->note ?? null,
                 'payment_method' => null,
+                'exchange_rate' => $request->exchange_rate,
+                'payment_currency' => $request->payment_currency,
+                'amount_paid' => $request->amount_paid,
+                'change_due' => $request->change_due,
             ]);
 
             $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$request->discount}, Total: {$request->grand_total}";
@@ -129,6 +141,10 @@ class AppController extends Controller
                 'products_count' => count($request->orderItems),
                 'note' => $request->note,
                 'payment_method' => null,
+                'exchange_rate' => $request->exchange_rate,
+                'payment_currency' => $request->payment_currency,
+                'amount_paid' => $request->amount_paid,
+                'change_due' => $request->change_due,
             ]);
 
             $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$discount}, Total: {$request->total}";

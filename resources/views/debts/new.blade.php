@@ -15,7 +15,7 @@
 <div class="container mt-5">
     <form action="{{ route('debts.create') }}" method="POST" enctype="multipart/form-data" class="form">
         @csrf
-        <div class="card">
+        <div class="card border-custom">
             <div class="card-head">
                 <h1 class="text-center text-primary">New Debt</h1>
             </div>

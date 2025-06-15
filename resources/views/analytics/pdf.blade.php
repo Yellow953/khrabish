@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -9,28 +10,37 @@
         body {
             font-family: Arial, sans-serif;
         }
+
         .section-title {
             font-size: 18px;
             font-weight: bold;
             margin-top: 20px;
         }
+
         .table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 10px;
         }
-        .table, .table th, .table td {
+
+        .table,
+        .table th,
+        .table td {
             border: 1px solid #ddd;
         }
-        .table th, .table td {
+
+        .table th,
+        .table td {
             padding: 8px;
             text-align: left;
         }
+
         .table th {
             background-color: #f2f2f2;
         }
     </style>
 </head>
+
 <body>
     <h1>Analytics Report</h1>
 
@@ -45,11 +55,11 @@
         </thead>
         <tbody>
             @foreach ($cashFlowData as $data)
-                <tr>
-                    <td>{{ $data->date }}</td>
-                    <td>{{ number_format($data->start_cash, 2) }}</td>
-                    <td>{{ number_format($data->end_cash, 2) }}</td>
-                </tr>
+            <tr>
+                <td>{{ $data->date }}</td>
+                <td>{{ number_format($data->start_cash, 2) }}</td>
+                <td>{{ number_format($data->end_cash, 2) }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -64,10 +74,10 @@
         </thead>
         <tbody>
             @foreach ($topProductsByRevenue as $product)
-                <tr>
-                    <td>{{ $product['product_name'] }}</td>
-                    <td>{{ number_format($product['total_revenue'], 2) }}</td>
-                </tr>
+            <tr>
+                <td>{{ $product['product_name'] }}</td>
+                <td>{{ number_format($product['total_revenue'], 2) }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -82,10 +92,10 @@
         </thead>
         <tbody>
             @foreach ($topProductsByQuantity as $product)
-                <tr>
-                    <td>{{ $product['product_name'] }}</td>
-                    <td>{{ $product['total_quantity'] }}</td>
-                </tr>
+            <tr>
+                <td>{{ $product['product_name'] }}</td>
+                <td>{{ $product['total_quantity'] }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -105,12 +115,12 @@
         </thead>
         <tbody>
             @foreach ($debtManagement as $debt)
-                <tr>
-                    <td>{{ $debt['creditor'] }}</td>
-                    <td>{{ number_format($debt['amount'], 2) }}</td>
-                    <td>{{ $debt['type'] }}</td>
-                    <td>{{ $debt['date'] }}</td>
-                </tr>
+            <tr>
+                <td>{{ $debt['creditor'] }}</td>
+                <td>{{ number_format($debt['amount'], 2) }}</td>
+                <td>{{ $debt['type'] }}</td>
+                <td>{{ $debt['date'] }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
@@ -125,12 +135,13 @@
         </thead>
         <tbody>
             @foreach ($salesOverTime as $sale)
-                <tr>
-                    <td>{{ $sale->period }}</td>
-                    <td>{{ number_format($sale->total_sales, 2) }}</td>
-                </tr>
+            <tr>
+                <td>{{ $sale->period }}</td>
+                <td>{{ number_format($sale->total_sales, 2) }}</td>
+            </tr>
             @endforeach
         </tbody>
     </table>
 </body>
+
 </html>

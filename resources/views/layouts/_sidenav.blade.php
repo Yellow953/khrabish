@@ -181,6 +181,7 @@
                     <!--end:Menu link-->
                 </div>
                 <!--end:Menu item-->
+
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
@@ -194,6 +195,35 @@
                     <!--end:Menu link-->
                 </div>
                 <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ request()->routeIs('purchases*') ? 'active' : '' }}"
+                        href="{{ route('purchases') }}">
+                        <span class="menu-icon">
+                            <i class="bi bi-boxes"></i>
+                        </span>
+                        <span class="menu-title">Purchases</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
+                    <a class="menu-link {{ request()->routeIs('expenses*') ? 'active' : '' }}"
+                        href="{{ route('expenses') }}">
+                        <span class="menu-icon">
+                            <i class="bi bi-cash-stack"></i>
+                        </span>
+                        <span class="menu-title">Expenses</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->

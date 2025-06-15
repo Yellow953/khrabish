@@ -5,7 +5,7 @@
 @section('content')
 <div class="container">
     <!--begin::Timeline-->
-    <div class="card">
+    <div class="card border-custom">
         <!--begin::Card head-->
         <div class="card-header card-header-stretch">
             <!--begin::Title-->

@@ -16,7 +16,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
-            <div class="card">
+            <div class="card border-custom">
                 <div class="card-header">
                     <div class="d-flex align-items-center justify-content-between">
                         <h3 class="card-title mb-0">Barcode Generator</h3>
@@ -37,7 +37,7 @@
         </div>
 
         <div class="col-md-8">
-            <div class="card">
+            <div class="card border-custom">
                 <div class="card-header">
                     <h3 class="card-title mb-0">Barcode Configuration</h3>
                 </div>

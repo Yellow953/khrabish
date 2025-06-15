@@ -17,7 +17,7 @@
         <!--begin::Content container-->
         <div id="kt_app_content_container" class="app-container container-xxl">
             <!--begin::Navbar-->
-            <div class="card mb-5 mb-xxl-8">
+            <div class="card border-custom mb-5 mb-xxl-8">
                 <div class="card-body pt-9 pb-0">
                     <!--begin::Details-->
                     <div class="d-flex flex-wrap flex-sm-nowrap">
@@ -170,7 +170,7 @@
 
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="kt_tab_pane_1" role="tabpanel">
-                    <div class="card user-info-card p-8">
+                    <div class="card border-custom user-info-card p-8">
                         <h4 class="card-title mb-4">User Overview</h4>
 
                         <div class="user-info">
@@ -198,7 +198,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="kt_tab_pane_2" role="tabpanel">
-                    <div class="card user-info-card p-8">
+                    <div class="card border-custom user-info-card p-8">
                         <h4 class="card-title mb-4">Edit Profile</h4>
                         <form action="{{ route('profile.update') }}" method="POST" enctype="multipart/form-data"
                             class="form">
@@ -269,7 +269,7 @@
                     </div>
                 </div>
                 <div class="tab-pane fade" id="kt_tab_pane_3" role="tabpanel">
-                    <div class="card user-info-card p-8">
+                    <div class="card border-custom user-info-card p-8">
                         <h4 class="card-title mb-4">Change Password</h4>
                         <form action="{{ route('profile.save_password') }}" method="POST" enctype="multipart/form-data"
                             class="form">
@@ -297,7 +297,7 @@
                         </form>
                     </div>
                     <br><br>
-                    <div class="card user-info-card p-8">
+                    <div class="card border-custom user-info-card p-8">
                         <h4 class="card-title mb-4">Deactivate Account</h4>
                         <p class="card-text text-muted text-center my-5">
                             Once your account is deactivated, you will delete your subscriptions and cannot be

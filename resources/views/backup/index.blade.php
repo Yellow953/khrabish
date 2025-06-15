@@ -7,12 +7,12 @@
     <h2 class="mb-5 text-center">Backup</h2>
     <div class="row">
         <div class="col-md-4 my-auto">
-            <div class="card">
+            <div class="card border-custom">
                 <img src="{{ asset('assets/images/backup.png') }}" alt="Backup" class="img-card img-fluid rounded">
             </div>
         </div>
         <div class="col-md-8">
-            <div class="card p-4 mb-5">
+            <div class="card border-custom p-4 mb-5">
                 <div class="import">
                     <h3 class="mb-4">Import Database</h3>
                     <form action="{{ route('backup.import') }}" method="POST" enctype="multipart/form-data">
@@ -31,7 +31,7 @@
                     </form>
                 </div>
             </div>
-            <div class="card p-4 mb-5">
+            <div class="card border-custom p-4 mb-5">
                 <div class="export">
                     <h3 class="mb-4">Export Database</h3>
                     <a href="{{ route('backup.export') }}" class="btn btn-primary btn-sm">

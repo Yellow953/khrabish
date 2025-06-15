@@ -278,4 +278,9 @@ class Helper
 
         return $cities;
     }
+
+    public static function get_expense_categories()
+    {
+        return ['Electricity', 'Water', 'Internet', 'Rent', 'Employee Salary', 'Maintenance', 'Miscellaneous'];
+    }
 }

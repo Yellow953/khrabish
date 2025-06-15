@@ -4,7 +4,6 @@ use App\Http\Controllers\AppController;
 use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\BackupController;
 use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LogController;
 use App\Http\Controllers\NotificationController;
@@ -14,7 +13,9 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\SupplierController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ShopController;
@@ -135,14 +136,9 @@ Route::middleware(['auth'])->group(function () {
         // Reports Routes
         Route::prefix('reports')->group(function () {
             Route::get('/export', [ReportController::class, 'export'])->name('reports.export');
-            Route::get('/new', [ReportController::class, 'new'])->name('reports.new');
-            Route::post('/create', [ReportController::class, 'create'])->name('reports.create');
-            Route::get('/{report}/edit', [ReportController::class, 'edit'])->name('reports.edit');
-            Route::post('/{report}/update', [ReportController::class, 'update'])->name('reports.update');
+            Route::post('/reports/create', [ReportController::class, 'create'])->name('reports.create');
             Route::get('/{report}/delete', [ReportController::class, 'destroy'])->name('reports.destroy');
-            Route::get('/data', [ReportController::class, 'data'])->name('reports.data');
-            Route::get('/sales', [ReportController::class, 'sales'])->name('reports.sales');
-            Route::get('/{date}/show', [ReportController::class, 'show'])->name('reports.show');
+            Route::get('/{report}/show', [ReportController::class, 'show'])->name('reports.show');
             Route::get('/', [ReportController::class, 'index'])->name('reports');
         });
 
@@ -181,6 +177,30 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [SupplierController::class, 'index'])->name('suppliers');
         });
 
+        // Purchases Routes
+        Route::prefix('purchases')->group(function () {
+            Route::get('/export', [PurchaseController::class, 'export'])->name('purchases.export');
+            Route::get('/new', [PurchaseController::class, 'new'])->name('purchases.new');
+            Route::post('/create', [PurchaseController::class, 'create'])->name('purchases.create');
+            Route::get('/items/{purchase_item}/delete', [PurchaseController::class, 'purchase_item_destroy'])->name('purchases.items.destroy');
+            Route::get('/{purchase}/show', [PurchaseController::class, 'show'])->name('purchases.show');
+            Route::get('/{purchase}/edit', [PurchaseController::class, 'edit'])->name('purchases.edit');
+            Route::post('/{purchase}/update', [PurchaseController::class, 'update'])->name('purchases.update');
+            Route::get('/{purchase}/delete', [PurchaseController::class, 'destroy'])->name('purchases.destroy');
+            Route::get('/', [PurchaseController::class, 'index'])->name('purchases');
+        });
+
+        // Expenses Routes
+        Route::prefix('expenses')->group(function () {
+            Route::get('/export', [ExpenseController::class, 'export'])->name('expenses.export');
+            Route::get('/new', [ExpenseController::class, 'new'])->name('expenses.new');
+            Route::post('/create', [ExpenseController::class, 'create'])->name('expenses.create');
+            Route::get('/{expense}/edit', [ExpenseController::class, 'edit'])->name('expenses.edit');
+            Route::post('/{expense}/update', [ExpenseController::class, 'update'])->name('expenses.update');
+            Route::get('/{expense}/delete', [ExpenseController::class, 'destroy'])->name('expenses.destroy');
+            Route::get('/', [ExpenseController::class, 'index'])->name('expenses');
+        });
+
         // Currency Routes
         Route::prefix('currencies')->group(function () {
             Route::get('/export', [CurrencyController::class, 'export'])->name('currencies.export');
@@ -195,9 +215,12 @@ Route::middleware(['auth'])->group(function () {
         // Analytics
         Route::prefix('analytics')->group(function () {
             Route::get('/pdf-report', [AnalyticsController::class, 'generatePdfReport'])->name('analytics.pdf');
+            Route::get('/daily-report', [AnalyticsController::class, 'dailyReport'])->name('analytics.daily-report');
+            Route::get('/weekly-report', [AnalyticsController::class, 'weeklyReport'])->name('analytics.weekly-report');
             Route::get('/monthly-report', [AnalyticsController::class, 'monthlyReport'])->name('analytics.monthly-report');
             Route::get('/custom-report', [AnalyticsController::class, 'customReport'])->name('analytics.custom-report');
             Route::get('/hourly-orders', [AnalyticsController::class, 'getHourlyOrders'])->name('analytics.hourly-orders');
+            Route::get('/sales-vs-purchases', [AnalyticsController::class, 'getSalesVsPurchases']);
             Route::get('/', [AnalyticsController::class, 'index'])->name('analytics');
         });
 

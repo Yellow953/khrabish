@@ -54,7 +54,7 @@ class ProductController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = auth()->user()->id . '_' . time() . '.' . $ext;
             $image = Image::make($file);
-            $image->fit(300, 300, function ($constraint) {
+            $image->fit(560, 560, function ($constraint) {
                 $constraint->upsize();
             });
             $image->save(public_path('uploads/products/' . $filename));
@@ -86,7 +86,7 @@ class ProductController extends Controller
                 $filename = uniqid() . '.' . $ext;
                 $picture = Image::make($image);
 
-                $picture->fit(300, 300, function ($constraint) {
+                $picture->fit(560, 560, function ($constraint) {
                     $constraint->upsize();
                 });
 
@@ -146,7 +146,7 @@ class ProductController extends Controller
             $ext = $file->getClientOriginalExtension();
             $filename = auth()->user()->id . '_' . time() . '.' . $ext;
             $image = Image::make($file);
-            $image->fit(300, 300, function ($constraint) {
+            $image->fit(560, 560, function ($constraint) {
                 $constraint->upsize();
             });
             $image->save(public_path('uploads/products/' . $filename));

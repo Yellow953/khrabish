@@ -13,7 +13,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <div class="card">
+    <div class="card border-custom">
         <form action="{{ route('currencies.create') }}" method="POST" enctype="multipart/form-data" class="form">
             @csrf
             <div class="card-head">

@@ -202,110 +202,6 @@
 </div>
 <!--end::Modal - New Debt-->
 
-<!--begin::Modal - New Report-->
-<div class="modal fade" id="kt_modal_new_report" tabindex="-1" aria-hidden="true">
-    <!--begin::Modal dialog-->
-    <div class="modal-dialog modal-dialog-centered mw-650px">
-        <!--begin::Modal content-->
-        <div class="modal-content rounded">
-            <!--begin::Modal header-->
-            <div class="modal-header pb-0 border-0 justify-content-end">
-                <!--begin::Close-->
-                <div class="btn btn-sm btn-icon btn-active-color-primary" data-bs-dismiss="modal">
-                    <!--begin::Svg Icon | path: icons/duotune/arrows/arr061.svg-->
-                    <span class="svg-icon svg-icon-1">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <rect opacity="0.5" x="6" y="17.3137" width="16" height="2" rx="1"
-                                transform="rotate(-45 6 17.3137)" fill="currentColor" />
-                            <rect x="7.41422" y="6" width="16" height="2" rx="1" transform="rotate(45 7.41422 6)"
-                                fill="currentColor" />
-                        </svg>
-                    </span>
-                    <!--end::Svg Icon-->
-                </div>
-                <!--end::Close-->
-            </div>
-            <!--begin::Modal header-->
-            <!--begin::Modal body-->
-            <div class="modal-body scroll-y px-10 px-lg-15 pt-0 pb-15">
-                <!--begin:Form-->
-                <form id="kt_modal_new_report_form" class="form" action="{{ route('quick.new_report') }}"
-                    enctype="multipart/form-data" method="POST">
-                    @csrf
-                    @method('POST')
-
-                    <!--begin::Heading-->
-                    <div class="mb-13 text-center">
-                        <!--begin::Title-->
-                        <h1 class="mb-3">New Report</h1>
-                        <!--end::Title-->
-                    </div>
-                    <!--end::Heading-->
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="required form-label">Date</label>
-                                <input type="date" class="form-control" name="date" placeholder="Enter Date..."
-                                    value="{{ old('date') ?? date('Y-m-d') }}" required />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="required form-label">Currency</label>
-                                <select name="currency_id" class="form-select" required>
-                                    <option value=""></option>
-                                    @foreach ($currencies as $currency)
-                                    <option value="{{ $currency->id }}" {{ auth()->user()->currency_id == $currency->id
-                                        ?
-                                        'selected' : '' }} {{ old('currency_id')==$currency->id ? 'selected' :
-                                        '' }}>{{ ucwords($currency->code) }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="required form-label">Start Cash</label>
-                                <input type="number" step="any" min="0" class="form-control" name="start_cash"
-                                    placeholder="Enter Start Cash..." value="{{ old('start_cash') }}" required />
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label class="required form-label">End Cash</label>
-                                <input type="number" step="any" min="0" class="form-control" name="end_cash"
-                                    placeholder="Enter End Cash..." value="{{ old('end_cash') }}" required />
-                            </div>
-                        </div>
-                    </div>
-
-                    <!--begin::Actions-->
-                    <div class="text-center">
-                        <button type="reset" id="kt_modal_new_report_cancel" class="btn btn-light me-3">Cancel</button>
-                        <button type="submit" id="kt_modal_new_report_submit" class="btn btn-primary">
-                            <span class="indicator-label">Submit</span>
-                            <span class="indicator-progress">Please wait...
-                                <span class="spinner-border spinner-border-sm align-middle ms-2"></span></span>
-                        </button>
-                    </div>
-                    <!--end::Actions-->
-                </form>
-                <!--end:Form-->
-            </div>
-            <!--end::Modal body-->
-        </div>
-        <!--end::Modal content-->
-    </div>
-    <!--end::Modal dialog-->
-
-    @include('scripts.new_report')
-</div>
-<!--end::Modal - New Report-->
-
 <!--begin::Modal - Payment-->
 <div class="modal fade" id="paymentModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
@@ -315,36 +211,87 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <div class="mb-3">
-                    <label for="amountPaid" class="form-label">Amount Paid</label>
-                    <input type="number" class="form-control" id="amountPaid" placeholder="Enter the amount paid">
+                <!-- Amount Paid Input with Clear Button -->
+                <div class="mb-4">
+                    <div class="d-flex align-items-center justify-content-between mb-2">
+                        <label for="amountPaid" class="form-label mb-0">Amount Paid</label>
+                        <button type="button" class="btn btn-sm btn-danger" id="payment-clear">
+                            <i class="fas fa-times me-1"></i> Clear
+                        </button>
+                    </div>
+                    <input type="number" class="form-control form-control-lg" id="amountPaid"
+                        placeholder="Enter amount">
                 </div>
-                <div class="mb-3">
-                    <div class="d-flex align-content-center justify-content-between">
-                        <div>
-                            <h5>Grand Total: <span id="modalGrandTotal"></span></h5>
-                            <h5>Change Due: <span id="changeDue" class="text-success">$0.00</span></h5>
+
+                <!-- Currency Cards -->
+                <div class="row mb-4">
+                    <div class="col-md-6 mb-3 mb-md-0">
+                        <div class="card bg-custom-1">
+                            <div class="card-body">
+                                <h6 class="card-title">Grand Total</h6>
+                                <div class="text-right">
+                                    <div class="fs-3 fw-bold text-success" id="grandTotalUSD">$0.00</div>
+                                    <div class="fs-5" id="grandTotalLBP">0 LBP</div>
+                                </div>
+                            </div>
                         </div>
-                        <div>
-                            <a href="#" class="btn btn-danger btn-sm" id="payment-clear">Clear</a>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card bg-custom-2">
+                            <div class="card-body">
+                                <h6 class="card-title">Change Due</h6>
+                                <div class="text-right">
+                                    <div class="fs-3 fw-bold text-success" id="changeDueUSD">$0.00</div>
+                                    <div class="fs-5" id="changeDueLBP">0 LBP</div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    @foreach ($bank_notes as $bank_note)
-                    <div class="col-4 my-auto p-3">
-                        <div class="card px-2 py-4 text-white bg-primary text-center bank-note">
-                            <h4>{{ $bank_note->name }}</h4>
-                            <b>{{ number_format($bank_note->value, 2) }} {{ auth()->user()->currency->symbol }}</b>
+                <!-- Cash Notes Tabs -->
+                <ul class="nav nav-tabs nav-line-tabs mb-4">
+                    <li class="nav-item">
+                        <a class="nav-link active" data-bs-toggle="tab" href="#usd_notes">USD Notes</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-bs-toggle="tab" href="#lbp_notes">LBP Notes</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content">
+                    <!-- USD Notes -->
+                    <div class="tab-pane fade show active" id="usd_notes">
+                        <div class="row g-3">
+                            @foreach ($bank_notes->where('currency_code', 'USD') as $bank_note)
+                            <div class="col-4">
+                                <div class="card text-center p-3 bank-note" style="cursor: pointer;">
+                                    <div class="fw-bold">{{ $bank_note->name }}</div>
+                                    <div>${{ number_format($bank_note->value, 2) }}</div>
+                                </div>
+                            </div>
+                            @endforeach
                         </div>
                     </div>
-                    @endforeach
+
+                    <!-- LBP Notes -->
+                    <div class="tab-pane fade" id="lbp_notes">
+                        <div class="row g-3">
+                            @foreach ($bank_notes->where('currency_code', 'LBP') as $bank_note)
+                            <div class="col-4">
+                                <div class="card text-center p-3 bank-note" style="cursor: pointer;">
+                                    <div class="fw-bold">{{ $bank_note->name }}</div>
+                                    <div>{{ number_format($bank_note->value) }} L.L.</div>
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-bs-dismiss="modal">Cancel</button>
                 <button type="button" id="confirmPayment" class="btn btn-primary">Confirm Payment</button>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
         </div>
     </div>

@@ -8,11 +8,13 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('reports', function (Blueprint $table) {
+        Schema::create('expenses', function (Blueprint $table) {
             $table->id();
-            $table->double('start_cash')->unsigned()->default(1);
-            $table->double('end_cash')->unsigned()->nullable();
-            $table->date('date')->nullable();
+            $table->integer('number')->unsigned();
+            $table->date('date');
+            $table->string('category');
+            $table->string('description')->nullable();
+            $table->double('amount')->unsigned()->default(0);
             $table->bigInteger("currency_id")->unsigned();
             $table->timestamps();
 
@@ -22,6 +24,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('reports');
+        Schema::dropIfExists('expenses');
     }
 };
