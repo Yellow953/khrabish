@@ -15,8 +15,8 @@ class CategorySeeder extends Seeder
                 'image' => '/frontend/images/categories/cleaning.png',
             ],
             [
-                'name' => 'Home Items',
-                'image' => '/frontend/images/categories/home-items.png',
+                'name' => 'Home',
+                'image' => '/frontend/images/categories/home.png',
             ],
             [
                 'name' => 'Bathroom',
@@ -32,16 +32,8 @@ class CategorySeeder extends Seeder
             ],
             [
                 'name' => 'Party & Deco',
-                'image' => '/frontend/images/categories/party.png',
-            ],
-            [
-                'name' => 'Personal Care',
-                'image' => '/frontend/images/categories/personal-care.png',
-            ],
-            [
-                'name' => 'Phone & Accessories',
-                'image' => '/frontend/images/categories/phone-accessories.png',
-            ],
+                'image' => '/frontend/images/categories/party_and_decoration.png',
+            ]
         ];
 
         foreach ($categories as $category) {

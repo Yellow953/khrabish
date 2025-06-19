@@ -28,10 +28,10 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
-        const cartButton = document.getElementById('cartButton');
-
-        cartButton.addEventListener('click', function () {
-            renderCart(getCart());
+        document.querySelectorAll('.cartButton').forEach(button => {
+            button.addEventListener('click', function () {
+                renderCart(getCart());
+            });
         });
 
         window.removeFromCart = function(variantKey) {

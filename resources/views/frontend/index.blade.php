@@ -46,7 +46,7 @@
 
 <div class="container py-3">
     <div class="col-md-12 mt-5 text-center">
-        <h2 class="text-tertiary text-shadow-tertiary">Best Sellers</h2>
+        <h2 class="text-tertiary">Best Sellers</h2>
         <div class="owl-carousel owl-theme products">
             @foreach ($products as $product)
             <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
@@ -62,8 +62,13 @@
                         </div>
                     </div>
                     <div class="d-flex flex-column y-on-hover">
-                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View
-                            Product</a>
+                        @if ($product->variants->count() == 0)
+                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
+                            data-id="{{ $product->id }}" data-name="{{ $product->name }}"
+                            data-image="{{ $product->image }} " data-price="{{ $product->price }}">Add to cart</a>
+                        @else
+                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View Product</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -266,8 +271,14 @@
                             </div>
                         </div>
                         <div class="d-flex flex-column y-on-hover">
+                            @if ($product->variants->count() == 0)
+                            <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
+                                data-id="{{ $product->id }}" data-name="{{ $product->name }}"
+                                data-image="{{ $product->image }} " data-price="{{ $product->price }}">Add to cart</a>
+                            @else
                             <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View
                                 Product</a>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -315,8 +326,13 @@
                         </div>
                     </div>
                     <div class="d-flex flex-column y-on-hover">
-                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View
-                            Product</a>
+                        @if ($product->variants->count() == 0)
+                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
+                            data-id="{{ $product->id }}" data-name="{{ $product->name }}"
+                            data-image="{{ $product->image }} " data-price="{{ $product->price }}">Add to cart</a>
+                        @else
+                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View Product</a>
+                        @endif
                     </div>
                 </div>
             </div>
@@ -347,4 +363,55 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        function getCart() {
+            const cart = document.cookie
+                .split('; ')
+                .find(row => row.startsWith('cart='))
+                ?.split('=')[1];
+            return cart ? JSON.parse(decodeURIComponent(cart)) : [];
+        }
+
+        function saveCart(cart) {
+            document.cookie = `cart=${encodeURIComponent(JSON.stringify(cart))}; path=/; max-age=${30 * 24 * 60 * 60}`;
+        }
+
+        document.querySelectorAll('.addToCart').forEach(button => {
+            button.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const id = this.getAttribute('data-id');
+                const name = this.getAttribute('data-name');
+                const image = this.getAttribute('data-image');
+                const price = parseFloat(this.getAttribute('data-price')) || 0;
+
+                const quantity = 1;
+                const variantKey = `${id}-default`;
+
+                let cart = getCart();
+                const existingProduct = cart.find(item => item.id === id);
+
+                if (existingProduct) {
+                    existingProduct.quantity += quantity;
+                } else {
+                    cart.push({
+                        id,
+                        name,
+                        image,
+                        basePrice: price,
+                        finalPrice: price,
+                        quantity,
+                        variantKey,
+                        variants: []
+                    });
+                }
+
+                saveCart(cart);
+                alert('Product added to cart!');
+            });
+        });
+    });
+</script>
 @endsection

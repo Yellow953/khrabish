@@ -7,16 +7,16 @@
             <div class="align-items-center desktop-display">
                 <input type="text" class="form-control input px-5" name="q" id="searchInput"
                     placeholder="Type To Search" autocomplete="off">
-                <a class="nav-link y-on-hover ms-2" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
-                    id="cartButton" aria-controls="offcanvasCart">
+                <a class="nav-link y-on-hover ms-2 cartButton" data-bs-toggle="offcanvas" href="#offcanvasCart"
+                    role="button" aria-controls="offcanvasCart">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </a>
             </div>
             <div class="align-items-center tab-display">
                 <input type="text" class="form-control input px-5" name="q" id="searchInput"
                     placeholder="Type To Search" autocomplete="off">
-                <a class="nav-link y-on-hover ms-2" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
-                    id="cartButton" aria-controls="offcanvasCart">
+                <a class="nav-link y-on-hover ms-2 cartButton" data-bs-toggle="offcanvas" href="#offcanvasCart"
+                    role="button" aria-controls="offcanvasCart">
                     <i class="fa-solid fa-cart-shopping"></i>
                 </a>
             </div>
@@ -38,7 +38,7 @@
         <input type="text" class="form-control input px-4" name="q" id="searchInput" placeholder="Type To Search"
             autocomplete="off">
         <div class="nav-item">
-            <a class="nav-link" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
+            <a class="nav-link cartButton" data-bs-toggle="offcanvas" href="#offcanvasCart" role="button"
                 aria-controls="offcanvasCart">
                 <i class="fa-solid fa-cart-shopping"></i>
             </a>
