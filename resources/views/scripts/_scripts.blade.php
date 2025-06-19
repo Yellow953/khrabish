@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function removeTask(id, listItem) {
-        const url = `{{ route('todos.destroy', '') }}/${id}`;
+        const url = `{{ url('todos.destroy', '') }}/${id}`;
         fetch(url, {
             method: "GET",
             headers: {
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function toggleComplete(id, listItem) {
-        const url = `{{ route('todos.complete', '') }}/${id}`;
+        const url = `{{ url('todos.complete', '') }}/${id}`;
         fetch(url, {
             method: "GET",
             headers: {

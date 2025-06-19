@@ -63,6 +63,13 @@ class ProductController extends Controller
             $path = "assets/images/no_img.png";
         }
 
+        $tags = $request->input('tags');
+        $tagsArray = $tags ? json_decode($tags, true) : null;
+
+        if ($tagsArray !== null && !is_array($tagsArray)) {
+            $tagsArray = null;
+        }
+
         $product = Product::create([
             'name' => $request->name,
             'quantity' => $request->quantity,
@@ -72,6 +79,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $path,
+            'tags' => $tagsArray,
         ]);
 
         if ($request->barcodes) {
@@ -155,6 +163,13 @@ class ProductController extends Controller
             $path = $product->image;
         }
 
+        $tags = $request->input('tags');
+        $tagsArray = $tags ? json_decode($tags, true) : null;
+
+        if ($tagsArray !== null && !is_array($tagsArray)) {
+            $tagsArray = null;
+        }
+
         $product->update([
             'name' => $request->name,
             'cost' => $request->cost,
@@ -163,6 +178,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $path,
+            'tags' => $tagsArray,
         ]);
 
         if ($request->barcodes) {

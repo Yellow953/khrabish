@@ -17,10 +17,18 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $products = Product::select('id', 'name', 'image', 'price', 'compare_price')->orderBy('created_at', 'DESC')->limit(10)->get();
         $categories = Category::select('id', 'name', 'image')->get();
+        $booming_offers = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->whereRaw("JSON_SEARCH(tags, 'one', 'sale_%') IS NOT NULL")->with('variants')->orderBy('created_at', 'DESC')->limit(10)->get();
 
-        $data = compact('categories', 'products');
+        $latest_additions = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->orderBy('created_at', 'desc')->limit(12)->get();
+        $order_count = Order::count();
+        if ($order_count < 10) {
+            $best_sellers = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->inRandomOrder()->limit(12)->get();
+        } else {
+            $best_sellers = Product::select('products.id', 'products.name', 'products.image', 'products.price', 'products.compare_price', 'products.tags')->join('order_items', 'products.id', '=', 'order_items.product_id')->groupBy('products.id', 'products.name', 'products.image')->orderByRaw('COUNT(order_items.id) DESC')->with('variants')->limit(12)->get();
+        }
+
+        $data = compact('categories', 'booming_offers', 'latest_additions', 'best_sellers');
         return view('frontend.index', $data);
     }
 
@@ -30,9 +38,9 @@ class ShopController extends Controller
 
         if ($request->input('category')) {
             $category = Category::where('name', $request->input('category'))->firstOrFail();
-            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price')->where('category_id', $category->id)->paginate(12);
+            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price', 'tags')->where('category_id', $category->id)->with('variants')->paginate(12);
         } else {
-            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price')->paginate(12);
+            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price', 'tags')->with('variants')->paginate(12);
         }
 
         $data = compact('categories', 'products');

@@ -44,7 +44,8 @@
                                             <h6 class="text-muted"><s>${{ number_format($product->compare_price, 2)
                                                     }}</s></h6>
                                             @endif
-                                            <h5 class="text-secondary ms-2">${{ number_format($product->price, 2) }}
+                                            <h5 class="text-secondary ms-2">${{ number_format($product->getSalePrice(),
+                                                2) }}
                                             </h5>
                                         </div>
                                     </div>
@@ -53,7 +54,7 @@
                                         <a href="{{ route('product', $product->name) }}"
                                             class="btn btn-tertiary mt-3 addToCart" data-id="{{ $product->id }}"
                                             data-name="{{ $product->name }}" data-image="{{ $product->image }} "
-                                            data-price="{{ $product->price }}">Add to cart</a>
+                                            data-price="{{ $product->getSalePrice() }}">Add to cart</a>
                                         @else
                                         <a href="{{ route('product', $product->name) }}"
                                             class="btn btn-tertiary mt-3">View Product</a>

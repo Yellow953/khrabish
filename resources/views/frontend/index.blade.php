@@ -25,6 +25,42 @@
     </div>
 </div>
 
+<div class="container py-3">
+    <div class="col-md-12 mt-5 text-center">
+        <h2 class="text-tertiary">Booming Offers</h2>
+        <div class="owl-carousel owl-theme products">
+            @foreach ($booming_offers as $product)
+            <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
+                <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
+                    <img src="{{ $product->image }}" class="img-fluid product-img">
+                </a>
+                <div class="card-body text-start">
+                    <div class="d-flex flex-column justify-content-between">
+                        <h5 class="text-black">{{ $product->name }}</h5>
+                        <div class="d-flex justify-content-end">
+                            @if ($product->compare_price)
+                            <h6 class="text-muted"><s>${{ number_format($product->compare_price, 2) }}</s></h6>
+                            @endif
+                            <h5 class="text-secondary ms-2">${{ number_format($product->getSalePrice(), 2) }}</h5>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-column y-on-hover">
+                        @if ($product->variants->count() == 0)
+                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
+                            data-id="{{ $product->id }}" data-name="{{ $product->name }}"
+                            data-image="{{ $product->image }} " data-price="{{ $product->getSalePrice() }}">Add to
+                            cart</a>
+                        @else
+                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View Product</a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+            @endforeach
+        </div>
+    </div>
+</div>
+
 <div class="container pt-2 pt-md-5">
     <h1 class="text-primary fw-bold text-center mb-4 animate-on-scroll fade-in">Categories</h1>
     <div class="owl-carousel owl-theme categories">
@@ -48,9 +84,11 @@
     <div class="col-md-12 mt-5 text-center">
         <h2 class="text-tertiary">Best Sellers</h2>
         <div class="owl-carousel owl-theme products">
-            @foreach ($products as $product)
+            @foreach ($best_sellers as $product)
             <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
-                <img src="{{ $product->image }}" class="img-fluid product-img">
+                <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
+                    <img src="{{ $product->image }}" class="img-fluid product-img">
+                </a>
                 <div class="card-body text-start">
                     <div class="d-flex flex-column justify-content-between">
                         <h5 class="text-black">{{ $product->name }}</h5>
@@ -58,14 +96,15 @@
                             @if ($product->compare_price)
                             <h6 class="text-muted"><s>${{ number_format($product->compare_price, 2) }}</s></h6>
                             @endif
-                            <h5 class="text-secondary ms-2">${{ number_format($product->price, 2) }}</h5>
+                            <h5 class="text-secondary ms-2">${{ number_format($product->getSalePrice(), 2) }}</h5>
                         </div>
                     </div>
                     <div class="d-flex flex-column y-on-hover">
                         @if ($product->variants->count() == 0)
                         <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
                             data-id="{{ $product->id }}" data-name="{{ $product->name }}"
-                            data-image="{{ $product->image }} " data-price="{{ $product->price }}">Add to cart</a>
+                            data-image="{{ $product->image }} " data-price="{{ $product->getSalePrice() }}">Add to
+                            cart</a>
                         @else
                         <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View Product</a>
                         @endif
@@ -77,215 +116,8 @@
     </div>
 </div>
 
-<div class="container py-3">
-    <div class="row">
-        <div class="col-12 col-xl-5 parallax rounded-md-5 px-0">
-            <div class="parallax-overlay rounded-md-5">
-                <h1 class="text-center mt-2 text-primary-light text-shadow">Kids Toys</h1>
-                <div class="y-on-hover-sm">
-                    <a href="#" class="btn btn-secondary px-4 mt-2">View More</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-12 col-xl-7">
-            <div class="row pb-3">
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 1">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 1</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 2">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 2</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 1">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 1</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 2">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 2</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row pb-3">
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 1">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 1</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 2">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 2</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-1.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 1">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 1</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    <div class="card product-card rounded-5">
-                        <img src="{{ asset('frontend/images/toy-2.jpg') }}" class="card-img-top rounded-top-5"
-                            alt="Toy 2">
-                        <div class="card-body">
-                            <div class="d-flex flex-column justify-content-between">
-                                <h5 class="text-primary">Toy 2</h5>
-                                <div class="d-flex justify-content-end">
-                                    <h6 class="text-muted"><s>$40.00</s>
-                                    </h6>
-                                    <h5 class="text-secondary">$29.00</h5>
-                                </div>
-                            </div>
-                            <div class=" d-flex flex-column y-on-hover-sm">
-                                <a href="#" class="btn btn-primary">View</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 <div class="container py-3 py-md-5">
     <div class="row">
-        <div class="col-md-12 mb-5 text-center">
-            <h2 class="text-tertiary text-shadow-tertiary mt-5">Latest Additions</h2>
-            <div class="owl-carousel owl-theme products">
-                @foreach ($products as $product)
-                <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
-                    <img src="{{ $product->image }}" class="img-fluid product-img">
-                    <div class="card-body text-start">
-                        <div class="d-flex flex-column justify-content-between">
-                            <h5 class="text-black">{{ $product->name }}</h5>
-                            <div class="d-flex justify-content-end">
-                                @if ($product->compare_price)
-                                <h6 class="text-muted"><s>${{ number_format($product->compare_price, 2) }}</s></h6>
-                                @endif
-                                <h5 class="text-secondary ms-2">${{ number_format($product->price, 2) }}</h5>
-                            </div>
-                        </div>
-                        <div class="d-flex flex-column y-on-hover">
-                            @if ($product->variants->count() == 0)
-                            <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
-                                data-id="{{ $product->id }}" data-name="{{ $product->name }}"
-                                data-image="{{ $product->image }} " data-price="{{ $product->price }}">Add to cart</a>
-                            @else
-                            <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View
-                                Product</a>
-                            @endif
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-
         <div class="col-md-12 my-4">
             <div class="card text-center lighter-secondary-bg rounded-5 animate-on-scroll fade-in py-4">
                 <div class="card-body">
@@ -308,57 +140,39 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="col-md-12 mt-5 text-center">
-        <h2 class="text-tertiary text-shadow-tertiary">Products For You</h2>
-        <div class="owl-carousel owl-theme products">
-            @foreach ($products as $product)
-            <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
-                <img src="{{ $product->image }}" class="img-fluid product-img">
-                <div class="card-body text-start">
-                    <div class="d-flex flex-column justify-content-between">
-                        <h5 class="text-black">{{ $product->name }}</h5>
-                        <div class="d-flex justify-content-end">
-                            @if ($product->compare_price)
-                            <h6 class="text-muted"><s>${{ number_format($product->compare_price, 2) }}</s></h6>
+
+        <div class="col-md-12 mb-5 text-center">
+            <h2 class="text-tertiary text-shadow-tertiary mt-5">Latest Additions</h2>
+            <div class="owl-carousel owl-theme products">
+                @foreach ($latest_additions as $product)
+                <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
+                    <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
+                        <img src="{{ $product->image }}" class="img-fluid product-img">
+                    </a>
+                    <div class="card-body text-start">
+                        <div class="d-flex flex-column justify-content-between">
+                            <h5 class="text-black">{{ $product->name }}</h5>
+                            <div class="d-flex justify-content-end">
+                                @if ($product->compare_price)
+                                <h6 class="text-muted"><s>${{ number_format($product->compare_price, 2) }}</s></h6>
+                                @endif
+                                <h5 class="text-secondary ms-2">${{ number_format($product->getSalePrice(), 2) }}</h5>
+                            </div>
+                        </div>
+                        <div class="d-flex flex-column y-on-hover">
+                            @if ($product->variants->count() == 0)
+                            <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
+                                data-id="{{ $product->id }}" data-name="{{ $product->name }}"
+                                data-image="{{ $product->image }} " data-price="{{ $product->getSalePrice() }}">Add to
+                                cart</a>
+                            @else
+                            <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View
+                                Product</a>
                             @endif
-                            <h5 class="text-secondary ms-2">${{ number_format($product->price, 2) }}</h5>
                         </div>
                     </div>
-                    <div class="d-flex flex-column y-on-hover">
-                        @if ($product->variants->count() == 0)
-                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3 addToCart"
-                            data-id="{{ $product->id }}" data-name="{{ $product->name }}"
-                            data-image="{{ $product->image }} " data-price="{{ $product->price }}">Add to cart</a>
-                        @else
-                        <a href="{{ route('product', $product->name) }}" class="btn btn-tertiary mt-3">View Product</a>
-                        @endif
-                    </div>
                 </div>
-            </div>
-            @endforeach
-        </div>
-        <div class="row mt-5 mb-4">
-            <div class="col-12 col-md-4 pb-4 pb-md-0">
-                <div
-                    class="card rounded-5 py-4 py-md-5 text-center bg-primary-lighter animate-on-scroll slide-left border-0 box-shadow">
-                    <i class="fas fa-comments fa-3x text-primary mb-3"></i>
-                    <h5 class="text-black">Return & Exchange Policy </h5>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 pb-4 pb-md-0">
-                <div
-                    class="card rounded-5 py-4 py-md-5 text-center bg-secondary-light animate-on-scroll slide-up border-0 box-shadow-secondary">
-                    <i class="fas fa-lock fa-3x text-secondary mb-3"></i>
-                    <h5 class="text-black">Cash On Delivery</h5>
-                </div>
-            </div>
-            <div class="col-12 col-md-4">
-                <div
-                    class="card rounded-5 py-4 py-md-5 text-center bg-tertiary-light animate-on-scroll slide-right border-0 box-shadow-tertiary">
-                    <i class="fas fa-shipping-fast fa-3x text-tertiary mb-3"></i>
-                    <h5 class="text-black">Shipping Policy</h5>
-                </div>
+                @endforeach
             </div>
         </div>
     </div>

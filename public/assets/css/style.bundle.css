@@ -54000,6 +54000,24 @@ code:not([class*="language-"]) {
     right: 0;
 }
 
+.tag-badge {
+    background-color: #ddd;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.tag-badge .remove-tag {
+    margin-left: 8px;
+    cursor: pointer;
+    color: #888;
+}
+
+.tag-badge .remove-tag:hover {
+    color: red;
+}
+
 @media (min-width: 576px) {
     .fixed-top-sm {
         position: fixed;

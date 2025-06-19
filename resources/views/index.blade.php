@@ -146,7 +146,7 @@
                                                 </div>
                                             </div>
                                             <span class="text-success text-end fw-bold">{{
-                                                number_format($product->price * $currency->rate, 2) }}
+                                                number_format($product->getSalePrice() * $currency->rate, 2) }}
                                                 {{ $currency->symbol }}</span>
                                         </div>
                                     </div>

@@ -129,6 +129,17 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label class="form-label">Tags <small class="text-muted">(Type and press
+                                    Space)</small></label>
+                            <input type="text" id="tag-input" class="form-control"
+                                placeholder="Type a tag and press space" />
+                            <div id="tag-container" class="d-flex flex-wrap mt-2 gap-2"></div>
+                            <input type="hidden" name="tags" id="tags-hidden-input" value="">
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -327,6 +338,69 @@
             if (event.target.closest('.remove-option')) {
                 event.target.closest('.input-group').remove();
             }
+        });
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const input = document.getElementById('tag-input');
+        const container = document.getElementById('tag-container');
+        const hiddenInput = document.getElementById('tags-hidden-input');
+
+        let tags = [];
+
+        function renderTags() {
+        container.innerHTML = '';
+        tags.forEach((tag, index) => {
+            const tagElem = document.createElement('div');
+            tagElem.classList.add('badge', 'tag-badge', 'text-dark', 'd-flex', 'align-items-center', 'gap-1');
+            tagElem.style.padding = '0.35em 0.65em';
+            tagElem.style.cursor = 'default';
+
+            tagElem.textContent = tag;
+
+            const closeBtn = document.createElement('span');
+            closeBtn.textContent = '×';
+            closeBtn.style.marginLeft = '0.4em';
+            closeBtn.style.cursor = 'pointer';
+            closeBtn.title = 'Remove tag';
+            closeBtn.addEventListener('click', () => {
+            tags.splice(index, 1);
+            updateHiddenInput();
+            renderTags();
+            });
+
+            tagElem.appendChild(closeBtn);
+            container.appendChild(tagElem);
+        });
+        }
+
+        function updateHiddenInput() {
+        hiddenInput.value = JSON.stringify(tags);
+        }
+
+        function addTag(tag) {
+        tag = tag.trim();
+        if(tag && !tags.includes(tag)) {
+            tags.push(tag);
+            updateHiddenInput();
+            renderTags();
+        }
+        }
+
+        input.addEventListener('keydown', (e) => {
+        if(e.key === ' ' || e.key === 'Enter') {
+            e.preventDefault();
+            const val = input.value.trim();
+            if(val) {
+            addTag(val);
+            input.value = '';
+            }
+        }
+        else if(e.key === 'Backspace' && input.value === '') {
+            tags.pop();
+            updateHiddenInput();
+            renderTags();
+        }
         });
     });
 </script>

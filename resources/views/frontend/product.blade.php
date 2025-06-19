@@ -55,7 +55,7 @@
                         <div class="d-flex justify-content-between align-content-center">
                             <div class="fw-bold">Price</div>
                             <div><span class="fs-5 fw-bold text-primary">${{
-                                    number_format($product->price) }}</span>
+                                    number_format($product->getSalePrice(), 2) }}</span>
                                 @if ($product->compare_price)
                                 <span
                                     class="fs-7 text-muted text-decoration-line-through">${{number_format($product->compare_price)
@@ -151,8 +151,8 @@
         const product = {
             id: "{{ $product->id }}",
             name: "{{ $product->name }}",
-            image: "{{ asset($product->image) }}",
-            basePrice: parseFloat("{{ $product->price }}"),
+            image: "{{ $product->image }}",
+            basePrice: parseFloat("{{ $product->getSalePrice() }}"),
         };
 
         const priceElement = document.querySelector('.fs-5.fw-bold.text-primary');
@@ -207,7 +207,6 @@
             let cart = getCart();
             let { selectedVariants, totalPrice, allSelected } = getSelectedVariants();
 
-            // Validation: Ensure all variant options are selected
             if (!allSelected) {
                 alert("Please select all required options before adding to cart.");
                 return;

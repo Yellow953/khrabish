@@ -75,7 +75,7 @@
                 cartItem.classList.add('cart-item', 'd-flex', 'align-items-center', 'mb-3');
 
                 cartItem.innerHTML = `
-                    <img src="${item.image}" alt="${item.name}" class="img-fluid rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                    <img src="/${item.image}" alt="${item.name}" class="img-fluid rounded me-3" style="width: 50px; height: 50px; object-fit: cover;">
                     <div class="flex-grow-1">
                         <h6 class="mb-0">${item.name}</h6>
                         <small class="text-muted">

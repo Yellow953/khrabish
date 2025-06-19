@@ -11,6 +11,10 @@ class Product extends Model
 
     protected $guarded = [];
 
+    protected $casts = [
+        'tags' => 'array',
+    ];
+
     // Profit
     public function get_profit()
     {
@@ -64,5 +68,31 @@ class Product extends Model
         }
 
         return $q;
+    }
+
+    public function getSalePercentage()
+    {
+        if (!is_array($this->tags)) {
+            return null;
+        }
+
+        foreach ($this->tags as $tag) {
+            if (preg_match('/^sale_(\d+)/', $tag, $matches)) {
+                return (int) $matches[1];
+            }
+        }
+
+        return null;
+    }
+
+    public function isOnSale()
+    {
+        return $this->getSalePercentage() !== null;
+    }
+
+    public function getSalePrice()
+    {
+        $sale = $this->getSalePercentage();
+        return $sale ? round($this->price * (1 - $sale / 100), 2) : $this->price;
     }
 }
