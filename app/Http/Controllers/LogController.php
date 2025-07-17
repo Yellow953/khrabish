@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Log;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\LogsExport;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class LogController extends Controller
 {
@@ -29,8 +31,18 @@ class LogController extends Controller
         return response()->json(['logs' => $logs]);
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new LogsExport, 'logs.xlsx');
+        $filters = $request->all();
+        return Excel::download(new LogsExport($filters), 'Logs.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $logs = Log::select('text', 'created_at')->filter()->get();
+
+        $pdf = Pdf::loadView('logs.pdf', compact('logs'));
+
+        return $pdf->download('Logs.pdf');
     }
 }

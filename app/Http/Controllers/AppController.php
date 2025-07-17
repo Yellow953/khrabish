@@ -47,24 +47,23 @@ class AppController extends Controller
             $text = '';
 
             $order = Order::create([
-                'cashier_id' => auth()->user()->id,
+                'cashier_id' => auth()->id(),
                 'client_id' => $request->client_id,
                 'currency_id' => auth()->user()->currency_id,
                 'order_number' => Order::generate_number(),
                 'sub_total' => $request->total,
-                'tax' => 0,
+                'tax' => $request->tax,
                 'discount' => $request->discount,
                 'total' => $request->grand_total,
                 'products_count' => count(json_decode($request->order_items, true)),
                 'note' => $request->note ?? null,
-                'payment_method' => null,
                 'exchange_rate' => $request->exchange_rate,
                 'payment_currency' => $request->payment_currency,
                 'amount_paid' => $request->amount_paid,
                 'change_due' => $request->change_due,
             ]);
 
-            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$request->discount}, Total: {$request->grand_total}";
+            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$request->tax}, discount: {$request->discount}, Total: {$request->grand_total}";
 
             $orderItems = json_decode($request->order_items, true);
 
@@ -77,9 +76,20 @@ class AppController extends Controller
                 }
 
                 $variantTotalPrice = $item['price'];
+                $variantDetails = [];
+
                 if (isset($item['options']) && is_array($item['options'])) {
                     foreach ($item['options'] as $option) {
-                        $variantTotalPrice += $option['optionPrice'];
+                        $optionPrice = $option['optionPrice'] === null ? $item['price'] : $option['optionPrice'];
+                        $variantTotalPrice += ($optionPrice * $option['quantity']);
+
+                        $variantDetails[] = [
+                            'variant_id' => $option['variantId'],
+                            'option_id' => $option['optionId'],
+                            'value' => $option['value'],
+                            'price' => $optionPrice,
+                            'quantity' => $option['quantity']
+                        ];
                     }
                 }
 
@@ -89,10 +99,19 @@ class AppController extends Controller
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['price'],
                     'total' => $variantTotalPrice * $item['quantity'],
-                    'variant_details' => isset($item['options']) ? json_encode($item['options']) : null,
+                    'variant_details' => !empty($variantDetails) ? json_encode($variantDetails) : null,
                 ]);
 
                 $product->update(['quantity' => ($product->quantity - $item['quantity'])]);
+
+                if (!empty($variantDetails)) {
+                    foreach ($variantDetails as $variantDetail) {
+                        $variantOption = VariantOption::find($variantDetail['option_id']);
+                        if ($variantOption && $variantOption->quantity !== null) {
+                            $variantOption->decrement('quantity', $variantDetail['quantity'] * $item['quantity']);
+                        }
+                    }
+                }
 
                 $text .= "Product ID: {$item['id']}, Product Name: {$item['name']}, Price: {$item['price']}, Quantity: {$item['quantity']} | ";
             }
@@ -126,28 +145,26 @@ class AppController extends Controller
             ]);
 
             $text = '';
-            $tax = 0;
+            $tax = $request->tax ?? 0;
             $discount = $request->discount ?? 0;
 
             $order = Order::create([
-                'cashier_id' => auth()->user()->id,
+                'cashier_id' => auth()->id(),
                 'client_id' => $request->client_id,
                 'currency_id' => auth()->user()->currency_id,
                 'order_number' => Order::generate_number(),
-                'sub_total' => $request->total + $discount,
-                'tax' => 0,
+                'sub_total' => $request->total - $tax + $discount,
+                'tax' => $tax,
                 'discount' => $discount,
                 'total' => $request->total,
                 'products_count' => count($request->orderItems),
                 'note' => $request->note,
-                'payment_method' => null,
-                'exchange_rate' => $request->exchange_rate,
-                'payment_currency' => $request->payment_currency,
-                'amount_paid' => $request->amount_paid,
-                'change_due' => $request->change_due,
+                'exchange_rate' => $request->exchangeRate,
+                'payment_currency' => $request->paymentCurrency,
+                'amount_paid' => $request->amountPaid,
+                'change_due' => $request->changeDue,
             ]);
-
-            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, discount: {$discount}, Total: {$request->total}";
+            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$tax}, discount: {$discount}, Total: {$request->grand_total}";
 
             foreach ($request->orderItems as $item) {
                 $product = Product::find($item['id']);
@@ -157,9 +174,20 @@ class AppController extends Controller
                 }
 
                 $variantTotalPrice = $item['price'];
+                $variantDetails = [];
+
                 if (isset($item['options']) && is_array($item['options'])) {
                     foreach ($item['options'] as $option) {
-                        $variantTotalPrice += $option['optionPrice'];
+                        $optionPrice = $option['optionPrice'] === null ? $item['price'] : $option['optionPrice'];
+                        $variantTotalPrice += ($optionPrice * $option['quantity']);
+
+                        $variantDetails[] = [
+                            'variant_id' => $option['variantId'],
+                            'option_id' => $option['optionId'],
+                            'value' => $option['value'],
+                            'price' => $optionPrice,
+                            'quantity' => $option['quantity']
+                        ];
                     }
                 }
 
@@ -169,10 +197,19 @@ class AppController extends Controller
                     'quantity' => $item['quantity'],
                     'unit_price' => $item['price'],
                     'total' => $variantTotalPrice * $item['quantity'],
-                    'variant_details' => isset($item['options']) ? json_encode($item['options']) : null,
+                    'variant_details' => !empty($variantDetails) ? json_encode($variantDetails) : null,
                 ]);
 
                 $product->update(['quantity' => ($product->quantity - $item['quantity'])]);
+
+                if (!empty($variantDetails)) {
+                    foreach ($variantDetails as $variantDetail) {
+                        $variantOption = VariantOption::find($variantDetail['option_id']);
+                        if ($variantOption && $variantOption->quantity !== null) {
+                            $variantOption->decrement('quantity', $variantDetail['quantity'] * $item['quantity']);
+                        }
+                    }
+                }
 
                 $text .= "Product ID: {$item['id']}, Product Name: {$item['name']}, Price: {$item['price']}, Quantity: {$item['quantity']} | ";
             }

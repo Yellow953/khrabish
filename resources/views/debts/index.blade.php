@@ -3,10 +3,18 @@
 @section('title', 'debts')
 
 @section('actions')
-<a class="btn btn-success btn-sm px-4" href="{{ route('debts.new') }}"><i class="fa-solid fa-plus"></i> <span
-        class="d-none d-md-inline">New Debt</span></a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('debts.export') }}"><i class="fa-solid fa-download"></i><span
-        class="d-none d-md-inline">Export to Excel</span></a>
+<a class="btn btn-success btn-sm px-4" href="{{ route('debts.new') }}">
+    <i class="fa-solid fa-plus"></i>
+    <span class="d-none d-md-inline">New Debt</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('debts.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('debts.export', request()->query()) }}">
+    <i class="fa-solid fa-download"></i>
+    <span class="d-none d-md-inline">Export to Excel</span>
+</a>
 @endsection
 
 @section('filter')
@@ -174,13 +182,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="4">
-                                {{ $debts->appends(['supplier_id' =>
-                                request()->query('supplier_id'), 'client_id' =>
-                                request()->query('client_id'), 'type' =>
-                                request()->query('type'), 'note' =>
-                                request()->query('note'), 'date_from' =>
-                                request()->query('date_from'), 'date_to' =>
-                                request()->query('date_to')])->links() }}
+                                {{ $debts->appends(request()->query())->links() }}
                             </th>
                         </tr>
                     </tfoot>

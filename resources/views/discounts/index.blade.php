@@ -1,17 +1,17 @@
 @extends('layouts.app')
 
-@section('title', 'currencies')
+@section('title', 'discounts')
 
 @section('actions')
-<a class="btn btn-success btn-sm px-4" href="{{ route('currencies.new') }}">
+<a class="btn btn-success btn-sm px-4" href="{{ route('discounts.new') }}">
     <i class="fa-solid fa-plus"></i>
-    <span class="d-none d-md-inline">New Currency</span>
+    <span class="d-none d-md-inline">New Discount</span>
 </a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('currencies.pdf', request()->query()) }}">
+<a class="btn btn-primary btn-sm px-4" href="{{ route('discounts.pdf', request()->query()) }}">
     <i class="fa-solid fa-file-pdf"></i>
     <span class="d-none d-md-inline">Export to PDF</span>
 </a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('currencies.export', request()->query()) }}">
+<a class="btn btn-primary btn-sm px-4" href="{{ route('discounts.export', request()->query()) }}">
     <i class="fa-solid fa-download"></i>
     <span class="d-none d-md-inline">Export to Excel</span>
 </a>
@@ -21,7 +21,7 @@
 <!--begin::filter-->
 <div class="filter border-0 px-0 px-md-3 py-4">
     <!--begin::Form-->
-    <form action="{{ route('currencies') }}" method="GET" enctype="multipart/form-data" class="form">
+    <form action="{{ route('discounts') }}" method="GET" enctype="multipart/form-data" class="form">
         @csrf
         <div class="pt-0 pt-3 px-2 px-md-4">
             <!--begin::Compact form-->
@@ -39,8 +39,8 @@
                         </svg>
                     </span>
                     <!--end::Svg Icon-->
-                    <input type="text" class="form-control ps-10" name="name" value="{{ request()->query('name') }}"
-                        placeholder="Search By Name..." />
+                    <input type="text" class="form-control ps-10" name="code" value="{{ request()->query('code') }}"
+                        placeholder="Search By CODE..." />
                 </div>
                 <!--end::Input group-->
                 <!--begin:Action-->
@@ -48,11 +48,44 @@
                     <button type="submit" class="btn btn-primary me-5 px-3 py-2 d-flex align-items-center">
                         Search <span class="ml-2"><i class="fas fa-search"></i></span>
                     </button>
+                    <a id="kt_horizontal_search_advanced_link" class="btn btn-link" data-bs-toggle="collapse"
+                        href="#kt_advanced_search_form">Advanced Search</a>
                     <button type="reset" class="btn btn-danger clear-btn py-2 px-4 ms-3">Clear</button>
                 </div>
                 <!--end:Action-->
             </div>
             <!--end::Compact form-->
+            <!--begin::Advance form-->
+            <div class="collapse" id="kt_advanced_search_form">
+                <!--begin::Separator-->
+                <div class="separator separator-dashed mt-9 mb-6"></div>
+                <!--end::Separator-->
+                <!--begin::Row-->
+                <div class="row g-8 mb-8">
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label class="fs-6 form-label fw-bold text-dark">Type</label>
+                        <select name="type" class="form-select" data-control="select2" data-placeholder="Select Type">
+                            <option value=""></option>
+                            @foreach ($types as $type)
+                            <option value="{{ $type }}" {{ request()->query('type') == $type ? 'selected' : '' }}>
+                                {{ ucfirst($type) }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label class="fs-6 form-label fw-bold text-dark">Description</label>
+                        <input type="text" class="form-control form-control-solid border" name="description"
+                            value="{{ request()->query('description') }}" placeholder="Enter Description..." />
+                    </div>
+                    <!--end::Col-->
+                </div>
+                <!--end::Row-->
+            </div>
+            <!--end::Advance form-->
         </div>
     </form>
     <!--end::Form-->
@@ -75,40 +108,36 @@
                     <!--begin::Table head-->
                     <thead>
                         <tr class="text-center">
-                            <th class="col-4 p-3">Currency</th>
-                            <th class="col-4 p-3">Rate</th>
-                            <th class="col-2 p-3">Users</th>
-                            <th class="col-2 p-3">Actions</th>
+                            <th class="col-3 p-3">Type</th>
+                            <th class="col-3 p-3">CODE</th>
+                            <th class="col-3 p-3">Value</th>
+                            <th class="col-3 p-3">Actions</th>
                         </tr>
                     </thead>
                     <!--end::Table head-->
                     <!--begin::Table body-->
                     <tbody>
-                        @forelse ($currencies as $currency)
+                        @forelse ($discounts as $discount)
                         <tr>
-                            <td>
-                                <div class="text-center">
-                                    {{ $currency->name }} <br>
-                                    {{ $currency->code }} {{ $currency->symbol }}
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    {{ number_format($currency->rate, 2) }}
-                                </div>
+                            <td class="text-center">
+                                {{ $discount->type }}
                             </td>
                             <td class="text-center">
-                                {{ $currency->users->count() }}
+                                {{ $discount->code }}
+                            </td>
+                            <td class="text-center">
+                                {{ number_format($discount->value, 2) }}
+                                {{ $discount->type == 'Percentage' ? '%' : '$' }}
                             </td>
                             <td class="d-flex justify-content-end">
-                                <a href="{{ route('currencies.edit', $currency->id) }}"
+                                <a href="{{ route('discounts.edit', $discount->id) }}"
                                     class="btn btn-icon btn-warning btn-sm me-1">
                                     <i class="bi bi-pen-fill"></i>
                                 </a>
-                                @if($currency->can_delete())
-                                <a href="{{ route('currencies.destroy', $currency->id) }}"
+                                @if($discount->can_delete())
+                                <a href="{{ route('discounts.destroy', $discount->id) }}"
                                     class="btn btn-icon btn-danger btn-sm show_confirm" data-toggle="tooltip"
-                                    data-original-title="Delete Currency">
+                                    data-original-title="Delete Discount">
                                     <i class="bi bi-trash3-fill"></i>
                                 </a>
                                 @endif
@@ -117,7 +146,7 @@
                         @empty
                         <tr>
                             <th colspan="4">
-                                <div class="text-center">No Currencies Yet ...</div>
+                                <div class="text-center">No Discounts Yet ...</div>
                             </th>
                         </tr>
                         @endforelse
@@ -127,7 +156,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="4">
-                                {{ $currencies->appends(request()->query())->links() }}
+                                {{ $discounts->appends(request()->query())->links() }}
                             </th>
                         </tr>
                     </tfoot>

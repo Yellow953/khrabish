@@ -124,43 +124,62 @@
                             </div>
                         </div>
                     </div>
-
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="form-label">Tags <small class="text-muted">(Type and press
-                                    Space)</small></label>
-                            <input type="text" id="tag-input" class="form-control"
-                                placeholder="Type a tag and press space" />
-                            <div id="tag-container" class="d-flex flex-wrap mt-2 gap-2"></div>
-                            <input type="hidden" name="tags" id="tags-hidden-input" value="">
-                        </div>
-                    </div>
                 </div>
+
+                <hr>
 
                 <div class="row">
-                    <h2 class="text-primary my-3">Barcodes and SKU</h2>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label class="form-label">Barcodes</label>
-                            <div id="barcode-wrapper">
-                                @foreach ($product->barcodes as $barcode)
-                                <div class="input-group mb-2">
-                                    <input type="text" class="form-control" name="barcodes[]"
-                                        placeholder="Enter Barcode" value="{{ $barcode->barcode }}" />
-                                    <button type="button" class="btn btn-danger btn-sm remove-barcode"><i
-                                            class="fa fa-trash"></i></button>
-                                </div>
-                                @endforeach
+                    <div class="col-md-6">
+                        <h2 class="text-primary my-3">Tags</h2>
+                        <div class="mx-1 mb-3 fs-6 text-tertary">
+                            Products can be grouped by Tags. Enter SPACE to separate tags...
+                        </div>
+
+                        <div class="col-md-12">
+                            <input type="text" id="tagInput" class="form-control" placeholder="Enter Tags...">
+
+                            <div class="tag-input-wrapper p-2 mt-2" id="tagContainer"
+                                style="display: flex; flex-wrap: wrap; gap: 5px; min-height: 40px;">
                             </div>
-                            <button type="button" id="add-barcode" class="btn btn-success mt-2"><i
-                                    class="fa fa-plus"></i> Barcode</button>
+
+                            <input type="hidden" name="tags" id="tags"
+                                value="{{ old('tags', isset($product) && is_array($product->tags) ? implode(',', $product->tags) : '') }}">
+                        </div>
+                    </div>
+
+
+                    <div class="col-md-6">
+                        <h2 class="text-primary my-3">Barcodes and SKU</h2>
+                        <div class="mx-1 mb-3 fs-6 text-tertary">
+                            Barcodes that are entered here can be generated from products -> generate barcodes page...
+                        </div>
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label class="form-label">Barcodes</label>
+                                <div id="barcode-wrapper">
+                                    @foreach ($product->barcodes as $barcode)
+                                    <div class="input-group mb-2">
+                                        <input type="text" class="form-control" name="barcodes[]"
+                                            placeholder="Enter Barcode" value="{{ $barcode->barcode }}" />
+                                        <button type="button" class="btn btn-danger btn-sm remove-barcode"><i
+                                                class="fa fa-trash"></i></button>
+                                    </div>
+                                    @endforeach
+                                </div>
+                                <button type="button" id="add-barcode" class="btn btn-success mt-2"><i
+                                        class="fa fa-plus"></i> Barcode</button>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <hr>
 
                 <div class="row">
                     <h2 class="text-primary my-3">Secondary Images</h2>
-
+                    <div class="mx-1 mb-3 fs-6 text-tertary">
+                        Secondary Images can also be used as variant images...
+                    </div>
                     <div class="col-md-12">
                         <div class="form-group">
                             <label class="form-label">Secondary Images</label>
@@ -169,7 +188,7 @@
                         </div>
 
                         <div id="existingImages" class="d-flex flex-wrap mt-2">
-                            @foreach ($product->images as $image)
+                            @foreach ($product->secondary_images as $image)
                             <div class="position-relative m-1">
                                 <img src="{{ asset($image->path) }}" class="rounded border" width="100" height="100">
                                 <a href="{{ route('products.secondary_images.delete', $image->id) }}"
@@ -182,30 +201,47 @@
                     </div>
                 </div>
 
+                <hr>
+
                 <div class="row">
-                    <h2 class="text-primary my-3">Product Variants</h2>
+                    <h2 class="text-primary my-3">Variants</h2>
+                    <div class="mx-1 mb-3 fs-6 text-tertary">
+                        Variants are variations of the same product ex: size, color, remove, ... <br>
+                        Options are the values
+                        of the variant ex: Small, Medium, Large, Blue, Red... <br>
+                        Option Quantity Total should be the same as main quantity field above, please leave empty if
+                        options have no stock...<br>
+                        Option Price should be 0 if the price is
+                        the same otherwise its added to the product price above... <br>
+                    </div>
                     <div class="col-md-12">
                         <div id="variant-wrapper">
                             @foreach ($product->variants as $variant)
                             <div class="variant-group mb-3">
                                 <div class="d-flex align-items-center gap-2">
-                                    <h3 class="w-25">{{ $variant->title }}</h3>
+                                    <h3 class="border rounded py-2 px-4 w-25">{{ $variant->title }}</h3>
+                                    <h3 class="border rounded py-2 px-4 w-25">{{ $variant->type }}</h3>
                                     <a href="{{ route('products.variants.delete', $variant->id) }}"
-                                        class="btn btn-danger remove-variant"><i class="fa fa-trash"></i></a>
+                                        class="btn btn-danger btn-sm remove-variant"><i class="fa fa-trash"></i></a>
                                 </div>
                                 <div class="variant-options mt-2">
                                     @foreach ($variant->options as $option)
                                     <div class="input-group mb-2">
                                         <div class="row w-100">
                                             <div class="col-5 my-auto">
-                                                <h4>{{ $option->value }}</h4>
+                                                <h4 class="border rounded py-2 px-4">{{ $option->value }}</h4>
                                             </div>
-                                            <div class="col-5 my-auto">
-                                                <h4>{{ $option->price }}</h4>
+                                            <div class="col-3 my-auto">
+                                                <h4 class="border rounded py-2 px-4">{{
+                                                    $option->quantity ?? 'N/A' }}</h4>
                                             </div>
-                                            <div class="col-2 my-auto"><a
+                                            <div class="col-3 my-auto">
+                                                <h4 class="border rounded py-2 px-4">{{ $option->price }}</h4>
+                                            </div>
+                                            <div class="col-1 my-auto"><a
                                                     href="{{ route('products.variant_options.delete', $option->id) }}"
-                                                    class="btn btn-danger remove-option"><i class="fa fa-trash"></i></a>
+                                                    class="btn btn-danger btn-sm remove-option"><i
+                                                        class="fa fa-trash"></i></a>
                                             </div>
                                         </div>
                                     </div>
@@ -230,6 +266,18 @@
 </div>
 
 <script>
+    // Disable Barcode ENTER
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
+            event.preventDefault();
+
+            if (event.target.tagName === 'INPUT') {
+                event.target.value.trim();
+            }
+        }
+    });
+
+    // Barcodes
     document.addEventListener('DOMContentLoaded', function() {
         var barcodeWrapper = document.getElementById('barcode-wrapper');
         var addBarcodeBtn = document.getElementById('add-barcode');
@@ -275,6 +323,7 @@
         checkDuplicates();
     });
 
+    // Secondary Images
     document.addEventListener("DOMContentLoaded", function () {
         let secondaryImagesInput = document.getElementById("secondaryImagesInput");
         let previewContainer = document.getElementById("imagePreviewContainer");
@@ -323,6 +372,7 @@
         });
     });
 
+    // Variants
     document.addEventListener('DOMContentLoaded', function() {
         var variantWrapper = document.getElementById('variant-wrapper');
         var addVariantBtn = document.getElementById('add-variant');
@@ -334,12 +384,17 @@
             newVariantGroup.innerHTML = `
                 <div class="d-flex align-items-center gap-2">
                     <input type="text" class="form-control w-25" name="variants[${variantIndex}][title]" placeholder="Variant Title (e.g., Size, Color)" required>
+                    <select name="variants[${variantIndex}][type]" class="form-select w-25" required>
+                        <option value="single">Single</option>
+                        <option value="multiple">Multiple</option>
+                    </select>
                     <button type="button" class="btn btn-danger remove-variant"><i class="fa fa-trash"></i></button>
                 </div>
                 <div class="variant-options mt-2">
                     <div class="input-group mb-2">
                         <input type="text" class="form-control w-50" name="variants[${variantIndex}][options][0][value]" placeholder="Option (e.g., S, Red)" required>
-                        <input type="number" class="form-control w-25" name="variants[${variantIndex}][options][0][price]" placeholder="Price" required step="0.01">
+                        <input type="number" class="form-control w-20" name="variants[${variantIndex}][options][0][quantity]" placeholder="Quantity" min="0" step="0.01">
+                        <input type="number" class="form-control w-20" name="variants[${variantIndex}][options][0][price]" placeholder="Price" required min="0" step="0.01">
                         <button type="button" class="btn btn-danger remove-option"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
@@ -367,7 +422,8 @@
                 newOption.classList.add('input-group', 'mb-2');
                 newOption.innerHTML = `
                     <input type="text" class="form-control w-50" name="variants[${variantId}][options][${optionIndex}][value]" placeholder="Option (e.g., M, Blue)" required>
-                    <input type="number" class="form-control w-25" name="variants[${variantId}][options][${optionIndex}][price]" placeholder="Price" required step="0.01">
+                    <input type="number" class="form-control w-20" name="variants[${variantId}][options][${optionIndex}][quantity]" placeholder="Quantity" min="0" step="0.01">
+                    <input type="number" class="form-control w-20" name="variants[${variantId}][options][${optionIndex}][price]" placeholder="Price" required min="0" step="0.01">
                     <button type="button" class="btn btn-danger remove-option"><i class="fa fa-trash"></i></button>
                 `;
                 optionsContainer.appendChild(newOption);
@@ -381,69 +437,61 @@
         });
     });
 
-    document.addEventListener('DOMContentLoaded', function() {
-        const input = document.getElementById('tag-input');
-        const container = document.getElementById('tag-container');
-        const hiddenInput = document.getElementById('tags-hidden-input');
+    // Tags
+    document.addEventListener('DOMContentLoaded', function () {
+        const tagInput = document.getElementById('tagInput');
+        const tagContainer = document.getElementById('tagContainer');
+        const hiddenInput = document.getElementById('tags');
 
-        let tags = @json($product->tags ?? []);
+        let tags = [];
 
-        function renderTags() {
-            container.innerHTML = '';
-            tags.forEach((tag, index) => {
-            const tagElem = document.createElement('div');
-            tagElem.classList.add('badge', 'tag-badge', 'text-dark', 'd-flex', 'align-items-center', 'gap-1');
-            tagElem.style.padding = '0.35em 0.65em';
-            tagElem.style.cursor = 'default';
-
-            tagElem.textContent = tag;
-
-            const closeBtn = document.createElement('span');
-            closeBtn.textContent = '×';
-            closeBtn.style.marginLeft = '0.4em';
-            closeBtn.style.cursor = 'pointer';
-            closeBtn.title = 'Remove tag';
-            closeBtn.addEventListener('click', () => {
-                tags.splice(index, 1);
-                updateHiddenInput();
-                renderTags();
-            });
-
-            tagElem.appendChild(closeBtn);
-            container.appendChild(tagElem);
-            });
-        }
-
-        function updateHiddenInput() {
-            hiddenInput.value = JSON.stringify(tags);
-        }
-
-        function addTag(tag) {
-            tag = tag.trim();
-            if (tag && !tags.includes(tag)) {
-            tags.push(tag);
-            updateHiddenInput();
+        const oldValue = hiddenInput.value;
+        if (oldValue) {
+            tags = oldValue.split(',').map(t => t.trim()).filter(Boolean);
             renderTags();
-            }
         }
 
-        input.addEventListener('keydown', (e) => {
+        tagInput.addEventListener('keydown', function (e) {
             if (e.key === ' ' || e.key === 'Enter') {
-            e.preventDefault();
-            const val = input.value.trim();
-            if (val) {
-                addTag(val);
-                input.value = '';
-            }
-            } else if (e.key === 'Backspace' && input.value === '') {
-            tags.pop();
-            updateHiddenInput();
-            renderTags();
+                e.preventDefault();
+                const newTag = tagInput.value.trim();
+                if (newTag && !tags.includes(newTag)) {
+                    tags.push(newTag);
+                    tagInput.value = '';
+                    renderTags();
+                }
+            } else if (e.key === 'Backspace' && tagInput.value === '') {
+                tags.pop();
+                renderTags();
             }
         });
 
-        updateHiddenInput();
-        renderTags();
+        function renderTags() {
+            tagContainer.innerHTML = '';
+
+            tags.forEach((tag, index) => {
+                const tagEl = document.createElement('span');
+                tagEl.className = 'badge bg-light border rounded d-flex align-items-center';
+                tagEl.style.padding = '6px 10px';
+                tagEl.style.gap = '8px';
+                tagEl.innerHTML = `
+                    <span>${tag}</span>
+                    <button type="button" class="btn-close btn-close-dark btn-sm ms-1" data-index="${index}" aria-label="Remove tag"></button>
+                `;
+                tagContainer.appendChild(tagEl);
+            });
+
+            hiddenInput.value = tags.join(',');
+        }
+
+        tagContainer.addEventListener('click', function (e) {
+            if (e.target.classList.contains('btn-close')) {
+                const index = e.target.dataset.index;
+                tags.splice(index, 1);
+                renderTags();
+            }
+        });
     });
 </script>
+
 @endsection

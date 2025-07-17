@@ -3,12 +3,22 @@
 @section('title', 'products')
 
 @section('actions')
-<a class="btn btn-primary btn-sm px-4" href="{{ route('products.generate_barcodes') }}"><i
-        class="fa-solid fa-barcode"></i> <span class="d-none d-md-inline">Generate Barcodes</span></a>
-<a class="btn btn-success btn-sm px-4" href="{{ route('products.new') }}"><i class="fa-solid fa-plus"></i> <span
-        class="d-none d-md-inline">New Product</span></a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('products.export') }}"><i class="fa-solid fa-download"></i><span
-        class="d-none d-md-inline">Export to Excel</span></a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('products.generate_barcodes') }}">
+    <i class="fa-solid fa-barcode"></i>
+    <span class="d-none d-md-inline">Barcode Generator</span>
+</a>
+<a class="btn btn-success btn-sm px-4" href="{{ route('products.new') }}">
+    <i class="fa-solid fa-plus"></i>
+    <span class="d-none d-md-inline">New Product</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('products.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('products.export', request()->query()) }}">
+    <i class="fa-solid fa-download"></i>
+    <span class="d-none d-md-inline">Export to Excel</span>
+</a>
 @endsection
 
 @section('filter')
@@ -63,9 +73,9 @@
                             data-placeholder="Select an option">
                             <option value=""></option>
                             @foreach ($categories as $category)
-                            <option value="{{ $category->id }}" {{ request()->query('category_id')==$category->id ?
-                                'selected' :
-                                '' }}>{{ ucwords($category->name) }}</option>
+                            <option value="{{ $category->id }}" {{ request()->query('category_id') == $category->id ?
+                                'selected' : '' }}>
+                                {{ ucwords($category->name) }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -144,16 +154,15 @@
                             <td>
                                 <div class="text-center">
                                     Price: <span class="text-success">{{ number_format($product->price *
-                                        $currency->rate, 2)
-                                        }} {{ $currency->symbol }}</span>
+                                        $currency->rate, 2) }}
+                                        {{ $currency->symbol }}</span>
                                     <br>
                                     Cost: <span class="text-danger">{{ number_format($product->cost * $currency->rate,
-                                        2)
-                                        }} {{ $currency->symbol }}</span> <br>
+                                        2) }}
+                                        {{ $currency->symbol }}</span> <br>
                                     Profit: <span class="text-primary">{{ number_format($product->get_profit() *
-                                        $currency->rate,
-                                        2)
-                                        }} {{ $currency->symbol }}</span>
+                                        $currency->rate, 2) }}
+                                        {{ $currency->symbol }}</span>
                                 </div>
                             </td>
                             <td class="text-center">
@@ -168,7 +177,7 @@
                                     class="btn btn-icon btn-warning btn-sm me-1">
                                     <i class="bi bi-pen-fill"></i>
                                 </a>
-                                @if($product->can_delete())
+                                @if ($product->can_delete())
                                 <a href="{{ route('products.destroy', $product->id) }}"
                                     class="btn btn-icon btn-danger btn-sm show_confirm" data-toggle="tooltip"
                                     data-original-title="Delete Product">
@@ -190,9 +199,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="5">
-                                {{ $products->appends(['name' => request()->query('name'), 'category_id' =>
-                                request()->query('category_id'), 'description' =>
-                                request()->query('description')])->links() }}
+                                {{ $products->appends(request()->query())->links() }}
                             </th>
                         </tr>
                     </tfoot>

@@ -3,10 +3,18 @@
 @section('title', 'clients')
 
 @section('actions')
-<a class="btn btn-success btn-sm px-4" href="{{ route('clients.new') }}"><i class="fa-solid fa-plus"></i> <span
-        class="d-none d-md-inline">New Client</span></a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('clients.export') }}"><i class="fa-solid fa-download"></i><span
-        class="d-none d-md-inline">Export to Excel</span></a>
+<a class="btn btn-success btn-sm px-4" href="{{ route('clients.new') }}">
+    <i class="fa-solid fa-plus"></i>
+    <span class="d-none d-md-inline">New Client</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('clients.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('clients.export', request()->query()) }}">
+    <i class="fa-solid fa-download"></i>
+    <span class="d-none d-md-inline">Export to Excel</span>
+</a>
 @endsection
 
 @section('filter')
@@ -69,38 +77,10 @@
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-md-6">
-                        <label class="fs-6 form-label fw-bold text-dark">Country</label>
-                        <select name="country" class="form-select" data-control="select2"
-                            data-placeholder="Select an option">
-                            <option value=""></option>
-                            @foreach ($countries as $country)
-                            <option value="{{ $country }}" {{ request()->query('country')==$country ?
-                                'selected' :
-                                '' }}>{{ ucwords($country) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!--end::Col-->
-                    <!--begin::Col-->
-                    <div class="col-md-6">
-                        <label class="fs-6 form-label fw-bold text-dark">City</label>
-                        <select name="city" class="form-select" data-control="select2"
-                            data-placeholder="Select an option">
-                            <option value=""></option>
-                            @foreach ($cities as $city)
-                            <option value="{{ $city }}" {{ request()->query('city')==$city ?
-                                'selected' :
-                                '' }}>{{ ucwords($city) }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!--end::Col-->
-                    <!--begin::Col-->
                     <div class="col-md-12">
                         <label class="fs-6 form-label fw-bold text-dark">Address</label>
                         <input type="text" class="form-control form-control-solid border" name="address"
-                            value="{{ request()->query('address') }}" placeholder="Enter Adress..." />
+                            value="{{ request()->query('address') }}" placeholder="Enter Address..." />
                     </div>
                     <!--end::Col-->
                 </div>
@@ -161,7 +141,7 @@
                                     class="btn btn-icon btn-primary btn-sm me-1">
                                     <i class="bi bi-clock-history"></i>
                                 </a>
-                                <a href="{{ route('clients.history', $client->id) }}"
+                                <a href="{{ route('clients.edit', $client->id) }}"
                                     class="btn btn-icon btn-warning btn-sm me-1">
                                     <i class="bi bi-pen-fill"></i>
                                 </a>
@@ -187,10 +167,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="4">
-                                {{ $clients->appends(['name' => request()->query('name'), 'phone' =>
-                                request()->query('phone'), 'email' =>
-                                request()->query('email'), 'address' =>
-                                request()->query('address')])->links() }}
+                                {{ $clients->appends(request()->query())->links() }}
                             </th>
                         </tr>
                     </tfoot>

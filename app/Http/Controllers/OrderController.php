@@ -7,6 +7,8 @@ use App\Models\Client;
 use App\Models\Log;
 use App\Models\Order;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
@@ -18,7 +20,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::select('id', 'order_number', 'cashier_id', 'client_id', 'currency_id', 'sub_total', 'discount', 'total', 'products_count')->filter()->orderBy('id', 'desc')->paginate(25);
+        $orders = Order::select('id', 'order_number', 'cashier_id', 'client_id', 'currency_id', 'sub_total', 'tax', 'discount', 'total', 'products_count')->filter()->orderBy('id', 'desc')->paginate(25);
         $users = User::select('id', 'name')->get();
         $clients = Client::select('id', 'name')->get();
 
@@ -55,8 +57,18 @@ class OrderController extends Controller
         }
     } //end of order
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new OrdersExport, 'orders.xlsx');
+        $filters = $request->all();
+        return Excel::download(new OrdersExport($filters), 'Orders.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $orders = Order::with('cashier', 'client')->filter()->get();
+
+        $pdf = Pdf::loadView('orders.pdf', compact('orders'));
+
+        return $pdf->download('Orders.pdf');
     }
 }

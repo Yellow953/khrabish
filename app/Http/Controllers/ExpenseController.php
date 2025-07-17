@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\ExpenseExport;
+use App\Exports\ExpensesExport;
 use App\Helpers\Helper;
 use App\Models\Expense;
 use App\Models\Log;
@@ -107,6 +107,15 @@ class ExpenseController extends Controller
     public function export(Request $request)
     {
         $filters = $request->all();
-        return Excel::download(new ExpenseExport($filters), 'Expenses.xlsx');
+        return Excel::download(new ExpensesExport($filters), 'Expenses.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $expenses = Expense::select('number', 'date', 'category', 'description', 'amount', 'created_at')->filter()->get();
+
+        $pdf = Pdf::loadView('expenses.pdf', compact('expenses'));
+
+        return $pdf->download('Expenses.pdf');
     }
 }

@@ -93,8 +93,8 @@
                                 <td>{{ $order->created_at->format('Y-m-d H:i') }}</td>
                                 <td>{{ ucwords($order->cashier->name) }}</td>
                                 <td>{{ $order->currency->symbol }}{{ number_format($order->sub_total, 2) }}</td>
-                                <td>{{ $order->currency->symbol }}{{ number_format($order->tax_amount, 2) }}</td>
-                                <td>{{ $order->currency->symbol }}{{ number_format($order->discount_amount, 2) }}</td>
+                                <td>{{ $order->currency->symbol }}{{ number_format($order->tax, 2) }}</td>
+                                <td>{{ $order->currency->symbol }}{{ number_format($order->discount, 2) }}</td>
                                 <td>{{ $order->currency->symbol }}{{ number_format($order->total, 2) }}</td>
                             </tr>
                             @endforeach

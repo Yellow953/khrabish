@@ -89,7 +89,7 @@
                 </head>
                 <body>
                     <div class="header">
-                        <div class="title">Khrabish</div>
+                        <div class="title">{{ $business->show }}</div>
                         <div class="subtitle">Z REPORT #${report.id}</div>
                         <div>${new Date(report.created_at).toLocaleString()}</div>
                     </div>

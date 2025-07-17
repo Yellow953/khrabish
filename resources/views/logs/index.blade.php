@@ -3,8 +3,14 @@
 @section('title', 'logs')
 
 @section('actions')
-<a class="btn btn-primary btn-sm px-4" href="{{ route('logs.export') }}"><i class="fa-solid fa-download"></i><span
-        class="d-none d-md-inline">Export to Excel</span></a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('logs.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('logs.export', request()->query()) }}">
+    <i class="fa-solid fa-download"></i>
+    <span class="d-none d-md-inline">Export to Excel</span>
+</a>
 @endsection
 
 @section('filter')
@@ -246,7 +252,7 @@
                     <!--end::Timeline-->
 
                     <div>
-                        {{ $logs->links() }}
+                        {{ $logs->appends(request()->query())->links() }}
                     </div>
                 </div>
                 <!--end::Tab panel-->

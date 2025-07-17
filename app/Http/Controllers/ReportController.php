@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\Report;
 use App\Models\ReportItem;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -100,8 +101,9 @@ class ReportController extends Controller
 
     public function show(Report $report)
     {
+        $business = auth()->user()->business;
         $report->load(['items.product', 'user', 'currency']);
-        return view('reports.show', compact('report'));
+        return view('reports.show', compact('report', 'business'));
     }
 
     public function destroy(Report $report)
@@ -123,6 +125,15 @@ class ReportController extends Controller
     {
         $filters = $request->all();
         return Excel::download(new ReportsExport($filters), 'Reports.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $reports = Report::with('currency', 'user')->filter()->get();
+
+        $pdf = Pdf::loadView('reports.pdf', compact('reports'));
+
+        return $pdf->download('Reports.pdf');
     }
 
     protected function calculateOrderTotals($orders)

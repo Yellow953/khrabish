@@ -7,6 +7,7 @@ use App\Helpers\Helper;
 use App\Models\Currency;
 use App\Models\Log;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Maatwebsite\Excel\Facades\Excel;
@@ -115,8 +116,18 @@ class UserController extends Controller
         }
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new UsersExport, 'users.xlsx');
+        $filters = $request->all();
+        return Excel::download(new UsersExport($filters), 'Users.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $users = User::select('name', 'email', 'phone', 'role', 'business_id', 'currency_id', 'created_at')->filter()->get();
+
+        $pdf = Pdf::loadView('users.pdf', compact('users'));
+
+        return $pdf->download('Users.pdf');
     }
 }

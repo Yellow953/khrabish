@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\SuppliersExport;
 use App\Models\Log;
 use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Exports\SuppliersExport;
-
 
 class SupplierController extends Controller
 {
@@ -99,8 +99,18 @@ class SupplierController extends Controller
         }
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new SuppliersExport, 'suppliers.xlsx');
+        $filters = $request->all();
+        return Excel::download(new SuppliersExport($filters), 'Suppliers.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $suppliers = Supplier::get('name', 'email', 'phone', 'address', 'created_at')->filter()->get();
+
+        $pdf = Pdf::loadView('suppliers.pdf', compact('suppliers'));
+
+        return $pdf->download('Suppliers.pdf');
     }
 }

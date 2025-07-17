@@ -18,9 +18,7 @@
     }
 
     function inputDecimal(dot) {
-        // If the `displayValue` does not contain a decimal point
         if (!calculator.displayValue.includes(dot)) {
-            // Append the decimal point
             calculator.displayValue += dot;
         }
     }

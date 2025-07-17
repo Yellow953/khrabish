@@ -63,7 +63,7 @@
                                     <th class="col-3">Order Number</th>
                                     <th class="col-3">Items</th>
                                     <th class="col-3">Total</th>
-                                    <th class="col-3">Created At</th>
+                                    <th class="col-3">Order Date</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,7 +81,7 @@
                                 </tr>
                                 @empty
                                 <tr>
-                                    <td colspan="4" class="text-center">No orders found.</td>
+                                    <td colspan="4" class="text-center">No Orders Found.</td>
                                 </tr>
                                 @endforelse
                             </tbody>

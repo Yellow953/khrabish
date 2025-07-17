@@ -13,6 +13,7 @@ return new class extends Migration
             $table->bigInteger("variant_id")->unsigned();
             $table->string('value');
             $table->double('price')->nullable();
+            $table->double('quantity')->nullable();
             $table->timestamps();
 
             $table->foreign('variant_id')->references('id')->on('variants')->onDelete('cascade');

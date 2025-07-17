@@ -18,13 +18,17 @@ class CategoryController extends Controller
 
     public function index()
     {
-        $categories = Category::select('id', 'name', 'description', 'image')->with('products')->filter()->orderBy('id', 'desc')->paginate(25);
-        return view('categories.index', compact('categories'));
+        $categories = Category::select('id', 'name', 'description', 'image', 'parent_id')->with('products')->filter()->orderBy('id', 'desc')->paginate(25);
+        $all_categories = Category::select('id', 'name')->get();
+
+        $data = compact('categories', 'all_categories');
+        return view('categories.index', $data);
     }
 
     public function new()
     {
-        return view('categories.new');
+        $categories = Category::select('id', 'name')->get();
+        return view('categories.new', compact('categories'));
     }
 
     public function create(Request $request)
@@ -36,9 +40,9 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
-            $filename = auth()->user()->id . '_' . time() . '.' . $ext;
+            $filename = auth()->id() . '_' . time() . '.' . $ext;
             $image = Image::make($file);
-            $image->fit(560, 560, function ($constraint) {
+            $image->fit(300, 300, function ($constraint) {
                 $constraint->upsize();
             });
             $image->save(public_path('uploads/categories/' . $filename));
@@ -51,6 +55,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'image' => $path,
+            'parent_id' => $request->parent_id
         ]);
 
         $text = ucwords(auth()->user()->name) .  " created Category " . $request->name . ", datetime: " . now();
@@ -61,7 +66,10 @@ class CategoryController extends Controller
 
     public function edit(Category $category)
     {
-        return view('categories.edit', compact('category'));
+        $categories = Category::select('id', 'name')->get();
+
+        $data = compact('categories', 'category');
+        return view('categories.edit', $data);
     }
 
     public function update(Request $request, Category $category)
@@ -73,9 +81,9 @@ class CategoryController extends Controller
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
-            $filename = auth()->user()->id . '_' . time() . '.' . $ext;
+            $filename = auth()->id() . '_' . time() . '.' . $ext;
             $image = Image::make($file);
-            $image->fit(560, 560, function ($constraint) {
+            $image->fit(300, 300, function ($constraint) {
                 $constraint->upsize();
             });
             $image->save(public_path('uploads/categories/' . $filename));
@@ -88,6 +96,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'description' => $request->description,
             'image' => $path,
+            'parent_id' => $request->parent_id
         ]);
 
         $text = ucwords(auth()->user()->name) .  " updated Category " . $category->name . ", datetime: " . now();
@@ -110,8 +119,18 @@ class CategoryController extends Controller
         }
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new CategoriesExport, 'categories.xlsx');
+        $filters = $request->all();
+        return Excel::download(new CategoriesExport($filters), 'Categories.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $categories = Category::select('name', 'description', 'created_at')->filter()->get();
+
+        $pdf = Pdf::loadView('categories.pdf', compact('categories'));
+
+        return $pdf->download('Categories.pdf');
     }
 }

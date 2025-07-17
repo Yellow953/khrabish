@@ -3,10 +3,18 @@
 @section('title', 'orders')
 
 @section('actions')
-<a class="btn btn-success btn-sm px-4" href="{{ route('dashboard') }}"><i class="fa-solid fa-plus"></i> <span
-        class="d-none d-md-inline">New Order</span></a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('orders.export') }}"><i class="fa-solid fa-download"></i><span
-        class="d-none d-md-inline">Export to Excel</span></a>
+<a class="btn btn-success btn-sm px-4" href="{{ route('dashboard') }}">
+    <i class="fa-solid fa-plus"></i>
+    <span class="d-none d-md-inline">New Order</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('orders.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('orders.export', request()->query()) }}">
+    <i class="fa-solid fa-download"></i>
+    <span class="d-none d-md-inline">Export to Excel</span>
+</a>
 @endsection
 
 @section('filter')
@@ -148,6 +156,9 @@
                                     Sub Total: {{ number_format($order->sub_total, 2)
                                     }} {{ $order->currency->symbol }}
                                     <br>
+                                    Tax: {{ number_format($order->tax, 2)
+                                    }} {{ $order->currency->symbol }}
+                                    <br>
                                     Discount: {{ number_format($order->discount, 2)
                                     }} {{ $order->currency->symbol }}
                                     <br>
@@ -174,7 +185,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <th colspan="4">
+                            <th colspan="5">
                                 <div class="text-center">No Orders Yet ...</div>
                             </th>
                         </tr>
@@ -184,10 +195,8 @@
 
                     <tfoot>
                         <tr>
-                            <th colspan="4">
-                                {{ $orders->appends(['order_number' => request()->query('order_number'), 'cashier_id' =>
-                                request()->query('cashier_id'), 'note' =>
-                                request()->query('note')])->links() }}
+                            <th colspan="5">
+                                {{ $orders->appends(request()->query())->links() }}
                             </th>
                         </tr>
                     </tfoot>

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\CurrenciesExport;
 use App\Models\Currency;
 use App\Models\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
@@ -97,8 +98,18 @@ class CurrencyController extends Controller
         return redirect()->back()->with('success', 'Currency switched to ' . $currency->name);
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new CurrenciesExport, 'currencies.xlsx');
+        $filters = $request->all();
+        return Excel::download(new CurrenciesExport($filters), 'Currencies.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $currencies = Currency::select('code', 'name', 'symbol', 'rate', 'created_at')->filter()->get();
+
+        $pdf = Pdf::loadView('currencies.pdf', compact('currencies'));
+
+        return $pdf->download('Currencies.pdf');
     }
 }

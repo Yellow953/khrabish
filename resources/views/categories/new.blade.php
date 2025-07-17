@@ -13,7 +13,7 @@
 
 @section('content')
 <div class="container mt-5">
-    <div class="card border-custom">
+    <div class="card">
         <form action="{{ route('categories.create') }}" method="POST" enctype="multipart/form-data" class="form">
             @csrf
             <div class="card-head">
@@ -21,14 +21,27 @@
             </div>
             <div class="card-body">
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label class="required form-label">Name</label>
                             <input type="text" class="form-control" name="name" placeholder="Enter Name..."
                                 value="{{ old('name') }}" required />
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select name="parent_id" class="form-select" data-control="select2"
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($categories as $category)
+                                <option value="{{ $category->id }}" {{ old('parent_id')==$category->id ? 'selected' :
+                                    '' }}>{{ ucwords($category->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group row">
                             <label class="col-4 form-label">Image</label>
                             <div class="col-8">

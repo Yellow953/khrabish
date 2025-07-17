@@ -3,10 +3,18 @@
 @section('title', 'suppliers')
 
 @section('actions')
-<a class="btn btn-success btn-sm px-4" href="{{ route('suppliers.new') }}"><i class="fa-solid fa-plus"></i> <span
-        class="d-none d-md-inline">New Supplier</span></a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('suppliers.export') }}"><i class="fa-solid fa-download"></i><span
-        class="d-none d-md-inline">Export to Excel</span></a>
+<a class="btn btn-success btn-sm px-4" href="{{ route('suppliers.new') }}">
+    <i class="fa-solid fa-plus"></i>
+    <span class="d-none d-md-inline">New Supplier</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('suppliers.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('suppliers.export', request()->query()) }}">
+    <i class="fa-solid fa-download"></i>
+    <span class="d-none d-md-inline">Export to Excel</span>
+</a>
 @endsection
 
 @section('filter')
@@ -155,10 +163,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="4">
-                                {{ $suppliers->appends(['name' => request()->query('name'), 'phone' =>
-                                request()->query('phone'), 'email' =>
-                                request()->query('email'), 'address' =>
-                                request()->query('address')])->links() }}
+                                {{ $suppliers->appends(request()->query())->links() }}
                             </th>
                         </tr>
                     </tfoot>

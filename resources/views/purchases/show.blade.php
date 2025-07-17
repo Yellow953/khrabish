@@ -141,6 +141,7 @@
                                                 <span class="fs-5">{{ $purchase->supplier->address }}</span>
                                             </div>
                                         </div>
+
                                         <!--end::Logo-->
                                         <div class="text-sm-end">
                                             <!--begin::Logo-->

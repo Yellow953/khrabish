@@ -41,6 +41,9 @@
                             </select>
                         </div>
                     </div>
+                </div>
+
+                <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
                             <label class="required form-label">Email</label>
@@ -53,6 +56,22 @@
                             <label class="required form-label">Phone Number</label>
                             <input type="tel" class="form-control" name="phone" placeholder="Enter Phone Number..."
                                 value="{{ $user->phone }}" required />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="required form-label">Business</label>
+                            <select name="business_id" class="form-select" data-control="select2" required
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($businesses as $business)
+                                <option value="{{ $business->id }}" {{ $user->business_id==$business->id ? 'selected' :
+                                    '' }}>{{ ucwords($business->name) }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6">

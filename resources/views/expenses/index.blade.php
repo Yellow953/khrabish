@@ -7,6 +7,10 @@
     <i class="fa-solid fa-plus"></i>
     <span class="d-none d-md-inline">New Expense</span>
 </a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('expenses.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
 <a class="btn btn-primary btn-sm px-4" href="{{ route('expenses.export', request()->query()) }}">
     <i class="fa-solid fa-download"></i>
     <span class="d-none d-md-inline">Export to Excel</span>

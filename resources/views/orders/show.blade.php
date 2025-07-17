@@ -108,16 +108,16 @@
                                         <div>
                                             <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7">Order</h4>
                                             <div class="flex-root d-flex flex-column mt-4">
-                                                <span class="text-muted">Order Number</span>
+                                                <span class="text-muted fw-bold">Order Number</span>
                                                 <span class="fs-5">#{{ $order->order_number }}</span>
                                             </div>
                                             <div class="flex-root d-flex flex-column mt-4">
-                                                <span class="text-muted">Date</span>
+                                                <span class="text-muted fw-bold">Date</span>
                                                 <span class="fs-5">{{ $order->created_at }}</span>
                                             </div>
                                             @if ($order->payment_method)
                                             <div class="flex-root d-flex flex-column mt-4">
-                                                <span class="text-muted">Payment Mehtod</span>
+                                                <span class="text-muted fw-bold">Payment Mehtod</span>
                                                 <span class="fs-5">{{ ucwords($order->payment_method) }}</span>
                                             </div>
                                             @endif
@@ -126,21 +126,20 @@
                                         <div>
                                             <h4 class="fw-bolder text-gray-800 fs-2qx pe-5 pb-7">Client</h4>
                                             <div class="flex-root d-flex flex-column mt-4">
-                                                <span class="text-muted">Name</span>
+                                                <span class="text-muted fw-bold">Name</span>
                                                 <span class="fs-5">{{ ucwords($order->client->name) }}</span>
                                             </div>
                                             <div class="flex-root d-flex flex-column mt-4">
-                                                <span class="text-muted">Phone</span>
+                                                <span class="text-muted fw-bold">Phone</span>
                                                 <span class="fs-5">{{ $order->client->phone }}</span>
                                             </div>
                                             <div class="flex-root d-flex flex-column mt-4">
-                                                <span class="text-muted">Email</span>
+                                                <span class="text-muted fw-bold">Email</span>
                                                 <span class="fs-5">{{ $order->client->email }}</span>
                                             </div>
                                             <div class="flex-root d-flex flex-column mt-4">
-                                                <span class="text-muted">Address</span>
-                                                <span class="fs-5">{{ $order->client->city }}, {{
-                                                    $order->client->address }}</span>
+                                                <span class="text-muted fw-bold">Address</span>
+                                                <span class="fs-5">{{ $order->client->address }}</span>
                                             </div>
                                         </div>
                                         @endif
@@ -169,7 +168,7 @@
                                         <div class="d-flex flex-column gap-7 gap-md-10">
                                             @if ($order->note)
                                             <!--begin::Message-->
-                                            <div class="fw-bold fs-2">
+                                            <div class="fw-bold fs-4">
                                                 Note:
                                                 <span class="text-muted fs-5">{{ $order->note }}</span>
                                             </div>
@@ -185,10 +184,10 @@
                                                     <table
                                                         class="table table-bordered border-secondary align-middle table-row-dashed fs-6 gy-5 mb-0">
                                                         <thead>
-                                                            <tr class="border-bottom fs-6 fw-bold text-dark">
-                                                                <th class="min-w-175px pb-2">Products</th>
-                                                                <th class="min-w-80px text-end pb-2">QTY</th>
-                                                                <th class="min-w-100px text-end pb-2">Total</th>
+                                                            <tr class="fs-6 fw-bold text-dark">
+                                                                <th class="min-w-175px fs-3">Products</th>
+                                                                <th class="min-w-80px text-end fs-3">QTY</th>
+                                                                <th class="min-w-100px text-end fs-3">Total</th>
                                                             </tr>
                                                         </thead>
                                                         <tbody class="fw-semibold text-gray-600">

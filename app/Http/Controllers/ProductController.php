@@ -7,9 +7,11 @@ use App\Models\Barcode;
 use App\Models\Category;
 use App\Models\Log;
 use App\Models\Product;
+use App\Models\Purchase;
 use App\Models\SecondaryImage;
 use App\Models\Variant;
 use App\Models\VariantOption;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Intervention\Image\Facades\Image;
@@ -19,7 +21,7 @@ class ProductController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('admin');
+        $this->middleware('admin')->except('barcode');
     }
 
     public function index()
@@ -41,18 +43,20 @@ class ProductController extends Controller
     public function create(Request $request)
     {
         $request->validate([
-            'name' => 'required|unique:products',
-            'quantity' => 'required|numeric|min:1',
+            'name' => 'required|string|max:255',
+            'quantity' => 'required|numeric|min:0',
             'cost' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0',
             'compare_price' => 'nullable|numeric|min:0',
             'category_id' => 'required',
+            'barcodes' => 'array',
+            'tags' => 'nullable|string'
         ]);
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
-            $filename = auth()->user()->id . '_' . time() . '.' . $ext;
+            $filename = auth()->id() . '_' . time() . '.' . $ext;
             $image = Image::make($file);
             $image->fit(560, 560, function ($constraint) {
                 $constraint->upsize();
@@ -64,11 +68,9 @@ class ProductController extends Controller
         }
 
         $tags = $request->input('tags');
-        $tagsArray = $tags ? json_decode($tags, true) : null;
-
-        if ($tagsArray !== null && !is_array($tagsArray)) {
-            $tagsArray = null;
-        }
+        $tags = $tags
+            ? collect(explode(',', $tags))->map(fn($tag) => trim($tag))->filter()->values()->toArray()
+            : [];
 
         $product = Product::create([
             'name' => $request->name,
@@ -79,7 +81,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $path,
-            'tags' => $tagsArray,
+            'tags' => $tags,
         ]);
 
         if ($request->barcodes) {
@@ -113,13 +115,15 @@ class ProductController extends Controller
         if ($request->variants) {
             foreach ($request->variants as $variant) {
                 $variantModel = $product->variants()->create([
-                    'title' => $variant['title']
+                    'title' => $variant['title'],
+                    'type' => $variant['type'],
                 ]);
 
                 foreach ($variant['options'] as $option) {
                     $variantModel->options()->create([
                         'value' => $option['value'],
-                        'price' => $option['price']
+                        'quantity' => $option['quantity'],
+                        'price' => $option['price'],
                     ]);
                 }
             }
@@ -147,12 +151,13 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'compare_price' => 'nullable|numeric|min:0',
             'category_id' => 'required',
+            'tags' => 'nullable|string'
         ]);
 
         if ($request->hasFile('image')) {
             $file = $request->file('image');
             $ext = $file->getClientOriginalExtension();
-            $filename = auth()->user()->id . '_' . time() . '.' . $ext;
+            $filename = auth()->id() . '_' . time() . '.' . $ext;
             $image = Image::make($file);
             $image->fit(560, 560, function ($constraint) {
                 $constraint->upsize();
@@ -164,11 +169,9 @@ class ProductController extends Controller
         }
 
         $tags = $request->input('tags');
-        $tagsArray = $tags ? json_decode($tags, true) : null;
-
-        if ($tagsArray !== null && !is_array($tagsArray)) {
-            $tagsArray = null;
-        }
+        $tags = $tags
+            ? collect(explode(',', $tags))->map(fn($tag) => trim($tag))->filter()->values()->toArray()
+            : [];
 
         $product->update([
             'name' => $request->name,
@@ -178,7 +181,7 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'description' => $request->description,
             'image' => $path,
-            'tags' => $tagsArray,
+            'tags' => $tags,
         ]);
 
         if ($request->barcodes) {
@@ -195,7 +198,7 @@ class ProductController extends Controller
                 $filename = uniqid() . '.' . $ext;
                 $picture = Image::make($image);
 
-                $picture->fit(300, 300, function ($constraint) {
+                $picture->fit(560, 560, function ($constraint) {
                     $constraint->upsize();
                 });
 
@@ -214,13 +217,15 @@ class ProductController extends Controller
         if ($request->variants) {
             foreach ($request->variants as $variant) {
                 $variantModel = $product->variants()->create([
-                    'title' => $variant['title']
+                    'title' => $variant['title'],
+                    'type' => $variant['type'],
                 ]);
 
                 foreach ($variant['options'] as $option) {
                     $variantModel->options()->create([
                         'value' => $option['value'],
-                        'price' => $option['price']
+                        'quantity' => $option['quantity'],
+                        'price' => $option['price'],
                     ]);
                 }
             }
@@ -246,7 +251,7 @@ class ProductController extends Controller
                 $barcode->delete();
             }
 
-            foreach ($product->images as $image) {
+            foreach ($product->secondary_images as $image) {
                 $path = public_path($image->path);
                 File::delete($path);
                 $image->delete();
@@ -270,21 +275,47 @@ class ProductController extends Controller
 
     public function import(Product $product)
     {
-        return view('products.import', compact('product'));
+        $purchases = Purchase::select('id', 'number')->get();
+
+        $data = compact('product', 'purchases');
+        return view('products.import', $data);
     }
 
     public function save(Product $product, Request $request)
     {
         $request->validate([
+            'purchase_id' => 'required',
             'quantity' => 'required|numeric|min:0',
+            'cost' => 'required|numeric|min:0',
+        ]);
+
+        if ($request->barcodes) {
+            $barcodes = array_filter(array_map('trim', $request->barcodes));
+            $product->barcodes()->delete();
+            foreach ($barcodes as $barcode) {
+                $product->barcodes()->create(['barcode' => $barcode]);
+            }
+        }
+
+        $purchase = Purchase::findOrFail($request->purchase_id);
+
+        $purchase->items()->create([
+            'product_id' => $product->id,
+            'quantity' => $request->quantity,
+            'cost' => $request->cost,
+            'total' => $request->quantity * $request->cost,
         ]);
 
         $product->update([
             'quantity' => $product->quantity + $request->quantity,
         ]);
 
+        $purchase->update([
+            'total' => $purchase->total + ($request->quantity + $request->cost),
+        ]);
+
         Log::create([
-            'text' => ucwords(auth()->user()->name) . ' imported ' . $request->quantity . ' pcs to Product: ' . $product->name . ', datetime: ' . now(),
+            'text' => ucwords(auth()->user()->name) . ' imported ' . $request->quantity . ' pcs to Product: ' . ucwords($product->name) . ', datetime: ' . now(),
         ]);
 
         return redirect()->route('products')->with('success', 'Stock Imported Successfully...');
@@ -292,7 +323,7 @@ class ProductController extends Controller
 
     public function barcode($barcode)
     {
-        $barcodeEntry = Barcode::where('barcode', $barcode)->with('product')->first();
+        $barcodeEntry = Barcode::where('barcode', $barcode)->with('product.variants.options')->first();
 
         if ($barcodeEntry) {
             $product = $barcodeEntry->product;
@@ -309,7 +340,8 @@ class ProductController extends Controller
 
     public function generate_barcodes()
     {
-        return view('products.generate_barcodes');
+        $products = Product::select('id', 'name', 'price')->get();
+        return view('products.generate_barcodes', compact('products'));
     }
 
     public function secondary_image_delete(SecondaryImage $secondary_image)
@@ -339,8 +371,18 @@ class ProductController extends Controller
         return redirect()->back()->with('danger', 'Variant option deleted successfully...');
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new ProductsExport, 'products.xlsx');
+        $filters = $request->all();
+        return Excel::download(new ProductsExport($filters), 'Products.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $products = Product::with('category')->filter()->get();
+
+        $pdf = Pdf::loadView('products.pdf', compact('products'));
+
+        return $pdf->download('Products.pdf');
     }
 }

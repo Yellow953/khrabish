@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ClientsExport;
-use App\Helpers\Helper;
 use App\Models\Client;
 use App\Models\Log;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -18,22 +18,14 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::select('id', 'name', 'email', 'phone', 'country', 'city', 'address')->filter()->orderBy('id', 'desc')->paginate(25);
-        $countries = Helper::get_countries();
-        $cities = Helper::get_cities();
+        $clients = Client::select('id', 'name', 'email', 'phone', 'address')->filter()->orderBy('id', 'desc')->paginate(25);
 
-        $data = compact('clients', 'countries', 'cities');
-        return view('clients.index', $data);
+        return view('clients.index', compact('clients'));
     }
-
 
     public function new()
     {
-        $countries = Helper::get_countries();
-        $cities = Helper::get_cities();
-
-        $data = compact('countries', 'cities');
-        return view('clients.new', $data);
+        return view('clients.new');
     }
 
     public function create(Request $request)
@@ -42,8 +34,6 @@ class ClientController extends Controller
             'name' => 'required|max:255',
             'phone' => 'required|max:255',
             'email' => 'nullable|email|max:255',
-            'country' => 'nullable|max:255',
-            'city' => 'nullable|max:255',
             'address' => 'nullable|max:255',
         ]);
 
@@ -51,8 +41,6 @@ class ClientController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'country' => $request->country,
-            'city' => $request->city,
             'address' => $request->address,
         ]);
 
@@ -67,10 +55,7 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        $countries = Helper::get_countries();
-        $cities = Helper::get_cities();
-
-        $data = compact('countries', 'cities', 'client');
+        $data = compact('client');
         return view('clients.edit', $data);
     }
 
@@ -80,8 +65,6 @@ class ClientController extends Controller
             'name' => 'required|max:255',
             'phone' => 'required|max:255',
             'email' => 'nullable|email|max:255',
-            'country' => 'nullable|max:255',
-            'city' => 'nullable|max:255',
             'address' => 'nullable|max:255',
         ]);
 
@@ -118,9 +101,19 @@ class ClientController extends Controller
         }
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new ClientsExport, 'clients.xlsx');
+        $filters = $request->all();
+        return Excel::download(new ClientsExport($filters), 'Clients.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $clients = Client::select('name', 'email', 'phone', 'address', 'created_at')->filter()->get();
+
+        $pdf = Pdf::loadView('clients.pdf', compact('clients'));
+
+        return $pdf->download('Clients.pdf');
     }
 
     public function fetch()
@@ -142,8 +135,6 @@ class ClientController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'phone' => $request->phone,
-            'country' => 'Lebanon',
-            'city' => null,
             'address' => $request->address,
         ]);
 

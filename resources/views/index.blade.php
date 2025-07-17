@@ -63,7 +63,7 @@
                                 <div class="fs-6 fw-bold">
                                     <span class="d-block lh-1 mb-4">Subtotal</span>
                                     <span class="d-block mb-4">Discounts</span>
-                                    <span class="d-block mb-9">Tax(0%)</span>
+                                    <span class="d-block mb-9">Tax({{ $business->tax->rate }}%)</span>
                                     <span class="d-block fs-2qx lh-1">Total</span>
                                 </div>
                                 <div class="fs-6 fw-bold text-end">
@@ -134,7 +134,7 @@
                                     <div class="card card-flush flex-row-fluid p-0 pb-5 mw-100 border-primary product-item align-items-center"
                                         data-product-id="{{ $product->id }}" data-quantity="{{ $product->quantity }}"
                                         data-barcodes="{{ $product->barcodes ? $product->barcodes->map(function($barcode) { return ['barcode' => $barcode->barcode ];})->toJson() : '[]' }}"
-                                        data-variants="{{ $product->variants ? $product->variants->map(function($variant) { return ['id' => $variant->id,'title' => $variant->title,'options' => $variant->options->map(function($option) {return ['id' => $option->id,'value' => $option->value,'price' => $option->price,];}),];})->toJson() : '[]' }}">
+                                        data-variants="{{ $product->variants ? $product->variants->map(function($variant) { return ['id' => $variant->id,'title' => $variant->title,'type' => $variant->type,'options' => $variant->options->map(function($option) {return ['id' => $option->id,'value' => $option->value,'price' => $option->price, 'quantity' => $option->quantity,];}),];})->toJson() : '[]' }}">
                                         <div class="card-body text-center w-150px">
                                             <img src="{{ asset($product->image) }}" loading="lazy" decoding="async"
                                                 fetchpriority="low" class="rounded-3 mb-4 w-150px h-150px"
@@ -146,7 +146,7 @@
                                                 </div>
                                             </div>
                                             <span class="text-success text-end fw-bold">{{
-                                                number_format($product->getSalePrice() * $currency->rate, 2) }}
+                                                number_format($product->price * $currency->rate, 2) }}
                                                 {{ $currency->symbol }}</span>
                                         </div>
                                     </div>

@@ -4,7 +4,7 @@
     class PosSystem {
         constructor() {
             // Configuration
-            this.taxRate = 0;
+            this.taxRate = {{ $business->tax->rate ?? 0 }};
             this.usdToLbpRate = {{ $exchange_rate ?? 1 }};
             this.systemCurrency = '{{ $currency->code }}';
             this.systemCurrency = '{{ $currency->code }}';
@@ -457,20 +457,39 @@
         }
 
         addProductToOrder(productData, options = []) {
-            const availableQuantity = parseInt(productData.quantity ?? productData.element.getAttribute('data-quantity')) || 0;
+            for (const option of options) {
+                const variantOption = this.findVariantOption(productData, option.variantId, option.optionId);
+                const availableQuantity = variantOption ?
+                    (variantOption.quantity === null ?
+                        parseInt(productData.element.getAttribute('data-quantity')) || 0 :
+                        variantOption.quantity) :
+                    parseInt(productData.element.getAttribute('data-quantity')) || 0;
 
-            if (availableQuantity <= 0) {
-                this.showAlert(`"${productData.name}" is out of stock.`, 'warning');
-                return false;
+                if (option.quantity > availableQuantity) {
+                    this.showAlert(`Not enough stock for "${variantOption?.value || productData.name}". Only ${availableQuantity} available.`, 'warning');
+                    return false;
+                }
             }
 
             const existingItem = this.findExistingOrderItem(productData.id, options);
 
             if (existingItem) {
-                if (existingItem.quantity >= availableQuantity) {
-                    this.showAlert(`Cannot add more of "${productData.name}". Only ${availableQuantity} available.`, 'warning');
+                const wouldExceed = options.some(option => {
+                    const variantOption = this.findVariantOption(productData, option.variantId, option.optionId);
+                    const availableQuantity = variantOption ?
+                        (variantOption.quantity === null ?
+                            parseInt(productData.element.getAttribute('data-quantity')) || 0 :
+                            variantOption.quantity) :
+                        parseInt(productData.element.getAttribute('data-quantity')) || 0;
+
+                    return (existingItem.quantity + 1) > availableQuantity;
+                });
+
+                if (wouldExceed) {
+                    this.showAlert(`Cannot add more of "${productData.name}" due to stock limitations.`, 'warning');
                     return false;
                 }
+
                 existingItem.quantity += 1;
             } else {
                 this.orderItems.push({
@@ -479,12 +498,23 @@
                     price: productData.price,
                     quantity: 1,
                     image: productData.image,
-                    options: options
+                    options: options.map(option => ({
+                        ...option,
+                        quantity: option.quantity
+                    }))
                 });
             }
 
             this.updateOrderTable();
             return true;
+        }
+
+        findVariantOption(productData, variantId, optionId) {
+            const variant = productData.variants.find(v => v.id == variantId);
+            if (variant) {
+                return variant.options.find(o => o.id == optionId);
+            }
+            return null;
         }
 
         findExistingOrderItem(productId, options) {
@@ -497,20 +527,45 @@
         handleQuantityChange(button, change) {
             const index = parseInt(button.getAttribute('data-index'));
             const item = this.orderItems[index];
+            const productElement = document.querySelector(`.product-item[data-product-id="${item.id}"]`);
 
             if (change === -1 && item.quantity > 1) {
                 item.quantity += change;
                 this.updateOrderTable();
             } else if (change === 1) {
-                const productElement = document.querySelector(`.product-item[data-product-id="${item.id}"]`);
-                const availableQuantity = parseInt(productElement.getAttribute('data-quantity')) || 0;
+                if (item.options && item.options.length > 0) {
+                    const productData = {
+                        id: item.id,
+                        variants: JSON.parse(productElement.getAttribute('data-variants')),
+                        element: productElement
+                    };
 
-                if (item.quantity < availableQuantity) {
-                    item.quantity += change;
-                    this.updateOrderTable();
-                } else {
-                    this.showAlert(`Cannot add more of "${item.name}". Only ${availableQuantity} available.`, 'warning');
+                    const hasInsufficientQuantity = item.options.some(option => {
+                        const variantOption = this.findVariantOption(productData, option.variantId, option.optionId);
+                        const availableQuantity = variantOption ?
+                            (variantOption.quantity === null ?
+                                parseInt(productElement.getAttribute('data-quantity')) || 0 :
+                                variantOption.quantity) :
+                            parseInt(productElement.getAttribute('data-quantity')) || 0;
+
+                        return (item.quantity + 1) > availableQuantity;
+                    });
+
+                    if (hasInsufficientQuantity) {
+                        this.showAlert(`Cannot add more due to stock limitations.`, 'warning');
+                        return;
+                    }
                 }
+                else {
+                    const availableQuantity = parseInt(productElement.getAttribute('data-quantity')) || 0;
+                    if (item.quantity >= availableQuantity) {
+                        this.showAlert(`Cannot add more of "${item.name}". Only ${availableQuantity} available.`, 'warning');
+                        return;
+                    }
+                }
+
+                item.quantity += change;
+                this.updateOrderTable();
             }
         }
 
@@ -547,7 +602,9 @@
                             <span class="text-gray-800 fw-bold">${item.name}</span>
                             ${item.options?.length > 0 ? `
                                 <div class="text-gray-400 fw-semibold">
-                                    ${item.options.map(option => option.value).join(', ')}
+                                    ${item.options.map(option => `
+                                        ${option.value}${option.quantity > 1 ? ` (${option.quantity}x)` : ''}
+                                    `).join(', ')}
                                 </div>
                             ` : ''}
                             <span class="text-gray-400 fw-semibold">${this.moneyFormat.format(item.price)}</span>
@@ -566,7 +623,15 @@
                     </div>
                 </td>
                 <td class="text-end">
-                    <span class="text-gray-800 fw-bold" data-kt-pos-element="item-total">${this.moneyFormat.format((item.price + (item.options?.reduce((sum, option) => sum + option.optionPrice, 0) || 0)) * item.quantity)}</span>
+                    <span class="text-gray-800 fw-bold" data-kt-pos-element="item-total">
+                        ${this.moneyFormat.format(
+                            (item.price * item.quantity) +
+                            (item.options?.reduce((sum, option) => {
+                                const optionPrice = option.optionPrice || 0;
+                                return sum + (optionPrice * option.quantity * item.quantity);
+                            }, 0) || 0)
+                        )}
+                    </span>
                 </td>
                 <td class="text-end">
                     <button type="button" class="btn btn-sm btn-icon btn-light-danger delete-item" data-index="${index}">
@@ -597,9 +662,16 @@
 
         // Calculation Functions
         calculateTotals() {
-            const subtotal = this.orderItems.reduce((sum, item) =>
-                sum + (item.price + (item.options?.reduce((sum, option) => sum + option.optionPrice, 0) || 0)) * item.quantity,
-            0);
+            const subtotal = this.orderItems.reduce((sum, item) => {
+                const itemBaseTotal = item.price * item.quantity;
+
+                const optionsTotal = item.options?.reduce((optSum, option) => {
+                    const optionPrice = option.optionPrice || 0;
+                    return optSum + (optionPrice * option.quantity * item.quantity);
+                }, 0) || 0;
+
+                return sum + itemBaseTotal + optionsTotal;
+            }, 0);
 
             const tax = subtotal * (this.taxRate / 100);
             this.grandTotal = subtotal + tax - this.discount;
@@ -791,6 +863,15 @@
             this.variantModal = new bootstrap.Modal(modal);
             this.variantModal.show();
 
+            modal.querySelectorAll('.variant-option-checkbox').forEach(checkbox => {
+                checkbox.addEventListener('change', (e) => {
+                    const quantityInput = e.target.closest('.form-check').querySelector('.variant-quantity');
+                    if (quantityInput) {
+                        quantityInput.style.display = e.target.checked ? 'block' : 'none';
+                    }
+                });
+            });
+
             modal.querySelector('#add-to-order').addEventListener('click', () => {
                 const selectedOptions = this.getSelectedVariantOptions(modal);
 
@@ -820,15 +901,44 @@
                             <form id="variant-selection-form">
                                 ${productData.variants.map(variant => `
                                     <div class="mb-3">
-                                        <label class="form-label">${variant.title}</label>
-                                        <select class="form-select variant-option-select" data-variant-id="${variant.id}">
-                                            <option value="">Select an option</option>
-                                            ${variant.options.map(option => `
-                                                <option value="${option.id}" data-price="${option.price}">
-                                                    ${option.value} - ${this.moneyFormat.format(option.price)}
-                                                </option>
-                                            `).join('')}
-                                        </select>
+                                        <label class="form-label">${variant.title} (${variant.type === 'single' ? 'Select one' : 'Select multiple'})</label>
+                                        ${variant.type === 'single' ? `
+                                            <select class="form-select variant-option-select" data-variant-id="${variant.id}">
+                                                <option value="">Select an option</option>
+                                                ${variant.options.map(option => `
+                                                    <option value="${option.id}"
+                                                            data-price="${option.price}"
+                                                            data-quantity="${option.quantity}">
+                                                        ${option.value} - ${this.moneyFormat.format(option.price)}
+                                                        ${option.quantity != null ? '(' + option.quantity + ' available)': ''}
+                                                    </option>
+                                                `).join('')}
+                                            </select>
+                                        ` : `
+                                            <div class="variant-options-container" data-variant-id="${variant.id}">
+                                                ${variant.options.map(option => `
+                                                    <div class="form-check mb-2">
+                                                        <input class="form-check-input variant-option-checkbox"
+                                                            type="checkbox"
+                                                            value="${option.id}"
+                                                            id="option-${option.id}"
+                                                            data-price="${option.price}"
+                                                            data-quantity="${option.quantity}">
+                                                        <label class="form-check-label" for="option-${option.id}">
+                                                            ${option.value} - ${this.moneyFormat.format(option.price)}
+                                                            ${option.quantity != null ? '(' + option.quantity + ')' : ''}
+                                                        </label>
+                                                        <input type="number"
+                                                            class="form-control form-control-sm mt-1 variant-quantity"
+                                                            value="1"
+                                                            min="1"
+                                                            max="${option.quantity}"
+                                                            style="width: 80px; display: none;"
+                                                            data-option-id="${option.id}">
+                                                    </div>
+                                                `).join('')}
+                                            </div>
+                                        `}
                                     </div>
                                 `).join('')}
                             </form>
@@ -844,17 +954,38 @@
 
         getSelectedVariantOptions(modal) {
             const selectedOptions = [];
+
             modal.querySelectorAll('.variant-option-select').forEach(select => {
                 const selectedOption = select.options[select.selectedIndex];
                 if (selectedOption.value) {
+                    const optionPrice = parseFloat(selectedOption.getAttribute('data-price')) || 0;
                     selectedOptions.push({
                         variantId: select.getAttribute('data-variant-id'),
                         optionId: selectedOption.value,
                         value: selectedOption.textContent.split(' - ')[0],
-                        optionPrice: parseFloat(selectedOption.getAttribute('data-price'))
+                        optionPrice: optionPrice === 0 ? null : optionPrice,
+                        quantity: 1
                     });
                 }
             });
+
+            modal.querySelectorAll('.variant-options-container').forEach(container => {
+                const variantId = container.getAttribute('data-variant-id');
+                container.querySelectorAll('.variant-option-checkbox:checked').forEach(checkbox => {
+                    const quantityInput = container.querySelector(`.variant-quantity[data-option-id="${checkbox.value}"]`);
+                    const quantity = quantityInput ? parseInt(quantityInput.value) : 1;
+                    const optionPrice = parseFloat(checkbox.getAttribute('data-price')) || 0;
+
+                    selectedOptions.push({
+                        variantId: variantId,
+                        optionId: checkbox.value,
+                        value: checkbox.nextElementSibling.textContent.split(' - ')[0],
+                        optionPrice: optionPrice === 0 ? null : optionPrice,
+                        quantity: quantity
+                    });
+                });
+            });
+
             return selectedOptions;
         }
 
@@ -1044,10 +1175,11 @@
                                 .receipt-details, .receipt-footer { margin-top: 20px; }
                                 .text-right { text-align: right; }
                                 .text-center { text-align: center; }
-                                .dual-currency { display: flex; justify-content: space-between; }
+                                .dual-currency { display: flex; flex-direction: column; }
                                 .currency-item { flex: 1; }
                                 .currency-label { font-size: 10px; color: #666; }
                                 hr { border-top: 1px dashed #ccc; }
+                                .receipt-footer table tr td { border-bottom: 1px dashed #ccc; }
                             }
                         </style>
                     </head>
@@ -1115,6 +1247,10 @@
                         </div>
                         <br>
                         <div class="text-center">Thank you for your purchase!</div>
+                        <br>
+                        <div class="text-center">{!! QrCode::size(50)->generate(route('home')) !!}</div>
+                        <br>
+                        <div class="text-center">Visit our online menu...</div>
                     </body>
                 </html>
             `;

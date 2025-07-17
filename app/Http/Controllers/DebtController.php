@@ -9,6 +9,7 @@ use App\Models\Currency;
 use App\Models\Debt;
 use App\Models\Log;
 use App\Models\Supplier;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -119,9 +120,19 @@ class DebtController extends Controller
         }
     }
 
-    public function export()
+    public function export(Request $request)
     {
-        return Excel::download(new DebtsExport, 'debts.xlsx');
+        $filters = $request->all();
+        return Excel::download(new DebtsExport($filters), 'Debts.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $debts = Debt::with('currency', 'supplier', 'client')->filter()->get();
+
+        $pdf = Pdf::loadView('debts.pdf', compact('debts'));
+
+        return $pdf->download('Debts.pdf');
     }
 
     public function new_debt(Request $request)

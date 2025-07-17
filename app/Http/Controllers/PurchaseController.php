@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\PurchaseExport;
 use App\Models\Log;
 use App\Models\Product;
 use App\Models\Purchase;
-use App\Models\PurchaseItem;
 use App\Models\Supplier;
+use App\Exports\PurchasesExport;
+use App\Models\PurchaseItem;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -99,7 +100,8 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase)
     {
-        return view('purchases.show', compact('purchase'));
+        $business = auth()->user()->business;
+        return view('purchases.show', compact('purchase', 'business'));
     }
 
     public function edit(Purchase $purchase)
@@ -212,6 +214,15 @@ class PurchaseController extends Controller
     public function export(Request $request)
     {
         $filters = $request->all();
-        return Excel::download(new PurchaseExport($filters), 'Purchases.xlsx');
+        return Excel::download(new PurchasesExport($filters), 'Purchases.xlsx');
+    }
+
+    public function pdf(Request $request)
+    {
+        $purchases = Purchase::with('supplier')->filter()->get();
+
+        $pdf = Pdf::loadView('purchases.pdf', compact('purchases'));
+
+        return $pdf->download('Purchases.pdf');
     }
 }

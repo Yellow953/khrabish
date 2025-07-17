@@ -5,8 +5,8 @@
 @section('actions')
 <a class="btn btn-success btn-sm px-4" href="{{ route('categories.new') }}"><i class="fa-solid fa-plus"></i> <span
         class="d-none d-md-inline">New Category</span></a>
-<a class="btn btn-primary btn-sm px-4" href="{{ route('categories.export') }}"><i class="fa-solid fa-download"></i><span
-        class="d-none d-md-inline">Export to Excel</span></a>
+<a class="btn btn-primary btn-sm px-4" href="{{ route('categories.export', request()->query()) }}"><i
+        class="fa-solid fa-download"></i><span class="d-none d-md-inline">Export to Excel</span></a>
 @endsection
 
 @section('filter')
@@ -54,8 +54,22 @@
                 <!--end::Separator-->
                 <!--begin::Row-->
                 <div class="row g-8 mb-8">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Category</label>
+                            <select name="parent_id" class="form-select" data-control="select2"
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($all_categories as $category)
+                                <option value="{{ $category->id }}" {{ request()->query('parent_id')==$category->id ?
+                                    'selected' :
+                                    '' }}>{{ ucwords($category->name) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                     <!--begin::Col-->
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <label class="fs-6 form-label fw-bold text-dark">Description</label>
                         <input type="text" class="form-control form-control-solid border" name="description"
                             value="{{ request()->query('description') }}" placeholder="Enter Description..." />
@@ -75,7 +89,7 @@
 @section('content')
 <div class="container">
     <!--begin::Tables Widget 10-->
-    <div class="card border-custom mb-5 mb-xl-8">
+    <div class="card mb-5 mb-xl-8">
         @yield('filter')
 
         <!--begin::Body-->
@@ -109,6 +123,14 @@
                                     <div class="d-flex justify-content-start flex-column">
                                         <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{
                                             ucwords($category->name) }}</a>
+
+                                        @if ($category->parent_id)
+                                        <small>
+                                            <span class="text-primary fw-bold">Parent:</span> <span>{{
+                                                $category->parent->name
+                                                }}</span>
+                                        </small>
+                                        @endif
                                     </div>
                                     <!--end::Name-->
                                 </div>
@@ -148,8 +170,7 @@
                     <tfoot>
                         <tr>
                             <th colspan="4">
-                                {{ $categories->appends(['name' => request()->query('name'), 'description' =>
-                                request()->query('description')])->links() }}
+                                {{ $categories->appends(request()->query())->links() }}
                             </th>
                         </tr>
                     </tfoot>

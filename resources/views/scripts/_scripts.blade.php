@@ -172,7 +172,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function removeTask(id, listItem) {
-        const url = `{{ url('todos.destroy', '') }}/${id}`;
+        const url = `{{ route('todos.destroy', '') }}/${id}`;
         fetch(url, {
             method: "GET",
             headers: {
@@ -190,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function toggleComplete(id, listItem) {
-        const url = `{{ url('todos.complete', '') }}/${id}`;
+        const url = `{{ route('todos.complete', '') }}/${id}`;
         fetch(url, {
             method: "GET",
             headers: {
@@ -257,4 +257,45 @@ document.addEventListener('DOMContentLoaded', function() {
     drawerToggle.addEventListener('click', fetchTodos);
 });
 // end todo
+
+// start subscription warning
+document.addEventListener('DOMContentLoaded', function () {
+    const cookieName = 'subscription_warning_dismissed';
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+    }
+
+    function setDismissedCookie() {
+        const now = new Date();
+        const endOfDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0);
+        const expires = endOfDay.toUTCString();
+        document.cookie = `${cookieName}=1; expires=${expires}; path=/`;
+    }
+
+    if (!getCookie(cookieName)) {
+        fetch('{{ route('subscriptions.status') }}')
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok' && data.expires_in >= 0 && data.expires_in <= 7) {
+                    Swal.fire({
+                        title: "Subscription Expiring!",
+                        text: `Your subscription will expire in ${data.expires_in} day(s). Please renew to avoid interruption.`,
+                        icon: "warning",
+                        confirmButtonText: "Got it!",
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            setDismissedCookie();
+                        }
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Subscription check failed:', error);
+            });
+    }
+});
+// start subscription warning
 </script>

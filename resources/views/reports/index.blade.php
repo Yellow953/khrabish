@@ -3,6 +3,10 @@
 @section('title', 'reports')
 
 @section('actions')
+<a class="btn btn-primary btn-sm px-4" href="{{ route('reports.pdf', request()->query()) }}">
+    <i class="fa-solid fa-file-pdf"></i>
+    <span class="d-none d-md-inline">Export to PDF</span>
+</a>
 <a class="btn btn-primary btn-sm px-4" href="{{ route('reports.export', request()->query()) }}">
     <i class="fa-solid fa-download"></i>
     <span class="d-none d-md-inline">Export to Excel</span>
