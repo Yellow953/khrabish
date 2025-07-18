@@ -17,6 +17,7 @@
             // State
             this.orderItems = [];
             this.discount = 0;
+            this.delivery = 0;
             this.grandTotal = 0;
             this.orderNumber = {{ $last_order ? (int)$last_order->order_number : 0 }};
             this.amountPaid = 0;
@@ -40,6 +41,8 @@
                 productSearch: document.getElementById('product_search'),
                 discountInput: document.getElementById('discount_input'),
                 discountElement: document.querySelector('[data-kt-pos-element="discount"]'),
+                deliveryInput: document.getElementById('delivery_input'),
+                deliveryElement: document.querySelector('[data-kt-pos-element="delivery"]'),
                 completeOrderBtn: document.getElementById('complete_order'),
                 confirmPaymentBtn: document.getElementById('confirmPayment'),
                 clearPaymentBtn: document.getElementById('payment-clear'),
@@ -102,6 +105,11 @@
             this.cachedElements.discountElement.addEventListener('click', () => this.showDiscountInput());
             this.cachedElements.discountInput.addEventListener('blur', () => this.updateDiscount());
             this.cachedElements.discountInput.addEventListener('input', () => this.debounce(this.updateDiscount, 300));
+
+            // Delivery handling
+            this.cachedElements.deliveryElement.addEventListener('click', () => this.showDeliveryInput());
+            this.cachedElements.deliveryInput.addEventListener('blur', () => this.updateDelivery());
+            this.cachedElements.deliveryInput.addEventListener('input', () => this.debounce(this.updateDelivery, 300));
 
             // Product search
             this.cachedElements.productSearch.addEventListener('input', () => this.debounce(this.filterProducts(), 300));
@@ -180,6 +188,7 @@
                     const orderData = JSON.parse(savedOrder);
                     this.orderItems = orderData.items || [];
                     this.discount = orderData.discount || 0;
+                    this.delivery = orderData.delivery || 0;
                     this.updateOrderTable();
 
                     if (orderData.clientId) {
@@ -202,6 +211,7 @@
             const orderData = {
                 items: this.orderItems,
                 discount: this.discount,
+                delivery: this.delivery,
                 clientId: this.cachedElements.clientSelect.value,
                 note: this.cachedElements.noteInput.value,
                 timestamp: new Date().getTime()
@@ -253,6 +263,7 @@
                 name: finalName,
                 items: [...this.orderItems],
                 discount: this.discount,
+                delivery: this.delivery,
                 clientId: this.cachedElements.clientSelect.value,
                 note: this.cachedElements.noteInput.value,
                 timestamp: new Date().getTime()
@@ -289,6 +300,7 @@
             if (draft) {
                 this.orderItems = [...draft.items];
                 this.discount = draft.discount || 0;
+                this.delivery = draft.delivery || 0;
                 this.currentDraftId = draftId;
 
                 this.updateOrderTable();
@@ -652,6 +664,10 @@
 
                 if (!this.paymentModal) {
                     this.paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+
+                    document.getElementById('mark-as-unpaid').addEventListener('click', () => {
+                        this.confirmPayment(true);
+                    });
                 }
 
                 this.paymentModal.show();
@@ -659,6 +675,7 @@
                 this.showAlert("Please add items to your order before completing.", "warning");
             }
         }
+
 
         // Calculation Functions
         calculateTotals() {
@@ -674,10 +691,15 @@
             }, 0);
 
             const tax = subtotal * (this.taxRate / 100);
-            this.grandTotal = subtotal + tax - this.discount;
+            this.grandTotal = subtotal + tax - this.discount + this.delivery;
 
             if (this.discount > subtotal + tax) {
                 this.discount = subtotal + tax;
+                this.grandTotal = 0;
+            }
+
+            if (this.delivery > subtotal + tax) {
+                this.delivery = subtotal + tax;
                 this.grandTotal = 0;
             }
 
@@ -692,6 +714,8 @@
                 this.moneyFormat.format(subtotal);
             this.cachedElements.form.querySelector('[data-kt-pos-element="discount"]').innerHTML =
                 this.moneyFormat.format(this.discount);
+            this.cachedElements.form.querySelector('[data-kt-pos-element="delivery"]').innerHTML =
+                this.moneyFormat.format(this.delivery);
             this.cachedElements.form.querySelector('[data-kt-pos-element="tax"]').innerHTML =
                 this.moneyFormat.format(tax);
             this.cachedElements.form.querySelector('[data-kt-pos-element="grant-total"]').innerHTML =
@@ -700,6 +724,7 @@
             this.cachedElements.form.querySelector('input[name="total"]').value = subtotal;
             this.cachedElements.form.querySelector('input[name="tax"]').value = tax;
             this.cachedElements.form.querySelector('input[name="discount"]').value = this.discount;
+            this.cachedElements.form.querySelector('input[name="delivery"]').value = this.delivery;
             this.cachedElements.form.querySelector('input[name="grand_total"]').value = this.grandTotal;
         }
 
@@ -732,17 +757,17 @@
         }
 
         // Payment Processing
-        async confirmPayment() {
+        async confirmPayment(isUnpaid = false) {
             if (this.isProcessing) return;
 
             try {
-                this.validatePayment();
+                this.validatePayment(isUnpaid);
                 this.isProcessing = true;
 
                 this.updateStockQuantities();
                 this.orderNumber++;
 
-                const orderData = this.createOrderData();
+                const orderData = this.createOrderData(isUnpaid);
                 this.addNewOrderToUI(orderData);
 
                 if (!navigator.onLine) {
@@ -752,7 +777,10 @@
 
                 await this.submitOrderToServer(orderData);
                 this.showAlert("Order completed successfully!", "success");
-                this.printReceipt();
+
+                if (!isUnpaid) {
+                    this.printReceipt();
+                }
 
                 this.clearActiveOrder();
                 this.resetOrderForm();
@@ -765,12 +793,14 @@
             }
         }
 
-        validatePayment() {
-            const amountPaid = parseFloat(this.cachedElements.amountPaidInput.value) || 0;
-
+        validatePayment(isUnpaid = false) {
             if (this.orderItems.length === 0) {
                 throw new Error("Please add items to your order before completing.");
             }
+
+            if (isUnpaid) return;
+
+            const amountPaid = parseFloat(this.cachedElements.amountPaidInput.value) || 0;
 
             if (this.paymentCurrency === 'USD') {
                 if (amountPaid < this.grandTotalUSD) {
@@ -781,9 +811,8 @@
                     throw new Error("The amount paid is less than the grand total.");
                 }
             }
-
-            this.paymentCurrency = this.paymentCurrency;
         }
+
 
         updateStockQuantities() {
             this.orderItems.forEach(item => {
@@ -800,26 +829,29 @@
             });
         }
 
-        createOrderData() {
+        createOrderData(isUnpaid = false) {
             return {
                 orderItems: this.orderItems,
                 total: this.grandTotal,
                 totalUSD: this.systemCurrency === 'USD' ? this.grandTotal : this.convertCurrency(this.grandTotal, 'LBP', 'USD'),
                 totalLBP: this.systemCurrency === 'LBP' ? this.grandTotal : this.convertCurrency(this.grandTotal, 'USD', 'LBP'),
-                amountPaid: this.amountPaid,
-                amountPaidCurrency: this.paymentCurrency,
-                amountPaidUSD: this.paymentCurrency === 'USD' ? this.amountPaid : this.convertCurrency(this.amountPaid, 'LBP', 'USD'),
-                amountPaidLBP: this.paymentCurrency === 'LBP' ? this.amountPaid : this.convertCurrency(this.amountPaid, 'USD', 'LBP'),
-                changeDue: this.changeDue,
-                changeDueCurrency: this.paymentCurrency,
-                changeDueUSD: this.paymentCurrency === 'USD' ? this.changeDue : this.convertCurrency(this.changeDue, 'LBP', 'USD'),
-                changeDueLBP: this.paymentCurrency === 'LBP' ? this.changeDue : this.convertCurrency(this.changeDue, 'USD', 'LBP'),
+                amountPaid: isUnpaid ? 0 : this.amountPaid,
+                amountPaidCurrency: isUnpaid ? null : this.paymentCurrency,
+                amountPaidUSD: isUnpaid ? 0 : (this.paymentCurrency === 'USD' ? this.amountPaid : this.convertCurrency(this.amountPaid, 'LBP', 'USD')),
+                amountPaidLBP: isUnpaid ? 0 : (this.paymentCurrency === 'LBP' ? this.amountPaid : this.convertCurrency(this.amountPaid, 'USD', 'LBP')),
+                changeDue: isUnpaid ? this.grandTotal : this.changeDue,
+                changeDueCurrency: isUnpaid ? this.systemCurrency : this.paymentCurrency,
+                changeDueUSD: isUnpaid ? (this.systemCurrency === 'USD' ? this.grandTotal : this.convertCurrency(this.grandTotal, 'LBP', 'USD')) : (this.paymentCurrency === 'USD' ? this.changeDue : this.convertCurrency(this.changeDue, 'LBP', 'USD')),
+                changeDueLBP: isUnpaid ? (this.systemCurrency === 'LBP' ? this.grandTotal : this.convertCurrency(this.grandTotal, 'USD', 'LBP')) : (this.paymentCurrency === 'LBP' ? this.changeDue : this.convertCurrency(this.changeDue, 'USD', 'LBP')),
                 note: this.cachedElements.noteInput.value,
                 cashier: '{{ ucwords(auth()->user()->name) }}',
                 orderNumber: this.orderNumber,
                 client_id: this.cachedElements.clientSelect.value,
-                paymentCurrency: this.paymentCurrency,
-                exchangeRate: this.paymentCurrency == 'USD' ? 1 : this.usdToLbpRate
+                paymentCurrency: isUnpaid ? null : this.paymentCurrency,
+                exchangeRate: isUnpaid ? 1 : (this.paymentCurrency == 'USD' ? 1 : this.usdToLbpRate),
+                discount: this.discount,
+                delivery: this.delivery,
+                status: isUnpaid ? 'unpaid' : 'paid'
             };
         }
 
@@ -830,6 +862,7 @@
             formData.append('change_due', orderData.changeDue);
             formData.append('payment_currency', orderData.paymentCurrency);
             formData.append('exchange_rate', orderData.exchangeRate);
+            formData.append('status', orderData.status);
 
             const response = await fetch(this.cachedElements.form.action, {
                 method: 'POST',
@@ -1032,6 +1065,8 @@
             this.amountPaid = 0;
             this.changeDue = 0;
             this.paymentCurrency = this.systemCurrency;
+            this.discount = 0;
+            this.delivery = 0;
 
             this.cachedElements.grandTotalUSD.textContent = '$0.00';
             this.cachedElements.grandTotalLBP.textContent = '0 LBP';
@@ -1397,6 +1432,24 @@
             this.saveActiveOrder();
         }
 
+        // Delivery Handling
+        async showDeliveryInput() {
+            this.cachedElements.deliveryInput.value = this.delivery;
+            this.cachedElements.deliveryElement.classList.add('d-none');
+            this.cachedElements.deliveryInput.classList.remove('d-none');
+            this.cachedElements.deliveryInput.focus();
+        }
+
+        updateDelivery() {
+            const deliveryValue = parseFloat(this.cachedElements.deliveryInput.value) || 0;
+            this.delivery = deliveryValue;
+
+            this.cachedElements.deliveryElement.classList.remove('d-none');
+            this.cachedElements.deliveryInput.classList.add('d-none');
+            this.calculateTotals();
+            this.saveActiveOrder();
+        }
+
         // UI Updates
         addNewOrderToUI(orderData) {
             const emptyMessage = document.querySelector('.last_order_empty');
@@ -1421,7 +1474,7 @@
                             ${orderData.orderItems.map(item => `${item.name} : ${item.quantity}`).join('<br>')}
                         </div>
                         <div class="col-6">
-                            Sub Total: ${orderData.total ? (orderData.total + this.discount).toFixed(2) : orderData.total.toFixed(2)}
+                            Sub Total: ${orderData.total ? (orderData.total + this.discount + this.delivery).toFixed(2) : orderData.total.toFixed(2)}
                         </div>
                         <div class="col-6 text-right">
                             Total: ${orderData.total.toFixed(2)}

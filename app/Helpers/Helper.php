@@ -283,4 +283,14 @@ class Helper
     {
         return ['Electricity', 'Water', 'Internet', 'Rent', 'Employee Salary', 'Maintenance', 'Miscellaneous'];
     }
+
+    public static function get_order_statuses()
+    {
+        return ['Unpaid', 'Partially Paid', 'Paid'];
+    }
+
+    public static function get_payment_methods()
+    {
+        return ['Cash On Delivery', 'Whish', 'OMT', 'Credit/Debit Card', 'Bank Transfer'];
+    }
 }

@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exports\OrdersExport;
 use App\Models\Client;
+use App\Models\Currency;
 use App\Models\Log;
 use App\Models\Order;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
@@ -20,7 +22,7 @@ class OrderController extends Controller
 
     public function index()
     {
-        $orders = Order::select('id', 'order_number', 'cashier_id', 'client_id', 'currency_id', 'sub_total', 'tax', 'discount', 'total', 'products_count')->filter()->orderBy('id', 'desc')->paginate(25);
+        $orders = Order::select('id', 'order_number', 'cashier_id', 'client_id', 'status', 'currency_id', 'sub_total', 'tax', 'discount', 'total', 'products_count')->filter()->orderBy('id', 'desc')->paginate(25);
         $users = User::select('id', 'name')->get();
         $clients = Client::select('id', 'name')->get();
 
@@ -56,6 +58,57 @@ class OrderController extends Controller
             return redirect()->back()->with('danger', 'Unable to delete');
         }
     } //end of order
+
+    public function pay(Order $order)
+    {
+        if ($order->status == 'paid') {
+            return redirect()->back()->with('warning', 'Order already paid...');
+        }
+
+        $rate = Currency::where('code', 'LBP')->firstOrFail()->rate;
+        $currencies = Currency::select('name', 'code')->get();
+
+        $data = compact('order', 'rate', 'currencies');
+        return view('orders.pay', $data);
+    }
+
+    public function update(Order $order, Request $request)
+    {
+        $request->validate([
+            'payment_method' => 'required|string|max:255',
+            'payment_currency' => 'required|string|max:3',
+            'amount_paid' => 'required|numeric|min:0',
+            'exchange_rate' => 'required|numeric|min:1',
+        ]);
+
+        $amountPaid = $request->amount_paid;
+        $paymentCurrency = $request->payment_currency;
+        $exchangeRate = $request->exchange_rate;
+
+        $systemCurrency = auth()->user()->currency->code;
+        $amountPaidInSystemCurrency = ($paymentCurrency === $systemCurrency)
+            ? $amountPaid
+            : ($paymentCurrency === 'USD'
+                ? $amountPaid * $exchangeRate
+                : $amountPaid / $exchangeRate);
+
+        $order->update([
+            'payment_method' => $request->payment_method,
+            'payment_currency' => $paymentCurrency,
+            'amount_paid' => $order->amount_paid + $amountPaidInSystemCurrency,
+            'change_due' => max(0, $order->change_due - $amountPaidInSystemCurrency),
+            'exchange_rate' => $exchangeRate,
+            'status' => ($order->change_due - $amountPaidInSystemCurrency) <= 0 ? 'paid' : 'partially_paid',
+        ]);
+
+        Log::create([
+            'text' => ucwords(auth()->user()->name) . ' payyed Order: ' . $order->order_number . ', datetime: ' . now(),
+        ]);
+
+
+        return redirect()->route('orders.show', $order->id)
+            ->with('success', 'Payment processed successfully!');
+    }
 
     public function export(Request $request)
     {

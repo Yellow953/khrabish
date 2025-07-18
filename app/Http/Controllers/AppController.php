@@ -12,6 +12,7 @@ use App\Models\OrderItem;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Models\SearchRoute;
+use App\Models\VariantOption;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
@@ -54,16 +55,18 @@ class AppController extends Controller
                 'sub_total' => $request->total,
                 'tax' => $request->tax,
                 'discount' => $request->discount,
+                'delivery' => $request->delivery,
                 'total' => $request->grand_total,
                 'products_count' => count(json_decode($request->order_items, true)),
                 'note' => $request->note ?? null,
                 'exchange_rate' => $request->exchange_rate,
                 'payment_currency' => $request->payment_currency,
-                'amount_paid' => $request->amount_paid,
-                'change_due' => $request->change_due,
+                'amount_paid' => $request->amount_paid ?? 0,
+                'change_due' => $request->change_due ?? $request->grand_total,
+                'status' => $request->status ?? ($request->amount_paid > 0 ? 'completed' : 'unpaid'),
             ]);
 
-            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$request->tax}, discount: {$request->discount}, Total: {$request->grand_total}";
+            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$request->tax}, discount: {$request->discount}, delivery: {$request->delivery}, Total: {$request->grand_total}";
 
             $orderItems = json_decode($request->order_items, true);
 
@@ -136,35 +139,31 @@ class AppController extends Controller
         try {
             DB::beginTransaction();
 
-            $request->validate([
-                'orderItems' => 'required|array',
-                'total' => 'required|numeric',
-                'amountPaid' => 'required|numeric',
-                'changeDue' => 'required|numeric',
-                'note' => 'nullable|string',
-            ]);
-
             $text = '';
             $tax = $request->tax ?? 0;
             $discount = $request->discount ?? 0;
+            $delivery = $request->delivery ?? 0;
 
             $order = Order::create([
                 'cashier_id' => auth()->id(),
                 'client_id' => $request->client_id,
                 'currency_id' => auth()->user()->currency_id,
                 'order_number' => Order::generate_number(),
-                'sub_total' => $request->total - $tax + $discount,
-                'tax' => $tax,
-                'discount' => $discount,
-                'total' => $request->total,
+                'sub_total' => $request->total,
+                'tax' => $request->tax,
+                'discount' => $request->discount,
+                'delivery' => $request->delivery,
+                'total' => $request->grand_total,
                 'products_count' => count($request->orderItems),
                 'note' => $request->note,
                 'exchange_rate' => $request->exchangeRate,
                 'payment_currency' => $request->paymentCurrency,
-                'amount_paid' => $request->amountPaid,
-                'change_due' => $request->changeDue,
+                'amount_paid' => $request->amountPaid ?? 0,
+                'change_due' => $request->changeDue ?? $request->grand_total,
+                'status' => $request->status ?? ($request->amountPaid > 0 ? 'completed' : 'unpaid'),
             ]);
-            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$tax}, discount: {$discount}, Total: {$request->grand_total}";
+
+            $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$tax}, discount: {$discount}, delivery: {$delivery}, Total: {$request->grand_total}";
 
             foreach ($request->orderItems as $item) {
                 $product = Product::find($item['id']);

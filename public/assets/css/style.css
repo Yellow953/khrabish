@@ -1,16 +1,16 @@
 :root {
-    --lighter-primary: #F0F0A1;
-    --light-primary: #ECEC5E;
-    --primary: #D0CF37;
+    --lighter-primary: #f0f0a1;
+    --light-primary: #ecec5e;
+    --primary: #d0cf37;
     --dark-primary: #808000;
     --darker-primary: #383800;
     --lightest-secondary: #c8faf6;
     --lighter-secondary: #84e4da;
     --light-secondary: #61c7bd;
-    --secondary: #21897E;
+    --secondary: #21897e;
     --dark-secondary: #085e55;
     --darker-secondary: #023a34;
-    --darkest-secondary: #1F363D;
+    --darkest-secondary: #1f363d;
     --light-tertiary: #f7aef8;
     --tertiary: #c042ed;
     --dark-tertiary: #8a2dab;
@@ -128,7 +128,8 @@ table thead tr th {
     cursor: copy;
 }
 
-#discount_input {
+#discount_input,
+#delivery_input {
     width: 200px;
     margin-bottom: 10px;
 }
@@ -400,7 +401,7 @@ table thead tr th {
     opacity: 0.5;
 }
 
-.btn-toggle>.handle {
+.btn-toggle > .handle {
     position: absolute;
     top: 0.1875rem;
     left: 0.1875rem;
@@ -415,7 +416,7 @@ table thead tr th {
     transition: background-color 0.25s;
 }
 
-.btn-toggle.active>.handle {
+.btn-toggle.active > .handle {
     left: 1.6875rem;
     transition: left 0.25s;
 }
@@ -479,7 +480,7 @@ table thead tr th {
     opacity: 0.5;
 }
 
-.btn-toggle.btn-lg>.handle {
+.btn-toggle.btn-lg > .handle {
     position: absolute;
     top: 0.3125rem;
     left: 0.3125rem;
@@ -494,7 +495,7 @@ table thead tr th {
     transition: background-color 0.25s;
 }
 
-.btn-toggle.btn-lg.active>.handle {
+.btn-toggle.btn-lg.active > .handle {
     left: 2.8125rem;
     transition: left 0.25s;
 }
@@ -699,7 +700,6 @@ table thead tr th {
     color: var(--primary) !important;
 }
 
-
 [aria-selected="true"].nav-link.text-active-primary,
 .nav-link.text-active-primary:hover {
     color: var(--primary) !important;
@@ -772,7 +772,6 @@ table thead tr th {
     color: white !important;
 }
 
-
 .btn-danger {
     background-color: rgba(0, 0, 0, 0) !important;
     border: 2px solid var(--danger) !important;
@@ -786,7 +785,6 @@ table thead tr th {
 [data-bs-theme="light"] .btn-danger {
     color: black !important;
 }
-
 
 [data-bs-theme="dark"].btn-danger {
     color: white !important;

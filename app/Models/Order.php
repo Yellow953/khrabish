@@ -54,6 +54,10 @@ class Order extends Model
             $order_number = request('order_number');
             $q->where('order_number', $order_number);
         }
+        if (request('status')) {
+            $status = request('status');
+            $q->where('status', $status);
+        }
         if (request('cashier_id')) {
             $cashier_id = request('cashier_id');
             $q->where('cashier_id', $cashier_id);

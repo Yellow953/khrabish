@@ -14,6 +14,7 @@
                     <input type="hidden" name="total" value="0">
                     <input type="hidden" name="tax" value="0">
                     <input type="hidden" name="discount" value="0">
+                    <input type="hidden" name="delivery" value="0">
                     <input type="hidden" name="grand_total" value="0">
                     <input type="text" id="barcode_input" class="form-control d-none">
 
@@ -63,7 +64,8 @@
                                 <div class="fs-6 fw-bold">
                                     <span class="d-block lh-1 mb-4">Subtotal</span>
                                     <span class="d-block mb-4">Discounts</span>
-                                    <span class="d-block mb-9">Tax({{ $business->tax->rate }}%)</span>
+                                    <span class="d-block mb-4">Delivery</span>
+                                    <span class="d-block mb-9">Tax(0%)</span>
                                     <span class="d-block fs-2qx lh-1">Total</span>
                                 </div>
                                 <div class="fs-6 fw-bold text-end">
@@ -73,6 +75,10 @@
                                         id="discount_text">{{ $currency->symbol }}0.00</span>
                                     <input type="number" class="form-control d-none" id="discount_input" min="0"
                                         step="any" placeholder="Enter discount">
+                                    <span class="d-block mb-4" data-kt-pos-element="delivery" id="delivery_text">{{
+                                        $currency->symbol }}0.00</span>
+                                    <input type="number" class="form-control d-none" id="delivery_input" min="0"
+                                        step="any" placeholder="Enter delivery">
                                     <span class="d-block mb-9" data-kt-pos-element="tax">{{ $currency->symbol
                                         }}0.00</span>
                                     <span class="d-block fs-2qx lh-1" data-kt-pos-element="grant-total">{{

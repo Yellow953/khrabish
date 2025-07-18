@@ -131,10 +131,10 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/pdf', [OrderController::class, 'pdf'])->name('orders.pdf');
             Route::get('/new', [OrderController::class, 'new'])->name('orders.new');
             Route::post('/create', [OrderController::class, 'create'])->name('orders.create');
-            Route::get('/{order}/edit', [OrderController::class, 'edit'])->name('orders.edit');
-            Route::post('/{order}/update', [OrderController::class, 'update'])->name('orders.update');
             Route::get('/{order}/destroy', [OrderController::class, 'destroy'])->name('orders.destroy');
             Route::get('/{order}/show', [OrderController::class, 'show'])->name('orders.show');
+            Route::get('/{order}/pay', [OrderController::class, 'pay'])->name('orders.pay');
+            Route::post('/{order}/update', [OrderController::class, 'update'])->name('orders.update');
             Route::get('/', [OrderController::class, 'index'])->name('orders');
         });
 

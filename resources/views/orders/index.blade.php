@@ -63,7 +63,21 @@
                 <!--begin::Row-->
                 <div class="row g-8 mb-8">
                     <!--begin::Col-->
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <label class="fs-6 form-label fw-bold text-dark">Status</label>
+                        <select name="status" class="form-select" data-control="select2"
+                            data-placeholder="Select an option">
+                            <option value=""></option>
+                            @foreach (Helper::get_order_statuses() as $status)
+                            <option value="{{ $status }}" {{ request()->query('status')==$status ?
+                                'selected' :
+                                '' }}>{{ ucwords($status) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-4">
                         <label class="fs-6 form-label fw-bold text-dark">Cashier</label>
                         <select name="cashier_id" class="form-select" data-control="select2"
                             data-placeholder="Select an option">
@@ -77,7 +91,7 @@
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="fs-6 form-label fw-bold text-dark">Client</label>
                         <select name="client_id" class="form-select" data-control="select2"
                             data-placeholder="Select an option">
@@ -123,7 +137,8 @@
                     <!--begin::Table head-->
                     <thead>
                         <tr class="text-center">
-                            <th class="col-4 p-3">Order</th>
+                            <th class="col-2 p-3">Order</th>
+                            <th class="col-2 p-3">Status</th>
                             <th class="col-2 p-3">User</th>
                             <th class="col-2 p-3">Amount</th>
                             <th class="col-2 p-3">Products</th>
@@ -143,6 +158,9 @@
                                 @elseif($order->client_id)
                                 <span class="badge badge-primary">SHOP</span>
                                 @endif
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-primary text-uppercase">{{ ucwords($order->status) }}</span>
                             </td>
                             <td class="text-center">
                                 @if ($order->cashier_id)
@@ -174,6 +192,12 @@
                                     class="btn btn-icon btn-primary btn-sm me-1">
                                     <i class="bi bi-eye-fill"></i>
                                 </a>
+                                @if ($order->status != 'paid')
+                                <a href="{{ route('orders.pay', $order->id) }}"
+                                    class="btn btn-icon btn-warning btn-sm me-1">
+                                    <i class="bi bi-currency-dollar"></i>
+                                </a>
+                                @endif
                                 @if($order->can_delete())
                                 <a href="{{ route('orders.destroy', $order->id) }}"
                                     class="btn btn-icon btn-danger btn-sm show_confirm" data-toggle="tooltip"
@@ -185,7 +209,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <th colspan="5">
+                            <th colspan="6">
                                 <div class="text-center">No Orders Yet ...</div>
                             </th>
                         </tr>
@@ -195,7 +219,7 @@
 
                     <tfoot>
                         <tr>
-                            <th colspan="5">
+                            <th colspan="6">
                                 {{ $orders->appends(request()->query())->links() }}
                             </th>
                         </tr>
