@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Helper;
 use App\Models\BankNote;
 use App\Models\Category;
 use App\Models\Client;
@@ -35,8 +36,10 @@ class AppController extends Controller
                 }
             ])
             ->get();
+        $countries = Helper::get_countries();
+        $statuses = Helper::get_client_statuses();
 
-        $data = compact('categories', 'currency', 'currencies', 'exchange_rate', 'bank_notes', 'last_order', 'clients');
+        $data = compact('categories', 'currency', 'currencies', 'exchange_rate', 'bank_notes', 'last_order', 'clients', 'countries', 'statuses');
         return view('index', $data);
     }
 

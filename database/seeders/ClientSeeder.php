@@ -14,8 +14,11 @@ class ClientSeeder extends Seeder
             'phone' => '123456789',
             'email' => 'client1@gmail.com',
             'country' => 'Lebanon',
+            'state' => 'Beirut',
             'city' => 'Beirut',
             'address' => 'test address',
+            'note' => 'Test Notes...',
+            'status' => 'active',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

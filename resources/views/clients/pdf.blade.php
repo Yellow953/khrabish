@@ -41,9 +41,14 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Email</th>
                 <th>Phone</th>
+                <th>Email</th>
+                <th>Status</th>
+                <th>Country</th>
+                <th>State</th>
+                <th>City</th>
                 <th>Address</th>
+                <th>Note</th>
                 <th>Created At</th>
             </tr>
         </thead>
@@ -51,9 +56,14 @@
             @foreach($clients as $client)
             <tr>
                 <td>{{ $client->name }}</td>
-                <td>{{ $client->email }}</td>
                 <td>{{ $client->phone }}</td>
+                <td>{{ $client->email }}</td>
+                <td>{{ $client->status }}</td>
+                <td>{{ $client->country }}</td>
+                <td>{{ $client->state }}</td>
+                <td>{{ $client->city }}</td>
                 <td>{{ $client->address }}</td>
+                <td>{{ $client->note }}</td>
                 <td>{{ $client->created_at }}</td>
             </tr>
             @endforeach

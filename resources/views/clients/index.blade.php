@@ -63,24 +63,77 @@
                 <!--begin::Row-->
                 <div class="row g-8 mb-8">
                     <!--begin::Col-->
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="fs-6 form-label fw-bold text-dark">Phone Number</label>
                         <input type="tel" class="form-control form-control-solid border" name="phone"
                             value="{{ request()->query('phone') }}" placeholder="Enter Phone Number..." />
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <label class="fs-6 form-label fw-bold text-dark">Email</label>
                         <input type="email" class="form-control form-control-solid border" name="email"
                             value="{{ request()->query('email') }}" placeholder="Enter Email..." />
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-md-12">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select" data-control="select2"
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($statuses as $status)
+                                <option value="{{ $status }}" {{ request()->query('status')==$status ?
+                                    'selected' :
+                                    '' }}>{{ ucwords($status) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <select name="country" class="form-select" data-control="select2"
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($countries as $country)
+                                <option value="{{ $country }}" {{ request()->query('country')==$country ?
+                                    'selected' :
+                                    '' }}>{{ ucwords($country) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-4">
+                        <label class="fs-6 form-label fw-bold text-dark">State</label>
+                        <input type="text" class="form-control form-control-solid border" name="state"
+                            value="{{ request()->query('state') }}" placeholder="Enter State..." />
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-4">
+                        <label class="fs-6 form-label fw-bold text-dark">City</label>
+                        <input type="text" class="form-control form-control-solid border" name="city"
+                            value="{{ request()->query('city') }}" placeholder="Enter City..." />
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
                         <label class="fs-6 form-label fw-bold text-dark">Address</label>
                         <input type="text" class="form-control form-control-solid border" name="address"
                             value="{{ request()->query('address') }}" placeholder="Enter Address..." />
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
+                        <label class="fs-6 form-label fw-bold text-dark">Note</label>
+                        <input type="text" class="form-control form-control-solid border" name="note"
+                            value="{{ request()->query('note') }}" placeholder="Enter Note..." />
                     </div>
                     <!--end::Col-->
                 </div>
@@ -111,8 +164,9 @@
                         <tr class="text-center">
                             <th class="col-3 p-3">Client</th>
                             <th class="col-3 p-3">Contact</th>
-                            <th class="col-3 p-3">Address</th>
-                            <th class="col-3 p-3">Actions</th>
+                            <th class="col-2 p-3">Address</th>
+                            <th class="col-2 p-3">Status</th>
+                            <th class="col-2 p-3">Actions</th>
                         </tr>
                     </thead>
                     <!--end::Table head-->
@@ -132,9 +186,15 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                <div class="text-center">
-                                    {{ $client->address }}
-                                </div>
+                                @if ($client->country && $client->state && $client->city)
+                                {{ $client->country }}, {{ $client->state }}, {{$client->city}} <br>
+                                @endif
+                                {{ $client->address }}
+                            </td>
+                            <td class="text-center">
+                                <span class="badge badge-{{ $client->status == 'active' ? 'success' : 'danger' }}">
+                                    {{ $client->status }}
+                                </span>
                             </td>
                             <td class="d-flex justify-content-end border-0">
                                 <a href="{{ route('clients.history', $client->id) }}"
@@ -156,7 +216,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <th colspan="4">
+                            <th colspan="5">
                                 <div class="text-center">No Clients Yet ...</div>
                             </th>
                         </tr>
@@ -166,7 +226,7 @@
 
                     <tfoot>
                         <tr>
-                            <th colspan="4">
+                            <th colspan="5">
                                 {{ $clients->appends(request()->query())->links() }}
                             </th>
                         </tr>

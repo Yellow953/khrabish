@@ -160,7 +160,9 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <span class="badge badge-primary text-uppercase">{{ ucwords($order->status) }}</span>
+                                <span
+                                    class="badge badge-{{ $order->status == 'paid' ? 'success' : 'warning' }} text-uppercase">{{
+                                    ucwords($order->status) }}</span>
                             </td>
                             <td class="text-center">
                                 @if ($order->cashier_id)

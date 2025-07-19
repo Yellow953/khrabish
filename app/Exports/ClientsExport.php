@@ -16,8 +16,11 @@ class ClientsExport implements FromCollection, WithHeadings
                 'email' => $client->email,
                 'phone' => $client->phone,
                 'country' => $client->country,
+                'state' => $client->state,
                 'city' => $client->city,
                 'address' => $client->address,
+                'note' => $client->note,
+                'status' => $client->status,
                 'created_at' => $client->created_at,
             ];
         });
@@ -30,8 +33,11 @@ class ClientsExport implements FromCollection, WithHeadings
             'Email',
             'Phone',
             'Country',
+            'State',
             'City',
             'Address',
+            'Note',
+            'Status',
             'Created At',
         ];
     }

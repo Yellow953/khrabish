@@ -46,6 +46,10 @@ class Client extends Model
             $country = request('country');
             $q->where('country', 'LIKE', "%{$country}%");
         }
+        if (request('state')) {
+            $state = request('state');
+            $q->where('state', 'LIKE', "%{$state}%");
+        }
         if (request('city')) {
             $city = request('city');
             $q->where('city', 'LIKE', "%{$city}%");
@@ -53,6 +57,14 @@ class Client extends Model
         if (request('address')) {
             $address = request('address');
             $q->where('address', 'LIKE', "%{$address}%");
+        }
+        if (request('ntoe')) {
+            $ntoe = request('ntoe');
+            $q->where('ntoe', 'LIKE', "%{$ntoe}%");
+        }
+        if (request('status')) {
+            $status = request('status');
+            $q->where('status', $status);
         }
 
         return $q;

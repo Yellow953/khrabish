@@ -293,4 +293,9 @@ class Helper
     {
         return ['Cash On Delivery', 'Whish', 'OMT', 'Credit/Debit Card', 'Bank Transfer'];
     }
+
+    public static function get_client_statuses()
+    {
+        return ['active', 'inactive'];
+    }
 }

@@ -28,6 +28,19 @@
                                 value="{{ old('name') }}" required />
                         </div>
                     </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label required">Status</label>
+                            <select name="status" class="form-select" data-control="select2"
+                                data-placeholder="Select an option" required>
+                                <option value=""></option>
+                                @foreach ($statuses as $status)
+                                <option value="{{ $status }}" {{ old('status')==$status ? 'selected' : '' }}>{{
+                                    ucwords($status) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
                 </div>
 
                 <div class="row">
@@ -47,10 +60,51 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-label">Address</label>
-                    <textarea name="address" class="form-control" rows="5"
-                        placeholder="Enter Address...">{{ old('address') }}</textarea>
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">Country</label>
+                            <select name="country" class="form-select" data-control="select2"
+                                data-placeholder="Select an option">
+                                <option value=""></option>
+                                @foreach ($countries as $country)
+                                <option value="{{ $country }}" {{ old('country')==$country ? 'selected' : '' }}>{{
+                                    ucwords($country) }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">State</label>
+                            <input type="text" class="form-control" name="state" placeholder="Enter State..."
+                                value="{{ old('state') }}" />
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label class="form-label">City</label>
+                            <input type="text" class="form-control" name="city" placeholder="Enter City..."
+                                value="{{ old('city') }}" />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Address</label>
+                            <textarea name="address" class="form-control" rows="5"
+                                placeholder="Enter Address...">{{ old('address') }}</textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label class="form-label">Note</label>
+                            <textarea name="note" class="form-control" rows="5"
+                                placeholder="Enter Note...">{{ old('note') }}</textarea>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="card-footer pt-0">

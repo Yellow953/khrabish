@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\ClientsExport;
+use App\Helpers\Helper;
 use App\Models\Client;
 use App\Models\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -18,14 +19,21 @@ class ClientController extends Controller
 
     public function index()
     {
-        $clients = Client::select('id', 'name', 'email', 'phone', 'address')->filter()->orderBy('id', 'desc')->paginate(25);
+        $clients = Client::select('id', 'name', 'email', 'phone', 'country', 'state', 'city', 'address', 'status')->filter()->orderBy('id', 'desc')->paginate(25);
+        $countries = Helper::get_countries();
+        $statuses = Helper::get_client_statuses();
 
-        return view('clients.index', compact('clients'));
+        $data = compact('clients', 'countries', 'statuses');
+        return view('clients.index', $data);
     }
 
     public function new()
     {
-        return view('clients.new');
+        $countries = Helper::get_countries();
+        $statuses = Helper::get_client_statuses();
+
+        $data = compact('countries', 'statuses');
+        return view('clients.new', $data);
     }
 
     public function create(Request $request)
@@ -35,6 +43,11 @@ class ClientController extends Controller
             'phone' => 'required|max:255',
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|max:255',
+            'country' => 'nullable|max:255',
+            'state' => 'nullable|max:255',
+            'city' => 'nullable|max:255',
+            'note' => 'nullable',
+            'status' => 'nullable|max:255',
         ]);
 
         $client = Client::create([
@@ -42,6 +55,11 @@ class ClientController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'note' => $request->note,
+            'status' => $request->status,
         ]);
 
         $text = ucwords(auth()->user()->name) . " created new Client : " . $client->name . ", datetime :   " . now();
@@ -55,7 +73,10 @@ class ClientController extends Controller
 
     public function edit(Client $client)
     {
-        $data = compact('client');
+        $countries = Helper::get_countries();
+        $statuses = Helper::get_client_statuses();
+
+        $data = compact('client', 'countries', 'statuses');
         return view('clients.edit', $data);
     }
 
@@ -66,6 +87,11 @@ class ClientController extends Controller
             'phone' => 'required|max:255',
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|max:255',
+            'country' => 'nullable|max:255',
+            'state' => 'nullable|max:255',
+            'city' => 'nullable|max:255',
+            'note' => 'nullable',
+            'status' => 'nullable|max:255',
         ]);
 
         if ($client->name != trim($request->name)) {
@@ -74,9 +100,17 @@ class ClientController extends Controller
             $text = ucwords(auth()->user()->name) . ' updated Client ' . $client->name . ", datetime :   " . now();
         }
 
-        $client->update(
-            $request->all()
-        );
+        $client->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'note' => $request->note,
+            'status' => $request->status,
+        ]);
 
         Log::create([
             'text' => $text,
@@ -109,7 +143,7 @@ class ClientController extends Controller
 
     public function pdf(Request $request)
     {
-        $clients = Client::select('name', 'email', 'phone', 'address', 'created_at')->filter()->get();
+        $clients = Client::select('name', 'email', 'phone', 'country', 'state', 'city', 'address', 'note', 'status', 'created_at')->filter()->get();
 
         $pdf = Pdf::loadView('clients.pdf', compact('clients'));
 
@@ -129,6 +163,11 @@ class ClientController extends Controller
             'phone' => 'required|max:255',
             'email' => 'nullable|email|max:255',
             'address' => 'nullable|max:255',
+            'country' => 'nullable|max:255',
+            'state' => 'nullable|max:255',
+            'city' => 'nullable|max:255',
+            'note' => 'nullable',
+            'status' => 'nullable|max:255',
         ]);
 
         $client = Client::create([
@@ -136,6 +175,11 @@ class ClientController extends Controller
             'email' => $request->email,
             'phone' => $request->phone,
             'address' => $request->address,
+            'country' => $request->country,
+            'state' => $request->state,
+            'city' => $request->city,
+            'note' => $request->note,
+            'status' => $request->status,
         ]);
 
         $text = ucwords(auth()->user()->name) . " created new Client : " . $client->name . ", datetime :   " . now();
