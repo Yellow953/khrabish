@@ -286,7 +286,7 @@ class Helper
 
     public static function get_order_statuses()
     {
-        return ['Unpaid', 'Partially Paid', 'Paid'];
+        return ['unpaid', 'partially paid', 'paid'];
     }
 
     public static function get_payment_methods()
@@ -297,5 +297,10 @@ class Helper
     public static function get_client_statuses()
     {
         return ['active', 'inactive'];
+    }
+
+    public static function get_purchase_statuses()
+    {
+        return ['unpaid', 'partially paid', 'paid'];
     }
 }

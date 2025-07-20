@@ -75,6 +75,32 @@
                                     value="{{ $purchase->purchase_date }}">
                             </div>
                         </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status" class="col-form-label">Status *</label>
+
+                                <select name="status" id="status" required class="form-select" data-control="select2"
+                                    required data-placeholder="Select an option">
+                                    <option value="">Select Status</option>
+                                    @foreach ($statuses as $status)
+                                    <option value="{{ $status }}" {{ $status==$purchase->status ? 'selected' : '' }}>
+                                        {{ $status }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="paid_amount" class="col-form-label">Paid Amount
+                                    *</label>
+
+                                <input id="paid_amount" type="number" placeholder="Enter Paid Amount" required min="0"
+                                    step="any" class="form-control" name="paid_amount"
+                                    value="{{ $purchase->paid_amount ?? 0 }}">
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">

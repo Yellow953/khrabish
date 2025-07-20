@@ -68,7 +68,7 @@
                         <select name="status" class="form-select" data-control="select2"
                             data-placeholder="Select an option">
                             <option value=""></option>
-                            @foreach (Helper::get_order_statuses() as $status)
+                            @foreach ($statuses as $status)
                             <option value="{{ $status }}" {{ request()->query('status')==$status ?
                                 'selected' :
                                 '' }}>{{ ucwords($status) }}</option>

@@ -45,6 +45,8 @@
                 <th>Purchase Date</th>
                 <th>Total</th>
                 <th>Invoice Number</th>
+                <th>Status</th>
+                <th>Paid Amount</th>
                 <th>Notes</th>
                 <th>Created At</th>
             </tr>
@@ -57,6 +59,8 @@
                 <td>{{ $purchase->purchase_date }}</td>
                 <td>{{ $purchase->total }}</td>
                 <td>{{ $purchase->invoice_number }}</td>
+                <td>{{ $purchase->status }}</td>
+                <td>{{ $purchase->paid_amount }}</td>
                 <td>{{ $purchase->notes }}</td>
                 <td>{{ $purchase->created_at }}</td>
             </tr>

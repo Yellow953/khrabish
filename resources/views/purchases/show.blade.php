@@ -120,6 +120,14 @@
                                                 <span class="text-muted">Purchase Date</span>
                                                 <span class="fs-5">{{ $purchase->purchase_date }}</span>
                                             </div>
+                                            <div class="flex-root d-flex flex-column mt-4">
+                                                <span class="text-muted">Status</span>
+                                                <span class="fs-5">{{ $purchase->status }}</span>
+                                            </div>
+                                            <div class="flex-root d-flex flex-column mt-4">
+                                                <span class="text-muted">Paid Amount</span>
+                                                <span class="fs-5">{{ $purchase->paid_amount }}</span>
+                                            </div>
                                         </div>
 
                                         <div>

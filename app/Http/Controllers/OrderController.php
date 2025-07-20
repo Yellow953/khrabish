@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\OrdersExport;
+use App\Helpers\Helper;
 use App\Models\Client;
 use App\Models\Currency;
 use App\Models\Log;
@@ -10,7 +11,6 @@ use App\Models\Order;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class OrderController extends Controller
@@ -25,8 +25,9 @@ class OrderController extends Controller
         $orders = Order::select('id', 'order_number', 'cashier_id', 'client_id', 'status', 'currency_id', 'sub_total', 'tax', 'discount', 'total', 'products_count')->filter()->orderBy('id', 'desc')->paginate(25);
         $users = User::select('id', 'name')->get();
         $clients = Client::select('id', 'name')->get();
+        $statuses = Helper::get_order_statuses();
 
-        $data = compact('orders', 'users', 'clients');
+        $data = compact('orders', 'users', 'clients', 'statuses');
         return view('orders.index', $data);
     }
 

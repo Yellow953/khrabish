@@ -64,6 +64,20 @@
                 <div class="row g-8 mb-8">
                     <!--begin::Col-->
                     <div class="col-md-6">
+                        <label class="fs-6 form-label fw-bold text-dark">Status</label>
+                        <select name="status" class="form-select" data-control="select2"
+                            data-placeholder="Select an option">
+                            <option value=""></option>
+                            @foreach ($statuses as $status)
+                            <option value="{{ $status }}" {{ request()->query('status')==$status ?
+                                'selected' :
+                                '' }}>{{ ucwords($status) }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <!--end::Col-->
+                    <!--begin::Col-->
+                    <div class="col-md-6">
                         <label class="fs-6 form-label fw-bold text-dark">Supplier</label>
                         <select name="supplier_id" class="form-select" data-control="select2"
                             data-placeholder="Select an option">
@@ -91,7 +105,7 @@
                     </div>
                     <!--end::Col-->
                     <!--begin::Col-->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label class="fs-6 form-label fw-bold text-dark">Notes</label>
                         <input type="text" class="form-control form-control-solid border" name="notes"
                             value="{{ request()->query('notes') }}" placeholder="Enter Notes..." />
@@ -123,12 +137,13 @@
                     <!--begin::Table head-->
                     <thead>
                         <tr class="text-center">
-                            <th class="col-2 p-3">NO</th>
-                            <th class="col-2 p-3">Supplier</th>
-                            <th class="col-2 p-3">Date</th>
-                            <th class="col-2 p-3">Invoice Number</th>
-                            <th class="col-2 p-3">Total</th>
-                            <th class="col-2 p-3">Actions</th>
+                            <th class="col-auto p-3">NO</th>
+                            <th class="col-auto p-3">Supplier</th>
+                            <th class="col-auto p-3">Date</th>
+                            <th class="col-auto p-3">Status</th>
+                            <th class="col-auto p-3">Invoice Number</th>
+                            <th class="col-auto p-3">Total</th>
+                            <th class="col-auto p-3">Actions</th>
                         </tr>
                     </thead>
                     <!--end::Table head-->
@@ -136,31 +151,25 @@
                     <tbody>
                         @forelse ($purchases as $purchase)
                         <tr>
-                            <td>
-                                <div class="text-center">
-                                    <span class="text-primary fw-bold">#
-                                        {{ ucwords($purchase->number) }}</span>
-                                </div>
-                            </td>
-                            <td>
-                                <div class="text-center">
-                                    {{ ucwords($purchase->supplier->name) }}
-                                </div>
+                            <td class="text-center">
+                                <span class="text-primary fw-bold">#
+                                    {{ ucwords($purchase->number) }}</span>
                             </td>
                             <td class="text-center">
-                                <div class="text-center">
-                                    {{ $purchase->purchase_date }}
-                                </div>
+                                {{ ucwords($purchase->supplier->name) }}
                             </td>
                             <td class="text-center">
-                                <div class="text-center">
-                                    {{ $purchase->invoice_number }}
-                                </div>
+                                {{ $purchase->purchase_date }}
                             </td>
                             <td class="text-center">
-                                <div class="text-center">
-                                    {{ $purchase->currency->symbol }}{{ number_format($purchase->total, 2) }}
-                                </div>
+                                <span class="badge badge-{{ $purchase->status == 'paid' ? 'success' : 'danger' }}">{{
+                                    $purchase->status }}</span>
+                            </td>
+                            <td class="text-center">
+                                {{ $purchase->invoice_number }}
+                            </td>
+                            <td class="text-center">
+                                {{ $purchase->currency->symbol }}{{ number_format($purchase->total, 2) }}
                             </td>
                             <td class="d-flex justify-content-end border-0">
                                 <a href="{{ route('purchases.show', $purchase->id) }}"
@@ -182,7 +191,7 @@
                         </tr>
                         @empty
                         <tr>
-                            <th colspan="6">
+                            <th colspan="7">
                                 <div class="text-center">No Purchases Yet ...</div>
                             </th>
                         </tr>
@@ -192,7 +201,7 @@
 
                     <tfoot>
                         <tr>
-                            <th colspan="6">
+                            <th colspan="7">
                                 {{ $purchases->appends(request()->query())->links() }}
                             </th>
                         </tr>

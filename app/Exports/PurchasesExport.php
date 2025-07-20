@@ -29,6 +29,8 @@ class PurchasesExport implements FromCollection, WithHeadings, WithMapping
             'Purchase Date',
             'Total',
             'Invoice Number',
+            'Status',
+            'Paid AMount',
             'Notes',
             'Created At',
         ];
@@ -42,6 +44,8 @@ class PurchasesExport implements FromCollection, WithHeadings, WithMapping
             $row->purchase_date,
             $row->total,
             $row->invoice_number,
+            $row->status,
+            $row->paid_amount,
             $row->notes,
             $row->created_at,
         ];

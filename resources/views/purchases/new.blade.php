@@ -5,6 +5,10 @@
 @section('sub-title', 'new')
 
 @section('actions')
+<a class="btn btn-success btn-sm px-4" href="{{ route('products.new') }}">
+    <i class="fa-solid fa-plus"></i>
+    <span class="d-none d-md-inline">New Product</span>
+</a>
 <a href="{{ url()->previous() }}" class="btn btn-sm btn-secondary px-4 d-flex align-items-center">
     <i class="bi bi-caret-left-fill"></i>
     Back
@@ -92,6 +96,32 @@
                                 <input id="purchase_date" type="date" required class="form-control" name="purchase_date"
                                     value="{{ old('purchase_date') ?? date('Y-m-d') }}">
 
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="status" class="col-form-label">Status *</label>
+
+                                <select name="status" id="status" required class="form-select" data-control="select2"
+                                    required data-placeholder="Select an option">
+                                    <option value="">Select Status</option>
+                                    @foreach ($statuses as $status)
+                                    <option value="{{ $status }}" {{ $status==old('status') ? 'selected' : '' }}>
+                                        {{ $status }}
+                                    </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="paid_amount" class="col-form-label">Paid Amount
+                                    *</label>
+
+                                <input id="paid_amount" type="number" placeholder="Enter Paid Amount" required min="0"
+                                    step="any" class="form-control" name="paid_amount"
+                                    value="{{ old('paid_amount') ?? 0 }}">
                             </div>
                         </div>
                     </div>

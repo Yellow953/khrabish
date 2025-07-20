@@ -7,6 +7,7 @@ use App\Models\Product;
 use App\Models\Purchase;
 use App\Models\Supplier;
 use App\Exports\PurchasesExport;
+use App\Helpers\Helper;
 use App\Models\PurchaseItem;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
@@ -22,10 +23,11 @@ class PurchaseController extends Controller
 
     public function index()
     {
-        $purchases = Purchase::select('id', 'number', 'supplier_id', 'currency_id', 'purchase_date', 'invoice_number', 'total', 'total')->filter()->orderBy('id', 'desc')->paginate(25);
+        $purchases = Purchase::select('id', 'number', 'supplier_id', 'currency_id', 'purchase_date', 'invoice_number', 'total', 'status')->filter()->orderBy('id', 'desc')->paginate(25);
         $suppliers = Supplier::select('id', 'name')->get();
+        $statuses = Helper::get_purchase_statuses();
 
-        $data = compact('purchases', 'suppliers');
+        $data = compact('purchases', 'suppliers', 'statuses');
         return view('purchases.index', $data);
     }
 
@@ -33,8 +35,9 @@ class PurchaseController extends Controller
     {
         $suppliers = Supplier::select('id', 'name')->get();
         $products = Product::select('id', 'name')->get();
+        $statuses = Helper::get_purchase_statuses();
 
-        $data = compact('suppliers', 'products');
+        $data = compact('suppliers', 'products', 'statuses');
         return view('purchases.new', $data);
     }
 
@@ -45,6 +48,8 @@ class PurchaseController extends Controller
             'purchase_date' => 'required|date',
             'invoice_number' => 'required|string|max:255',
             'notes' => 'nullable|string',
+            'status' => 'required|string|max:255',
+            'paid_amount' => 'required|numeric|min:0',
             'items' => 'required|array|min:1',
             'items.*.product_id' => 'required|exists:products,id',
             'items.*.quantity' => 'required|numeric|min:0.01',
@@ -62,6 +67,8 @@ class PurchaseController extends Controller
                 'invoice_number' => $request->invoice_number,
                 'notes' => $request->notes,
                 'total' => 0,
+                'status' => $request->status,
+                'paid_amount' => $request->paid_amount,
             ]);
 
             $total = 0;
@@ -107,8 +114,9 @@ class PurchaseController extends Controller
     public function edit(Purchase $purchase)
     {
         $products = Product::select('id', 'name')->get();
+        $statuses = Helper::get_purchase_statuses();
 
-        $data = compact('purchase', 'products');
+        $data = compact('purchase', 'products', 'statuses');
         return view('purchases.edit', $data);
     }
 
@@ -118,6 +126,8 @@ class PurchaseController extends Controller
             'purchase_date' => 'required|date',
             'invoice_number' => 'required|string|max:255',
             'notes' => 'nullable|string',
+            'status' => 'required|string|max:255',
+            'paid_amount' => 'required|numeric|min:0',
             'items' => 'nullable|array',
             'items.*.product_id' => 'nullable|exists:products,id',
             'items.*.quantity' => 'nullable|numeric|min:0.01',
@@ -155,6 +165,8 @@ class PurchaseController extends Controller
                 'invoice_number' => $request->invoice_number,
                 'notes' => $request->notes,
                 'total' => $total,
+                'status' => $request->status,
+                'paid_amount' => $request->paid_amount,
             ]);
 
             Log::create([
