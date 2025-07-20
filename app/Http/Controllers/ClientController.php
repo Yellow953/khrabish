@@ -204,4 +204,21 @@ class ClientController extends Controller
         $data = compact('client', 'orders');
         return view('clients.history', $data);
     }
+
+    public function sync()
+    {
+        $count = 0;
+        $clients = Client::with('orders')->get();
+
+        foreach ($clients as $client) {
+            $latestOrder = $client->orders->sortByDesc('created_at')->first();
+
+            if (!$latestOrder || $latestOrder->created_at->lt(now()->subMonths(6))) {
+                $client->update(['status' => 'inactive']);
+                $count++;
+            }
+        }
+
+        return redirect()->back()->with('success', $count . ' clients status updated!');
+    }
 }

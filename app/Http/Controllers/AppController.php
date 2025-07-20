@@ -69,6 +69,10 @@ class AppController extends Controller
                 'status' => $request->status ?? ($request->amount_paid > 0 ? 'completed' : 'unpaid'),
             ]);
 
+            if ($request->client_id) {
+                Client::find($request->client_id)->update(['status' => 'active']);
+            }
+
             $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$request->tax}, discount: {$request->discount}, delivery: {$request->delivery}, Total: {$request->grand_total}";
 
             $orderItems = json_decode($request->order_items, true);
@@ -165,6 +169,10 @@ class AppController extends Controller
                 'change_due' => $request->changeDue ?? $request->grand_total,
                 'status' => $request->status ?? ($request->amountPaid > 0 ? 'completed' : 'unpaid'),
             ]);
+
+            if ($request->client_id) {
+                Client::find($request->client_id)->update(['status' => 'active']);
+            }
 
             $text .= 'User ' . ucwords(auth()->user()->name) . ' created Order NO: ' . $order->order_number . " of Sub Total: {$request->total}, tax: {$tax}, discount: {$discount}, delivery: {$delivery}, Total: {$request->grand_total}";
 

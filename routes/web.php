@@ -165,6 +165,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/export', [ClientController::class, 'export'])->name('clients.export');
             Route::get('/pdf', [ClientController::class, 'pdf'])->name('clients.pdf');
             Route::get('/fetch', [ClientController::class, 'fetch'])->name('clients.fetch');
+            Route::get('/sync', [ClientController::class, 'sync'])->name('clients.sync');
             Route::get('/new', [ClientController::class, 'new'])->name('clients.new');
             Route::post('/create', [ClientController::class, 'create'])->name('clients.create');
             Route::get('/{client}/history', [ClientController::class, 'history'])->name('clients.history');

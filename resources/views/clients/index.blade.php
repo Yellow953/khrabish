@@ -7,6 +7,10 @@
     <i class="fa-solid fa-plus"></i>
     <span class="d-none d-md-inline">New Client</span>
 </a>
+<a class="btn btn-warning text-dark btn-sm px-4" href="{{ route('clients.sync') }}">
+    <i class="fa-solid fa-rotate"></i>
+    <span class="d-none d-md-inline">Sync Statuses</span>
+</a>
 <a class="btn btn-primary btn-sm px-4" href="{{ route('clients.pdf', request()->query()) }}">
     <i class="fa-solid fa-file-pdf"></i>
     <span class="d-none d-md-inline">Export to PDF</span>
