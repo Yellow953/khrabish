@@ -303,4 +303,9 @@ class Helper
     {
         return ['unpaid', 'partially paid', 'paid'];
     }
+
+    public static function get_discount_types()
+    {
+        return ['Percentage', 'Fixed'];
+    }
 }

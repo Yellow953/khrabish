@@ -227,6 +227,20 @@
                 <!--begin:Menu item-->
                 <div class="menu-item">
                     <!--begin:Menu link-->
+                    <a class="menu-link {{ request()->routeIs('discounts*') ? 'active' : '' }}"
+                        href="{{ route('discounts') }}">
+                        <span class="menu-icon">
+                            <i class="bi bi-percent"></i>
+                        </span>
+                        <span class="menu-title">Discounts</span>
+                    </a>
+                    <!--end:Menu link-->
+                </div>
+                <!--end:Menu item-->
+
+                <!--begin:Menu item-->
+                <div class="menu-item">
+                    <!--begin:Menu link-->
                     <a class="menu-link {{ request()->routeIs('currencies*') ? 'active' : '' }}"
                         href="{{ route('currencies') }}">
                         <span class="menu-icon">

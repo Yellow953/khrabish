@@ -13,6 +13,7 @@ use App\Http\Controllers\TodoController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\CurrencyController;
 use App\Http\Controllers\DebtController;
+use App\Http\Controllers\DiscountController;
 use App\Http\Controllers\ExpenseController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PurchaseController;
@@ -225,6 +226,18 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/', [CurrencyController::class, 'index'])->name('currencies');
         });
 
+        // Discount Routes
+        Route::prefix('discounts')->group(function () {
+            Route::get('/export', [DiscountController::class, 'export'])->name('discounts.export');
+            Route::get('/pdf', [DiscountController::class, 'pdf'])->name('discounts.pdf');
+            Route::get('/new', [DiscountController::class, 'new'])->name('discounts.new');
+            Route::post('/create', [DiscountController::class, 'create'])->name('discounts.create');
+            Route::get('/{discount}/edit', [DiscountController::class, 'edit'])->name('discounts.edit');
+            Route::post('/{discount}/update', [DiscountController::class, 'update'])->name('discounts.update');
+            Route::get('/{discount}/delete', [DiscountController::class, 'destroy'])->name('discounts.destroy');
+            Route::get('/', [DiscountController::class, 'index'])->name('discounts');
+        });
+
         // Analytics
         Route::prefix('analytics')->group(function () {
             Route::get('/pdf-report', [AnalyticsController::class, 'generatePdfReport'])->name('analytics.pdf');
@@ -251,6 +264,7 @@ Route::get('/search/products', [ShopController::class, 'search'])->name('product
 
 // Shop
 Route::get('/product/{product:name}', [ShopController::class, 'product'])->name('product');
+Route::post('/check', [DiscountController::class, 'check'])->name('discounts.check');
 Route::get('/checkout', [ShopController::class, 'checkout'])->name('shop.checkout');
 Route::post('/checkout/order', [App\Http\Controllers\ShopController::class, 'order'])->name('checkout.order');
 Route::get('/about', [ShopController::class, 'about'])->name('about');
