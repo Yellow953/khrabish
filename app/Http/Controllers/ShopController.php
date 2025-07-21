@@ -6,6 +6,7 @@ use App\Helpers\Helper;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Currency;
+use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -64,20 +65,23 @@ class ShopController extends Controller
 
     public function checkout()
     {
-        $cities = Helper::get_cities();
         $categories = Category::select('id', 'name', 'image')->get();
+        $countries = Helper::get_countries();
 
-        return view('frontend.checkout', compact('cities', 'categories'));
+        $data = compact('countries', 'categories');
+        return view('frontend.checkout', $data);
     }
 
     public function order(Request $request)
     {
         $request->validate([
-            'email' => 'nullable|email',
             'name' => 'required|string|max:255',
             'phone' => 'required|string|max:30',
+            'email' => 'nullable|email',
+            'country' => 'nullable|string|max:255',
+            'state' => 'nullable|string|max:255',
+            'city' => 'nullable|string|max:255',
             'address' => 'required|string|max:255',
-            'city' => 'required|string|max:100',
             'payment_method' => 'required|string',
             'notes' => 'nullable|string',
             'shipping' => 'required|numeric|min:0',
@@ -95,8 +99,10 @@ class ShopController extends Controller
             $subTotal += $item['finalPrice'] * $item['quantity'];
             $productsCount += $item['quantity'];
         }
+
         $shippingFee = $request->shipping;
-        $total = $subTotal + $shippingFee;
+        $discountAmount = $request->discount ?? 0;
+        $total = $subTotal + $shippingFee - $discountAmount;
 
         DB::beginTransaction();
         try {
@@ -105,9 +111,11 @@ class ShopController extends Controller
                 [
                     'name' => $request->name,
                     'email' => $request->email,
-                    'city' => $request->city,
                     'country' => $request->country,
+                    'state' => $request->state,
+                    'city' => $request->city,
                     'address' => $request->address,
+                    'status' => 'active',
                 ]
             );
 
@@ -119,6 +127,7 @@ class ShopController extends Controller
                 'order_number' => Order::generate_number(),
                 'payment_method' => $request->payment_method,
                 'sub_total' => $subTotal,
+                'discount' => $discountAmount,
                 'total' => $total,
                 'products_count' => $productsCount,
                 'note' => $request->notes,

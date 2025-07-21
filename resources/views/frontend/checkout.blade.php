@@ -13,6 +13,7 @@
 
                 <input type="hidden" name="cart" id="cart-data" value="">
                 <input type="hidden" name="shipping" id="shipping-cost" value="">
+                <input type="hidden" name="discount" id="discount-value" value="0">
 
                 <div class="row">
                     <div class="col-md-12">
@@ -40,7 +41,15 @@
                                                 placeholder="+961 70 231 446" required>
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-6">
+                                    <div class="col-md-6">
+                                        <div class="mb-3">
+                                            <label for="email" class="form-label text-secondary">Email</label>
+                                            <input type="email" name="email" class="form-control"
+                                                placeholder="you@example.com">
+                                        </div>
+                                    </div>
+
+                                    <div class="col-md-4">
                                         <div class="mb-3">
                                             <label for="country" class="form-label text-secondary">Country *
                                             </label>
@@ -52,32 +61,22 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                    </div> --}}
-                                    <div class="col-md-6">
+                                    </div>
+                                    <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="email" class="form-label text-secondary">Email</label>
-                                            <input type="email" name="email" class="form-control"
-                                                placeholder="you@example.com">
+                                            <label for="state" class="form-label text-secondary">State</label>
+                                            <input type="text" id="state" name="state" class="form-control"
+                                                placeholder="Enter State ...">
                                         </div>
                                     </div>
-                                    <div class="col-md-12">
+                                    <div class="col-md-4">
                                         <div class="mb-3">
-                                            <label for="city" class="form-label text-secondary">City *
-                                            </label>
-                                            <select name="city" id="city" class="form-select" required>
-                                                @foreach ($cities as $city)
-                                                <option value="{{ $city }}">{{ $city }}</option>
-                                                @endforeach
-                                            </select>
+                                            <label for="city" class="form-label text-secondary">City</label>
+                                            <input type="text" id="city" name="city" class="form-control"
+                                                placeholder="Enter City ...">
                                         </div>
                                     </div>
-                                    {{-- <div class="col-md-6">
-                                        <div class="mb-3">
-                                            <label for="zip" class="form-label text-secondary">Zip</label>
-                                            <input type="number" min="0" step="1" id="zip" name="zip"
-                                                class="form-control" placeholder="1234">
-                                        </div>
-                                    </div> --}}
+
                                     <div class="col-md-12">
                                         <div class="mb-3">
                                             <label for="address" class="form-label text-secondary">Address *
@@ -89,6 +88,8 @@
                                 </div>
                             </div>
 
+                            <hr>
+
                             <div class="mb-4">
                                 <h4 class="text-secondary text-center mb-3">Payment Info</h4>
 
@@ -98,6 +99,8 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <hr>
 
                             <div class="mb-4">
                                 <h4 class="text-secondary text-center mb-3">Additional Info
@@ -115,9 +118,14 @@
                     <div class="col-md-5 mt-2">
                         <div class="card p-4 lighter-secondary-bg rounded-5 border-secondary">
                             <h4 class="text-secondary text-center mb-4">Order Summary</h4>
+
+                            <hr>
+
                             <div class="summary-card" id="cart-items-container">
                                 <!-- Cart Items will be populated here dynamically -->
                             </div>
+
+                            <hr>
 
                             <div class="summary-item">
                                 <span>Subtotal</span>
@@ -125,12 +133,29 @@
                             </div>
                             <div class="summary-item">
                                 <span>Shipping</span>
-                                <span id="shipping-price">$10.00</span>
+                                <span id="shipping-price">$3.00</span>
+                            </div>
+                            <div class="summary-item">
+                                <span>Discount</span>
+                                <span id="discount-amount">- $0.00</span>
                             </div>
                             <div class="summary-item total-price">
                                 <span>Total</span>
                                 <span id="total-price">$0.00</span>
                             </div>
+
+                            <hr>
+
+                            <div class="my-2">
+                                <label for="discount" class="form-label text-secondary">Discount Code</label>
+                                <div class="input-group">
+                                    <input type="text" id="discount" class="form-control" placeholder="Enter code">
+                                    <button type="button" class="btn btn-outline-secondary"
+                                        id="apply-discount">Apply</button>
+                                </div>
+                            </div>
+
+                            <hr>
 
                             <button type="submit" class="btn btn-primary">Complete Order</button>
                         </div>
@@ -146,6 +171,11 @@
         const shippingCosts = {
             Beirut: 0,
             Others: 3
+        };
+
+        let discount = {
+            value: 0,
+            type: null
         };
 
         function getCart() {
@@ -199,20 +229,33 @@
 
         function updatePrices() {
             const shippingCost = calculateShipping();
-            shippingElement.textContent = `$${shippingCost.toFixed(2)}`;
-            totalElement.textContent = `$${(subtotal + shippingCost).toFixed(2)}`;
 
+            let appliedDiscount = 0;
+
+            if (discount.type === 'Percentage') {
+                appliedDiscount = subtotal * (discount.value / 100);
+            } else if (discount.type === 'Fixed') {
+                appliedDiscount = discount.value;
+            }
+
+            appliedDiscount = Math.min(appliedDiscount, subtotal);
+            const total = subtotal - appliedDiscount + shippingCost;
+
+            document.getElementById('discount-amount').textContent = `- $${appliedDiscount.toFixed(2)}`;
+            document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shipping-cost').value = shippingCost.toFixed(2);
+            document.getElementById('discount-value').value = appliedDiscount.toFixed(2);
             hiddenCartData.value = JSON.stringify(cartData);
-            hiddenShippingCost.value = shippingCost.toFixed(2);
         }
+
 
         citySelect.addEventListener('change', updatePrices);
 
         subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
         updatePrices();
-    });
 
-    document.addEventListener('DOMContentLoaded', function () {
+        /// payment
         const paymentMethodSelect = document.getElementById('method');
         const whishInfoSection = document.createElement('div');
 
@@ -236,6 +279,37 @@
             } else {
                 whishInfoSection.style.display = 'none';
             }
+        });
+
+        /// discount
+        document.getElementById('apply-discount').addEventListener('click', () => {
+            const code = document.getElementById('discount').value.trim();
+            if (!code) return alert('Please enter a discount code.');
+
+            fetch('{{ route("discounts.check") }}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ discount: code })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.exists) {
+                    discount = {
+                        value: data.value,
+                        type: data.type
+                    };
+                    updatePrices();
+                    alert('Discount applied!');
+                } else {
+                    alert('Invalid discount code.');
+                }
+            })
+            .catch(() => {
+                alert('Error applying discount.');
+            });
         });
     });
 </script>

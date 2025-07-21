@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Exports\DiscountsExport;
 use App\Helpers\Helper;
-use App\Models\Business;
 use App\Models\Discount;
 use App\Models\Log;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -120,9 +119,9 @@ class DiscountController extends Controller
         return $pdf->download('discounts.pdf');
     }
 
-    public function check(Business $business, Request $request)
+    public function check(Request $request)
     {
-        $discount = Discount::withoutGlobalScopes()->where('business_id', $business->id)->where('code', $request->discount)->first();
+        $discount = Discount::where('code', $request->discount)->first();
 
         if ($discount) {
             return response()->json(['exists' => true, 'type' => $discount->type, 'value' => $discount->value]);
