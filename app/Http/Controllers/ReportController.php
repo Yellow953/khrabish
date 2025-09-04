@@ -101,9 +101,8 @@ class ReportController extends Controller
 
     public function show(Report $report)
     {
-        $business = auth()->user()->business;
         $report->load(['items.product', 'user', 'currency']);
-        return view('reports.show', compact('report', 'business'));
+        return view('reports.show', compact('report'));
     }
 
     public function destroy(Report $report)

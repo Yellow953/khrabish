@@ -124,7 +124,7 @@ class UserController extends Controller
 
     public function pdf(Request $request)
     {
-        $users = User::select('name', 'email', 'phone', 'role', 'business_id', 'currency_id', 'created_at')->filter()->get();
+        $users = User::select('name', 'email', 'phone', 'role', 'currency_id', 'created_at')->filter()->get();
 
         $pdf = Pdf::loadView('users.pdf', compact('users'));
 

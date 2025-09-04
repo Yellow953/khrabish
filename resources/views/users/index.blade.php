@@ -92,22 +92,6 @@
                         </select>
                     </div>
                     <!--end::Col-->
-
-                    <!--begin::Col-->
-                    <div class="col-md-6">
-                        <label class="fs-6 form-label fw-bold text-dark">Business</label>
-                        <select name="business_id" class="form-select" data-control="select2"
-                            data-placeholder="Select a Business">
-                            <option value=""></option>
-                            @foreach ($businesses as $business)
-                            <option value="{{ $business->id }}" {{ request()->query('business_id') == $business->id ?
-                                'selected' : '' }}>
-                                {{ $business->name }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                    <!--end::Col-->
                 </div>
                 <!--end::Row-->
             </div>
@@ -134,12 +118,10 @@
                     <!--begin::Table head-->
                     <thead>
                         <tr class="text-center">
-                            <th class="col-2 p-3">User</th>
-                            <th class="col-2 p-3">Contact</th>
-                            <th class="col-2 p-3">Business</th>
-                            <th class="col-2 p-3">Subscription</th>
-                            <th class="col-2 p-3">Role</th>
-                            <th class="col-2 p-3">Actions</th>
+                            <th class="col-3 p-3">User</th>
+                            <th class="col-3 p-3">Contact</th>
+                            <th class="col-3 p-3">Role</th>
+                            <th class="col-3 p-3">Actions</th>
                         </tr>
                     </thead>
                     <!--end::Table head-->
@@ -169,30 +151,11 @@
                                 </div>
                             </td>
                             <td class="text-center">
-                                {{ ucwords($user->business->name ?? 'No Business Yet...') }}
-                            </td>
-                            <td class="text-center">
-                                @php
-                                $endsAt = \Carbon\Carbon::parse($user->subscription->ends_at);
-                                @endphp
-
-                                @if ($endsAt->isFuture())
-                                <span class="text-dark">Ends {{ $endsAt->diffForHumans() }}</span>
-                                @else
-                                <span class="text-danger">Ended {{ $endsAt->diffForHumans() }}</span>
-                                @endif
-                            </td>
-                            <td class="text-center">
                                 <span
                                     class="badge {{ $user->role == 'admin' ? 'badge-light-success' : '' }} {{ $user->role == 'user' ? 'badge-light-primary' : '' }}">{{
                                     ucwords($user->role) }}</span>
                             </td>
                             <td class="d-flex justify-content-end border-0">
-                                <a href="{{ route('subscriptions.edit', $user->subscription->id) }}"
-                                    class="btn btn-icon btn-warning btn-sm me-1">
-                                    <i class="bi bi-patch-check"></i>
-                                </a>
-
                                 <a href="{{ route('users.edit', $user->id) }}"
                                     class="btn btn-icon btn-warning btn-sm me-1">
                                     <i class="bi bi-pen-fill"></i>

@@ -107,8 +107,7 @@ class PurchaseController extends Controller
 
     public function show(Purchase $purchase)
     {
-        $business = auth()->user()->business;
-        return view('purchases.show', compact('purchase', 'business'));
+        return view('purchases.show', compact('purchase'));
     }
 
     public function edit(Purchase $purchase)

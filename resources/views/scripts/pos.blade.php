@@ -4,7 +4,7 @@
     class PosSystem {
         constructor() {
             // Configuration
-            this.taxRate = {{ $business->tax->rate ?? 0 }};
+            this.taxRate = 0;
             this.usdToLbpRate = {{ $exchange_rate ?? 1 }};
             this.systemCurrency = '{{ $currency->code }}';
             this.systemCurrency = '{{ $currency->code }}';
