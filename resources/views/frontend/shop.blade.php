@@ -29,8 +29,125 @@
                         </div>
                     </div>
                 </div>
-                <div class="row mt-4">
-                    @foreach($products as $product)
+                
+                <!-- Filter and Sort Section -->
+                <div class="row mt-4 mb-3">
+                    <div class="col-12">
+                        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3">
+                            <!-- Filter Toggle Button (Mobile) -->
+                            <button class="btn btn-outline-primary d-md-none" type="button" data-bs-toggle="offcanvas" 
+                                    data-bs-target="#filterOffcanvas" aria-controls="filterOffcanvas">
+                                <i class="fa-solid fa-filter me-2"></i>Filters
+                            </button>
+                            
+                            <!-- Sort Dropdown -->
+                            <div class="d-flex align-items-center gap-2">
+                                <label class="mb-0 fw-semibold">Sort by:</label>
+                                <form method="GET" action="{{ route('shop') }}" id="sortForm" class="d-inline">
+                                    @if(request('category'))
+                                        <input type="hidden" name="category" value="{{ request('category') }}">
+                                    @endif
+                                    @if(request('category_id'))
+                                        <input type="hidden" name="category_id" value="{{ request('category_id') }}">
+                                    @endif
+                                    @if(request('min_price'))
+                                        <input type="hidden" name="min_price" value="{{ request('min_price') }}">
+                                    @endif
+                                    @if(request('max_price'))
+                                        <input type="hidden" name="max_price" value="{{ request('max_price') }}">
+                                    @endif
+                                    @if(request('on_sale'))
+                                        <input type="hidden" name="on_sale" value="{{ request('on_sale') }}">
+                                    @endif
+                                    <select name="sort_by" id="sortBy" class="form-select" style="width: auto; display: inline-block;">
+                                        <option value="newest" {{ request('sort_by', 'newest') == 'newest' ? 'selected' : '' }}>Newest First</option>
+                                        <option value="oldest" {{ request('sort_by') == 'oldest' ? 'selected' : '' }}>Oldest First</option>
+                                        <option value="price_low" {{ request('sort_by') == 'price_low' ? 'selected' : '' }}>Price: Low to High</option>
+                                        <option value="price_high" {{ request('sort_by') == 'price_high' ? 'selected' : '' }}>Price: High to Low</option>
+                                        <option value="name_asc" {{ request('sort_by') == 'name_asc' ? 'selected' : '' }}>Name: A to Z</option>
+                                        <option value="name_desc" {{ request('sort_by') == 'name_desc' ? 'selected' : '' }}>Name: Z to A</option>
+                                    </select>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-2">
+                    <!-- Filter Sidebar (Desktop) -->
+                    <div class="col-md-3 d-none d-md-block">
+                        <div class="filter-sidebar bg-light p-4 rounded shadow-sm">
+                            <h5 class="fw-bold mb-4 text-primary">
+                                <i class="fa-solid fa-filter me-2"></i>Filters
+                            </h5>
+                            
+                            <form method="GET" action="{{ route('shop') }}" id="filterForm">
+                                @if(request('category'))
+                                    <input type="hidden" name="category" value="{{ request('category') }}">
+                                @endif
+                                @if(request('sort_by'))
+                                    <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
+                                @endif
+                                
+                                <!-- Category Filter -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Category</label>
+                                    <select name="category_id" class="form-select">
+                                        <option value="">All Categories</option>
+                                        @foreach($categories as $category)
+                                        <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                                            {{ $category->name }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                
+                                <!-- Price Range Filter -->
+                                <div class="mb-4">
+                                    <label class="form-label fw-semibold">Price Range</label>
+                                    <div class="row g-2">
+                                        <div class="col-6">
+                                            <input type="number" name="min_price" class="form-control" 
+                                                   placeholder="Min" value="{{ request('min_price') }}" 
+                                                   min="0" step="0.01">
+                                        </div>
+                                        <div class="col-6">
+                                            <input type="number" name="max_price" class="form-control" 
+                                                   placeholder="Max" value="{{ request('max_price') }}" 
+                                                   min="0" step="0.01">
+                                        </div>
+                                    </div>
+                                    <small class="text-muted">Range: ${{ number_format($minPrice, 2) }} - ${{ number_format($maxPrice, 2) }}</small>
+                                </div>
+                                
+                                <!-- On Sale Filter -->
+                                <div class="mb-4">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" name="on_sale" 
+                                               value="1" id="onSaleCheck" {{ request('on_sale') == '1' ? 'checked' : '' }}>
+                                        <label class="form-check-label" for="onSaleCheck">
+                                            On Sale Only
+                                        </label>
+                                    </div>
+                                </div>
+                                
+                                <!-- Filter Buttons -->
+                                <div class="d-grid gap-2">
+                                    <button type="submit" class="btn btn-primary">
+                                        <i class="fa-solid fa-search me-2"></i>Apply Filters
+                                    </button>
+                                    <a href="{{ route('shop') }}" class="btn btn-outline-secondary">
+                                        <i class="fa-solid fa-times me-2"></i>Clear All
+                                    </a>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    
+                    <!-- Products Grid -->
+                    <div class="col-md-9">
+                        <div class="row">
+                            @forelse($products as $product)
                     <div class="col-6 col-md-3 mb-3">
                         <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
                             <div class="card item-card product-card overflow-hidden y-on-hover">
@@ -64,15 +181,100 @@
                             </div>
                         </a>
                     </div>
-                    @endforeach
-                    <div class="d-flex justify-content-center mt-4">
-                        {{ $products->links() }}
+                            @empty
+                            <div class="col-12 text-center py-5">
+                                <i class="fa-solid fa-box-open fa-3x text-muted mb-3"></i>
+                                <h4 class="text-muted">No products found</h4>
+                                <p class="text-muted">Try adjusting your filters</p>
+                                <a href="{{ route('shop') }}" class="btn btn-primary mt-3">Clear Filters</a>
+                            </div>
+                            @endforelse
+                        </div>
+                        
+                        <!-- Pagination -->
+                        @if($products->hasPages())
+                        <div class="d-flex justify-content-center mt-4">
+                            {{ $products->links() }}
+                        </div>
+                        @endif
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Filter Offcanvas (Mobile) -->
+<div class="offcanvas offcanvas-start" tabindex="-1" id="filterOffcanvas" aria-labelledby="filterOffcanvasLabel">
+    <div class="offcanvas-header">
+        <h5 class="offcanvas-title fw-bold text-primary" id="filterOffcanvasLabel">
+            <i class="fa-solid fa-filter me-2"></i>Filters
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body">
+        <form method="GET" action="{{ route('shop') }}" id="filterFormMobile">
+            @if(request('category'))
+                <input type="hidden" name="category" value="{{ request('category') }}">
+            @endif
+            @if(request('sort_by'))
+                <input type="hidden" name="sort_by" value="{{ request('sort_by') }}">
+            @endif
+            
+            <!-- Category Filter -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Category</label>
+                <select name="category_id" class="form-select">
+                    <option value="">All Categories</option>
+                    @foreach($categories as $category)
+                    <option value="{{ $category->id }}" {{ request('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                    @endforeach
+                </select>
+            </div>
+            
+            <!-- Price Range Filter -->
+            <div class="mb-4">
+                <label class="form-label fw-semibold">Price Range</label>
+                <div class="row g-2">
+                    <div class="col-6">
+                        <input type="number" name="min_price" class="form-control" 
+                               placeholder="Min" value="{{ request('min_price') }}" 
+                               min="0" step="0.01">
+                    </div>
+                    <div class="col-6">
+                        <input type="number" name="max_price" class="form-control" 
+                               placeholder="Max" value="{{ request('max_price') }}" 
+                               min="0" step="0.01">
+                    </div>
+                </div>
+                <small class="text-muted">Range: ${{ number_format($minPrice, 2) }} - ${{ number_format($maxPrice, 2) }}</small>
+            </div>
+            
+            <!-- On Sale Filter -->
+            <div class="mb-4">
+                <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="on_sale" 
+                           value="1" id="onSaleCheckMobile" {{ request('on_sale') == '1' ? 'checked' : '' }}>
+                    <label class="form-check-label" for="onSaleCheckMobile">
+                        On Sale Only
+                    </label>
+                </div>
+            </div>
+            
+            <!-- Filter Buttons -->
+            <div class="d-grid gap-2">
+                <button type="submit" class="btn btn-primary">
+                    <i class="fa-solid fa-search me-2"></i>Apply Filters
+                </button>
+                <a href="{{ route('shop') }}" class="btn btn-outline-secondary">
+                    <i class="fa-solid fa-times me-2"></i>Clear All
+                </a>
+            </div>
+        </form>
+    </div>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function () {
@@ -122,6 +324,14 @@
                 alert('Product added to cart!');
             });
         });
+
+        // Auto-submit sort form when selection changes
+        const sortSelect = document.getElementById('sortBy');
+        if (sortSelect) {
+            sortSelect.addEventListener('change', function() {
+                document.getElementById('sortForm').submit();
+            });
+        }
     });
 </script>
 @endsection

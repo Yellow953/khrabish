@@ -86,7 +86,7 @@
                                 placeholder="Enter Description...">{{ old('description') }}</textarea>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-3">
                         <div class="form-group row">
                             <label class="col-4 form-label">Image</label>
                             <div class="col-8">
@@ -130,6 +130,30 @@
                                     <!--end::Remove button-->
                                 </div>
                                 <!--end::Image input-->
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group my-5">
+                            <div class="fw-semibold mb-4">Booming Offers</div>
+                            <div class="d-flex align-items-center mx-3">
+                                <span class="me-3">Booming</span>
+                                <label class="switch">
+                                    <input type="checkbox" name="booming" id="booming" value="1" {{ old('booming', 1)
+                                        ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="form-group my-5">
+                            <div class="fw-semibold mb-4">Visibility</div>
+                            <div class="d-flex align-items-center mx-3">
+                                <span class="me-3">Public</span>
+                                <label class="switch">
+                                    <input type="checkbox" name="public" id="public" value="1" {{ old('public', 1)
+                                        ? 'checked' : '' }}>
+                                    <span class="slider round"></span>
+                                </label>
                             </div>
                         </div>
                     </div>

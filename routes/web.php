@@ -121,6 +121,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/{product}/update', [ProductController::class, 'update'])->name('products.update');
             Route::get('/{product}/import', [ProductController::class, 'import'])->name('products.import');
             Route::get('/generate_barcodes', [ProductController::class, 'generate_barcodes'])->name('products.generate_barcodes');
+            Route::post('/barcodes/save', [ProductController::class, 'save_barcodes'])->name('products.barcodes.save');
             Route::post('/{product}/save', [ProductController::class, 'save'])->name('products.save');
             Route::get('/{product}/destroy', [ProductController::class, 'destroy'])->name('products.destroy');
             Route::get('/', [ProductController::class, 'index'])->name('products');
@@ -270,5 +271,6 @@ Route::post('/checkout/order', [App\Http\Controllers\ShopController::class, 'ord
 Route::get('/about', [ShopController::class, 'about'])->name('about');
 Route::get('/contact', [ShopController::class, 'contact'])->name('contact');
 Route::post('/contact/send', [ShopController::class, 'send'])->name('contact.send');
+Route::get('/booming-offers', [ShopController::class, 'booming'])->name('booming');
 Route::get('/shop', [ShopController::class, 'shop'])->name('shop');
 Route::get('/', [ShopController::class, 'index'])->name('home');

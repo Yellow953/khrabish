@@ -133,7 +133,7 @@
                             </div>
                             <div class="summary-item">
                                 <span>Shipping</span>
-                                <span id="shipping-price">$3.00</span>
+                                <span id="shipping-price">$4.00</span>
                             </div>
                             <div class="summary-item">
                                 <span>Discount</span>
@@ -170,7 +170,7 @@
     document.addEventListener('DOMContentLoaded', function () {
         const shippingCosts = {
             Beirut: 0,
-            Others: 3
+            Others: 4,
         };
 
         let discount = {
@@ -220,11 +220,11 @@
         });
 
         function calculateShipping() {
-            if (subtotal >= 25) {
+            if (subtotal >= 40) {
                 return 0;
             }
             const selectedCity = citySelect.value;
-            return selectedCity === 'Beirut' ? 0 : 3;
+            return selectedCity === 'Beirut' ? 0 : 4;
         }
 
         function updatePrices() {

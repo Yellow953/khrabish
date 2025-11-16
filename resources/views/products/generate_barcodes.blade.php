@@ -84,7 +84,8 @@
 
                     <div class="my-5">
                         <button id="generateBtn" class="btn btn-primary me-2">Generate Labels</button>
-                        <button id="printBtn" class="btn btn-success">Print Labels</button>
+                        <button id="printBtn" class="btn btn-success me-2">Print Labels</button>
+                        <button id="saveBtn" class="btn btn-primary">Save Barcodes</button>
                     </div>
 
                     <div id="errorAlert" class="alert alert-danger d-none"></div>
@@ -95,6 +96,28 @@
                 <div id="barcodePreview" class="d-flex flex-wrap gap-4 p-4">
                     <div class="w-100 text-center">Preview</div>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal for assigning barcodes -->
+<div class="modal fade" id="assignModal" tabindex="-1" aria-labelledby="assignModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="assignModalLabel">Save Barcodes</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Select which barcodes you want to save:</p>
+                <div id="barcodeSelection" class="mb-3">
+                    <!-- Barcode checkboxes will be added here dynamically -->
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary" id="confirmSave">Save Selected</button>
             </div>
         </div>
     </div>

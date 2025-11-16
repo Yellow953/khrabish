@@ -137,6 +137,14 @@
                                     <div class="d-flex justify-content-start flex-column">
                                         <a href="#" class="text-dark fw-bold text-hover-primary mb-1 fs-6">{{
                                             ucwords($product->name) }}</a>
+                                        <div class="d-flex flex-row">
+                                            @if ($product->booming)
+                                            <span class="badge badge-primary me-auto">Booming</span>
+                                            @endif
+                                            @if (!$product->public)
+                                            <span class="badge badge-danger ms-1 me-auto">Private</span>
+                                            @endif
+                                        </div>
                                     </div>
                                     <!--end::Name-->
                                 </div>

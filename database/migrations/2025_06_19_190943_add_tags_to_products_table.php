@@ -10,6 +10,8 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->json('tags')->nullable();
+            $table->boolean('booming')->default(false);
+            $table->boolean('public')->default(true);
         });
     }
 
@@ -17,6 +19,8 @@ return new class extends Migration
     {
         Schema::table('products', function (Blueprint $table) {
             $table->dropColumn('tags');
+            $table->dropColumn('booming');
+            $table->dropColumn('public');
         });
     }
 };

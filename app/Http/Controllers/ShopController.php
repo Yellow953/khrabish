@@ -6,7 +6,6 @@ use App\Helpers\Helper;
 use App\Models\Category;
 use App\Models\Client;
 use App\Models\Currency;
-use App\Models\Discount;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Product;
@@ -19,14 +18,14 @@ class ShopController extends Controller
     public function index()
     {
         $categories = Category::select('id', 'name', 'image')->get();
-        $booming_offers = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->whereRaw("JSON_SEARCH(tags, 'one', 'sale_%') IS NOT NULL")->with('variants')->orderBy('created_at', 'DESC')->limit(10)->get();
+        $booming_offers = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->where('booming', true)->where('public', true)->with('variants')->orderBy('created_at', 'DESC')->limit(10)->get();
 
-        $latest_additions = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->orderBy('created_at', 'desc')->limit(12)->get();
+        $latest_additions = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->where('public', true)->orderBy('created_at', 'desc')->limit(12)->get();
         $order_count = Order::count();
         if ($order_count < 10) {
-            $best_sellers = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->inRandomOrder()->limit(12)->get();
+            $best_sellers = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags')->where('public', true)->inRandomOrder()->limit(12)->get();
         } else {
-            $best_sellers = Product::select('products.id', 'products.name', 'products.image', 'products.price', 'products.compare_price', 'products.tags')->join('order_items', 'products.id', '=', 'order_items.product_id')->groupBy('products.id', 'products.name', 'products.image')->orderByRaw('COUNT(order_items.id) DESC')->with('variants')->limit(12)->get();
+            $best_sellers = Product::select('products.id', 'products.name', 'products.image', 'products.price', 'products.compare_price', 'products.tags')->where('public', true)->join('order_items', 'products.id', '=', 'order_items.product_id')->groupBy('products.id', 'products.name', 'products.image')->orderByRaw('COUNT(order_items.id) DESC')->with('variants')->limit(12)->get();
         }
 
         $data = compact('categories', 'booming_offers', 'latest_additions', 'best_sellers');
@@ -36,22 +35,75 @@ class ShopController extends Controller
     public function shop(Request $request)
     {
         $categories = Category::select('id', 'name', 'image')->get();
+        
+        // Start building query
+        $query = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price', 'tags', 'created_at')
+            ->where('public', true)
+            ->with('variants', 'category');
 
+        // Filter by category (support both category name and category_id)
         if ($request->input('category')) {
-            $category = Category::where('name', $request->input('category'))->firstOrFail();
-            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price', 'tags')->where('category_id', $category->id)->with('variants')->paginate(12);
-        } else {
-            $products = Product::select('id', 'name', 'category_id', 'image', 'price', 'compare_price', 'tags')->with('variants')->paginate(12);
+            $category = Category::where('name', $request->input('category'))->first();
+            if ($category) {
+                $query->where('category_id', $category->id);
+            }
+        } elseif ($request->input('category_id')) {
+            $query->where('category_id', $request->input('category_id'));
         }
 
-        $data = compact('categories', 'products');
+        // Filter by price range
+        if ($request->input('min_price')) {
+            $query->where('price', '>=', $request->input('min_price'));
+        }
+        if ($request->input('max_price')) {
+            $query->where('price', '<=', $request->input('max_price'));
+        }
+
+        // Filter by on sale (products with compare_price)
+        if ($request->input('on_sale') == '1') {
+            $query->whereNotNull('compare_price');
+        }
+
+        // Sort by
+        $sortBy = $request->input('sort_by', 'newest');
+        switch ($sortBy) {
+            case 'price_low':
+                $query->orderBy('price', 'asc');
+                break;
+            case 'price_high':
+                $query->orderBy('price', 'desc');
+                break;
+            case 'name_asc':
+                $query->orderBy('name', 'asc');
+                break;
+            case 'name_desc':
+                $query->orderBy('name', 'desc');
+                break;
+            case 'oldest':
+                $query->orderBy('created_at', 'asc');
+                break;
+            case 'newest':
+            default:
+                $query->orderBy('created_at', 'desc');
+                break;
+        }
+
+        // Get min and max prices for filter range
+        $minPrice = Product::where('public', true)->min('price') ?? 0;
+        $maxPrice = Product::where('public', true)->max('price') ?? 1000;
+
+        $products = $query->paginate(12)->withQueryString();
+
+        $data = compact('categories', 'products', 'minPrice', 'maxPrice');
         return view('frontend.shop', $data);
     }
 
     public function product(Product $product)
     {
+        if (!$product->public) return redirect()->back()->with('warning', 'Product Not Public!');
+
         $categories = Category::select('id', 'name', 'image')->get();
-        $simillar_products = Product::select('id', 'name', 'image')->where('category_id', $product->category_id)->limit(10)->get();
+        $simillar_products = Product::select('id', 'name', 'image')->where('public', true)->where('category_id', $product->category_id)->limit(10)->get();
 
         $data = compact('product', 'simillar_products', 'categories');
         return view('frontend.product', $data);
@@ -178,7 +230,7 @@ class ShopController extends Controller
             return response()->json([]);
         }
 
-        $products = Product::where('name', 'like', '%' . $query . '%')
+        $products = Product::where('name', 'like', '%' . $query . '%')->where('public', true)
             ->take(5)
             ->get(['id', 'name', 'image']);
 
@@ -212,6 +264,15 @@ class ShopController extends Controller
         } else {
             return redirect()->back()->with('error', 'Unable to Send...');
         }
+    }
+
+    public function booming()
+    {
+        $categories = Category::select('id', 'name', 'image')->get();
+        $booming_offers = Product::select('id', 'name', 'image', 'price', 'compare_price', 'tags', 'category_id')->where('booming', true)->where('public', true)->with(['variants', 'category'])->orderBy('created_at', 'DESC')->paginate();
+
+        $data = compact('categories', 'booming_offers');
+        return view('frontend.booming', $data);
     }
 
     private function sendOrderEmails(Order $order, Client $client)

@@ -12,14 +12,14 @@
                         id="product-detail">
                 </div>
 
-                @if ($product->images)
+                @if ($product->secondary_images)
                 <div class="row">
                     <div id="multi-item-example" class="col-12 carousel slide carousel-multi-item pointer-event"
                         data-bs-ride="carousel">
                         <div class="carousel-inner product-links-wap" role="listbox">
                             <div class="carousel-item active">
                                 <div class="row">
-                                    @if ($product->images->count() != 0)
+                                    @if ($product->secondary_images->count() != 0)
                                     <div class="col-4 p-2">
                                         <a href="#" class="secondary-image" data-image="{{ asset($product->image) }}">
                                             <img class="card-img secondary-img border img-fluid"
@@ -27,7 +27,7 @@
                                         </a>
                                     </div>
                                     @endif
-                                    @foreach ($product->images as $image)
+                                    @foreach ($product->secondaryimages as $image)
                                     <div class="col-4 p-2">
                                         <a href="#" class="secondary-image" data-image="{{ asset($image->path) }}">
                                             <img class="card-img secondary-img border img-fluid"

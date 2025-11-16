@@ -25,8 +25,8 @@
                             <a href="#" class="text-decoration-none">
                                 <li style=" font-size: 2rem;"><i class="fa fa-clock text-white"></i>
                                 </li>
-                                <li class="text-white">Monday - Friday</li>
-                                <li class="text-white">08:00 - 20:00</li>
+                                <li class="text-white">Monday - Saturday</li>
+                                <li class="text-white">10:00AM - 07:00PM</li>
                             </a>
                         </ul>
                     </div>
@@ -91,6 +91,8 @@
                         class="text-decoration-none text-white fw-bold fs-4 y-on-hover">Home</a>
                     <a href="{{ route('shop') }}"
                         class="text-decoration-none text-white fw-bold fs-4 y-on-hover">Shop</a>
+                    <a href="{{ route('booming') }}"
+                        class="text-decoration-none text-white fw-bold fs-4 y-on-hover">Booming Offers</a>
                     <a href="{{ route('contact') }}"
                         class="text-decoration-none text-white fw-bold fs-4 y-on-hover">Contact</a>
                 </div>

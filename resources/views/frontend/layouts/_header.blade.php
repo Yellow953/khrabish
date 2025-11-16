@@ -24,12 +24,10 @@
         </div>
 
         <div class="bg-tertiary p-4 shadow desktop-display">
-            <a href="{{ route('login') }}"
-                class="text-decoration-none text-white text-shadow-tertiary-sm text-lg">Login</a>
+            <a href="{{ route('login') }}" class="text-decoration-none text-white text-lg">Login</a>
         </div>
         <div class="bg-tertiary p-4 shadow tab-display">
-            <a href="{{ route('login') }}"
-                class="text-decoration-none text-white text-shadow-tertiary-sm text-lg">Login</a>
+            <a href="{{ route('login') }}" class="text-decoration-none text-white text-lg">Login</a>
         </div>
     </div>
 </div>
@@ -56,12 +54,60 @@
                 <li class="nav-item"><a href="{{ route('contact') }}"
                         class="text-decoration-none nav-link y-on-hover">Contact</a>
             </div>
+            <li class="nav-item"><a href="{{ route('booming') }}"
+                    class="text-decoration-none nav-link y-on-hover">Booming Offers</a>
+            </li>
             <li class="nav-item"><a href="{{ route('shop') }}" class="text-decoration-none nav-link y-on-hover">All
                     Products</a>
             </li>
-            @foreach ($categories as $category)
-            <li class="nav-item"><a class="text-decoration-none nav-link y-on-hover"
-                    href="{{ route('shop', ['category' => $category->name]) }}">{{ $category->name }}</a>
+            @foreach ($parentCategories ?? [] as $parentCategory)
+            <li
+                class="nav-item {{ $parentCategory->subCategories->count() > 0 ? 'dropdown' : '' }} desktop-category-item">
+                <a class="text-decoration-none nav-link y-on-hover {{ $parentCategory->subCategories->count() > 0 ? 'dropdown-toggle' : '' }}"
+                    href="{{ route('shop', ['category' => $parentCategory->name]) }}"
+                    id="categoryDropdown{{ $parentCategory->id }}" role="button" aria-expanded="false">
+                    {{ $parentCategory->name }}
+                </a>
+                @if($parentCategory->subCategories->count() > 0)
+                <ul class="dropdown-menu mega-menu" aria-labelledby="categoryDropdown{{ $parentCategory->id }}">
+                    <li class="mega-menu-content">
+                        <div class="row">
+                            @foreach($parentCategory->subCategories as $subCategory)
+                            <div class="col-md-3 col-sm-6 mb-3">
+                                <a href="{{ route('shop', ['category' => $subCategory->name]) }}"
+                                    class="text-decoration-none text-dark d-block p-2 y-on-hover-sm">
+                                    <strong>{{ $subCategory->name }}</strong>
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </li>
+                </ul>
+                @endif
+            </li>
+            <li class="nav-item mobile-category-item">
+                <a class="text-decoration-none nav-link y-on-hover d-flex justify-content-center align-items-center"
+                    data-bs-toggle="collapse" href="#mobileCategory{{ $parentCategory->id }}" role="button"
+                    aria-expanded="false" aria-controls="mobileCategory{{ $parentCategory->id }}">
+                    <span>{{ $parentCategory->name }}</span>
+                    @if($parentCategory->subCategories->count() > 0)
+                    <i class="fa-solid fa-chevron-down ms-1"></i>
+                    @endif
+                </a>
+                @if($parentCategory->subCategories->count() > 0)
+                <div class="collapse" id="mobileCategory{{ $parentCategory->id }}">
+                    <ul class="list-unstyled ps-4">
+                        @foreach($parentCategory->subCategories as $subCategory)
+                        <li class="py-2">
+                            <a href="{{ route('shop', ['category' => $subCategory->name]) }}"
+                                class="text-decoration-none text-dark y-on-hover-sm">
+                                {{ $subCategory->name }}
+                            </a>
+                        </li>
+                        @endforeach
+                    </ul>
+                </div>
+                @endif
             </li>
             @endforeach
         </ul>

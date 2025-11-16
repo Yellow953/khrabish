@@ -26,7 +26,7 @@ class ProductController extends Controller
 
     public function index()
     {
-        $products = Product::select('id', 'name', 'quantity', 'cost', 'price', 'image', 'category_id', 'description')->filter()->orderBy('id', 'desc')->paginate(25);
+        $products = Product::select('id', 'name', 'quantity', 'cost', 'price', 'image', 'category_id', 'description', 'booming', 'public')->filter()->orderBy('id', 'desc')->paginate(25);
         $categories = Category::select('id', 'name')->get();
         $currency = auth()->user()->currency;
 
@@ -50,7 +50,9 @@ class ProductController extends Controller
             'compare_price' => 'nullable|numeric|min:0',
             'category_id' => 'required',
             'barcodes' => 'array',
-            'tags' => 'nullable|string'
+            'tags' => 'nullable|string',
+            'booming' => 'nullable|boolean',
+            'public' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -82,6 +84,8 @@ class ProductController extends Controller
             'description' => $request->description,
             'image' => $path,
             'tags' => $tags,
+            'booming' => $request->has('booming') ? 1 : 0,
+            'public' => $request->has('public') ? 1 : 0,
         ]);
 
         if ($request->barcodes) {
@@ -151,7 +155,9 @@ class ProductController extends Controller
             'price' => 'required|numeric|min:0',
             'compare_price' => 'nullable|numeric|min:0',
             'category_id' => 'required',
-            'tags' => 'nullable|string'
+            'tags' => 'nullable|string',
+            'booming' => 'nullable|boolean',
+            'public' => 'nullable|boolean',
         ]);
 
         if ($request->hasFile('image')) {
@@ -182,6 +188,8 @@ class ProductController extends Controller
             'description' => $request->description,
             'image' => $path,
             'tags' => $tags,
+            'booming' => $request->has('booming') ? 1 : 0,
+            'public' => $request->has('public') ? 1 : 0,
         ]);
 
         if ($request->barcodes) {
@@ -342,6 +350,34 @@ class ProductController extends Controller
     {
         $products = Product::select('id', 'name', 'price')->get();
         return view('products.generate_barcodes', compact('products'));
+    }
+
+    public function save_barcodes(Request $request)
+    {
+        $request->validate([
+            'product_id' => 'required|exists:products,id',
+            'barcodes' => 'required|array',
+            'barcodes.*' => 'required|string|max:255'
+        ]);
+
+        try {
+            $product = Product::findOrFail($request->product_id);
+
+            foreach ($request->barcodes as $barcode) {
+                $product->barcodes()->create(['barcode' => $barcode]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => 'Barcodes saved successfully',
+                'count' => count($request->barcodes)
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to save barcodes: ' . $e->getMessage()
+            ], 500);
+        }
     }
 
     public function secondary_image_delete(SecondaryImage $secondary_image)

@@ -9,17 +9,20 @@
             <div class="carousel-item">
                 <img src="{{ asset('frontend/images/hero.png') }}" class="d-block hero-img" alt="Hero Image">
                 <h1 class="z-index-1 hero-title">Shop Your Favorite Khrabish Online</h1>
-                <a href="{{ route('shop') }}" class="btn btn-tertiary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
+                <a href="{{ route('shop') }}?category=Cleaning"
+                    class="btn btn-tertiary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
             </div>
             <div class="carousel-item">
                 <img src="{{ asset('frontend/images/hero-2.png') }}" class="d-block hero-img" alt="Hero Image 2">
                 <h1 class="z-index-1 hero-title">Take A Look At Our Kitchen Items</h1>
-                <a href="{{ route('shop') }}" class="btn btn-secondary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
+                <a href="{{ route('shop') }}?category=Kitchen"
+                    class="btn btn-secondary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
             </div>
             <div class="carousel-item active">
                 <img src="{{ asset('frontend/images/hero-3.png') }}" class="d-block hero-img" alt="Hero Image 3">
                 <h1 class="z-index-1 hero-title">Get Your Kids Toys Here</h1>
-                <a href="{{ route('shop') }}" class="btn btn-primary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
+                <a href="{{ route('shop') }}?category=Kids"
+                    class="btn btn-primary px-4 mt-2 hero-button y-on-hover">Shop Now</a>
             </div>
         </div>
     </div>
@@ -29,7 +32,7 @@
     <div class="col-md-12 mt-5 text-center">
         <h2 class="text-tertiary">Booming Offers</h2>
         <div class="owl-carousel owl-theme products">
-            @foreach ($booming_offers as $product)
+            @forelse ($booming_offers as $product)
             <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
                 <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
                     <img src="{{ $product->image }}" class="img-fluid product-img">
@@ -56,7 +59,9 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <p class="text-center mt-4">No Booming Offers Yet...</p>
+            @endforelse
         </div>
     </div>
 </div>
@@ -142,7 +147,7 @@
         </div>
 
         <div class="col-md-12 mb-5 text-center">
-            <h2 class="text-tertiary text-shadow-tertiary mt-5">Latest Additions</h2>
+            <h2 class="text-tertiary mt-5">Latest Additions</h2>
             <div class="owl-carousel owl-theme products">
                 @foreach ($latest_additions as $product)
                 <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
