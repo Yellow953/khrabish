@@ -140,7 +140,7 @@
                                     <div class="card card-flush flex-row-fluid p-0 pb-5 mw-100 border-primary product-item align-items-center"
                                         data-product-id="{{ $product->id }}" data-quantity="{{ $product->quantity }}"
                                         data-barcodes="{{ $product->barcodes ? $product->barcodes->map(function($barcode) { return ['barcode' => $barcode->barcode ];})->toJson() : '[]' }}"
-                                        data-variants="{{ $product->variants ? $product->variants->map(function($variant) { return ['id' => $variant->id,'title' => $variant->title,'type' => $variant->type,'options' => $variant->options->map(function($option) {return ['id' => $option->id,'value' => $option->value,'price' => $option->price, 'quantity' => $option->quantity,];}),];})->toJson() : '[]' }}">
+                                        data-variants="{{ $product->variants ? $product->variants->map(function($variant) { return ['id' => $variant->id,'title' => $variant->title,'type' => $variant->type,'options' => $variant->options->map(function($option) {return ['id' => $option->id,'value' => $option->value,'price' => $option->price, 'quantity' => $option->quantity, 'image' => $option->image ? asset($option->image) : null,];}),];})->toJson() : '[]' }}">
                                         <div class="card-body text-center w-150px">
                                             <img src="{{ asset($product->image) }}" loading="lazy" decoding="async"
                                                 fetchpriority="low" class="rounded-3 mb-4 w-150px h-150px"

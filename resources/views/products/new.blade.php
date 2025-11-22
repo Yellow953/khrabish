@@ -371,10 +371,11 @@
                     <button type="button" class="btn btn-danger remove-variant"><i class="fa fa-trash"></i></button>
                 </div>
                 <div class="variant-options mt-2">
-                    <div class="input-group mb-2">
-                        <input type="text" class="form-control w-50" name="variants[${variantIndex}][options][0][value]" placeholder="Option (e.g., S, Red)" required>
-                        <input type="number" class="form-control w-20" name="variants[${variantIndex}][options][0][quantity]" placeholder="Qty" min="0" step="0.01">
-                        <input type="number" class="form-control w-20" name="variants[${variantIndex}][options][0][price]" placeholder="Price" required min="0" value="0" step="0.01">
+                    <div class="input-group mb-2 flex-wrap">
+                        <input type="text" class="form-control w-25" name="variants[${variantIndex}][options][0][value]" placeholder="Option (e.g., S, Red)" required>
+                        <input type="number" class="form-control w-15" name="variants[${variantIndex}][options][0][quantity]" placeholder="Qty" min="0" step="0.01">
+                        <input type="number" class="form-control w-15" name="variants[${variantIndex}][options][0][price]" placeholder="Price" required min="0" value="0" step="0.01">
+                        <input type="file" class="form-control w-20" name="variants[${variantIndex}][options][0][image]" accept=".png, .jpg, .jpeg">
                         <button type="button" class="btn btn-danger remove-option"><i class="fa fa-trash"></i></button>
                     </div>
                 </div>
@@ -399,11 +400,12 @@
                 var optionIndex = optionsContainer.querySelectorAll('.input-group').length;
 
                 var newOption = document.createElement('div');
-                newOption.classList.add('input-group', 'mb-2');
+                newOption.classList.add('input-group', 'mb-2', 'flex-wrap');
                 newOption.innerHTML = `
-                    <input type="text" class="form-control w-50" name="variants[${variantId}][options][${optionIndex}][value]" placeholder="Option (e.g., M, Blue)" required>
-                    <input type="number" class="form-control w-20 option-qty" name="variants[${variantId}][options][${optionIndex}][quantity]" placeholder="Qty" min="0">
-                    <input type="number" class="form-control w-20" name="variants[${variantId}][options][${optionIndex}][price]" placeholder="Price" required value="0" min="0" step="0.01"   >
+                    <input type="text" class="form-control w-25" name="variants[${variantId}][options][${optionIndex}][value]" placeholder="Option (e.g., M, Blue)" required>
+                    <input type="number" class="form-control w-15 option-qty" name="variants[${variantId}][options][${optionIndex}][quantity]" placeholder="Qty" min="0">
+                    <input type="number" class="form-control w-15" name="variants[${variantId}][options][${optionIndex}][price]" placeholder="Price" required value="0" min="0" step="0.01">
+                    <input type="file" class="form-control w-20" name="variants[${variantId}][options][${optionIndex}][image]" accept=".png, .jpg, .jpeg">
                     <button type="button" class="btn btn-danger remove-option"><i class="fa fa-trash"></i></button>
                 `;
                 optionsContainer.appendChild(newOption);

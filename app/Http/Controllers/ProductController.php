@@ -117,17 +117,34 @@ class ProductController extends Controller
         }
 
         if ($request->variants) {
-            foreach ($request->variants as $variant) {
+            foreach ($request->variants as $variantIndex => $variant) {
                 $variantModel = $product->variants()->create([
                     'title' => $variant['title'],
                     'type' => $variant['type'],
                 ]);
 
-                foreach ($variant['options'] as $option) {
+                foreach ($variant['options'] as $optionIndex => $option) {
+                    $imagePath = null;
+                    
+                    // Handle image upload for variant option
+                    $imageKey = "variants.{$variantIndex}.options.{$optionIndex}.image";
+                    if ($request->hasFile($imageKey)) {
+                        $file = $request->file($imageKey);
+                        $ext = $file->getClientOriginalExtension();
+                        $filename = auth()->id() . '_' . time() . '_' . uniqid() . '.' . $ext;
+                        $image = Image::make($file);
+                        $image->fit(200, 200, function ($constraint) {
+                            $constraint->upsize();
+                        });
+                        $image->save(public_path('uploads/variant_options/' . $filename));
+                        $imagePath = '/uploads/variant_options/' . $filename;
+                    }
+                    
                     $variantModel->options()->create([
                         'value' => $option['value'],
                         'quantity' => $option['quantity'],
                         'price' => $option['price'],
+                        'image' => $imagePath,
                     ]);
                 }
             }
@@ -223,17 +240,34 @@ class ProductController extends Controller
         }
 
         if ($request->variants) {
-            foreach ($request->variants as $variant) {
+            foreach ($request->variants as $variantIndex => $variant) {
                 $variantModel = $product->variants()->create([
                     'title' => $variant['title'],
                     'type' => $variant['type'],
                 ]);
 
-                foreach ($variant['options'] as $option) {
+                foreach ($variant['options'] as $optionIndex => $option) {
+                    $imagePath = null;
+                    
+                    // Handle image upload for variant option
+                    $imageKey = "variants.{$variantIndex}.options.{$optionIndex}.image";
+                    if ($request->hasFile($imageKey)) {
+                        $file = $request->file($imageKey);
+                        $ext = $file->getClientOriginalExtension();
+                        $filename = auth()->id() . '_' . time() . '_' . uniqid() . '.' . $ext;
+                        $image = Image::make($file);
+                        $image->fit(200, 200, function ($constraint) {
+                            $constraint->upsize();
+                        });
+                        $image->save(public_path('uploads/variant_options/' . $filename));
+                        $imagePath = '/uploads/variant_options/' . $filename;
+                    }
+                    
                     $variantModel->options()->create([
                         'value' => $option['value'],
                         'quantity' => $option['quantity'],
                         'price' => $option['price'],
+                        'image' => $imagePath,
                     ]);
                 }
             }

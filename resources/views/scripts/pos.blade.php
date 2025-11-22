@@ -905,6 +905,38 @@
                 });
             });
 
+            // Handle variant option button clicks for single select variants
+            modal.querySelectorAll('.variant-option-btn-pos').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const variantId = this.closest('.mb-3').querySelector('.variant-option-select')?.getAttribute('data-variant-id');
+                    if (!variantId) return;
+                    
+                    const select = modal.querySelector(`.variant-option-select[data-variant-id="${variantId}"]`);
+                    const optionId = this.getAttribute('data-option-id');
+                    
+                    // Update select value
+                    select.value = optionId;
+                    
+                    // Update active state
+                    const container = this.closest('.variant-options-grid');
+                    container.querySelectorAll('.variant-option-btn-pos').forEach(b => {
+                        b.classList.remove('active', 'btn-primary');
+                        if (!b.classList.contains('p-0')) {
+                            b.classList.add('btn-outline-secondary');
+                        }
+                        b.style.borderColor = '#dee2e6';
+                    });
+                    
+                    this.classList.add('active');
+                    if (this.classList.contains('p-0')) {
+                        this.style.borderColor = 'var(--primary)';
+                    } else {
+                        this.classList.add('btn-primary');
+                        this.classList.remove('btn-outline-secondary');
+                    }
+                });
+            });
+
             modal.querySelector('#add-to-order').addEventListener('click', () => {
                 const selectedOptions = this.getSelectedVariantOptions(modal);
 
@@ -936,7 +968,24 @@
                                     <div class="mb-3">
                                         <label class="form-label">${variant.title} (${variant.type === 'single' ? 'Select one' : 'Select multiple'})</label>
                                         ${variant.type === 'single' ? `
-                                            <select class="form-select variant-option-select" data-variant-id="${variant.id}">
+                                            <div class="variant-options-grid d-flex flex-wrap gap-2 mb-2">
+                                                ${variant.options.map(option => `
+                                                    <button type="button" class="btn variant-option-btn-pos ${option.image ? 'p-0' : 'btn-outline-secondary'}" 
+                                                            data-option-id="${option.id}"
+                                                            data-price="${option.price}"
+                                                            data-quantity="${option.quantity}"
+                                                            data-value="${option.value}"
+                                                            style="${option.image ? 'border: 2px solid #dee2e6; border-radius: 8px; overflow: hidden; padding: 0;' : ''}">
+                                                        ${option.image ? `
+                                                            <img src="${option.image}" alt="${option.value}" style="width: 60px; height: 60px; object-fit: cover; display: block;">
+                                                            <span class="d-block text-center p-1 small" style="background: white; color: #333; font-size: 0.75rem;">${option.value}</span>
+                                                        ` : `
+                                                            ${option.value}
+                                                        `}
+                                                    </button>
+                                                `).join('')}
+                                            </div>
+                                            <select class="form-select variant-option-select d-none" data-variant-id="${variant.id}">
                                                 <option value="">Select an option</option>
                                                 ${variant.options.map(option => `
                                                     <option value="${option.id}"
@@ -950,7 +999,10 @@
                                         ` : `
                                             <div class="variant-options-container" data-variant-id="${variant.id}">
                                                 ${variant.options.map(option => `
-                                                    <div class="form-check mb-2">
+                                                    <div class="form-check mb-2 d-flex align-items-center">
+                                                        ${option.image ? `
+                                                            <img src="${option.image}" alt="${option.value}" style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
+                                                        ` : ''}
                                                         <input class="form-check-input variant-option-checkbox"
                                                             type="checkbox"
                                                             value="${option.id}"
