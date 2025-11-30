@@ -102,13 +102,39 @@
             });
 
             // Discount handling
+            const editDiscountBtn = document.querySelector('.edit-discount-btn');
+            if (editDiscountBtn) {
+                editDiscountBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showDiscountInput();
+                });
+            }
+            // Keep text clickable as well
             this.cachedElements.discountElement.addEventListener('click', () => this.showDiscountInput());
             this.cachedElements.discountInput.addEventListener('blur', () => this.updateDiscount());
+            this.cachedElements.discountInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.target.blur();
+                }
+            });
             this.cachedElements.discountInput.addEventListener('input', () => this.debounce(this.updateDiscount, 300));
 
             // Delivery handling
+            const editDeliveryBtn = document.querySelector('.edit-delivery-btn');
+            if (editDeliveryBtn) {
+                editDeliveryBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    this.showDeliveryInput();
+                });
+            }
+            // Keep text clickable as well
             this.cachedElements.deliveryElement.addEventListener('click', () => this.showDeliveryInput());
             this.cachedElements.deliveryInput.addEventListener('blur', () => this.updateDelivery());
+            this.cachedElements.deliveryInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') {
+                    e.target.blur();
+                }
+            });
             this.cachedElements.deliveryInput.addEventListener('input', () => this.debounce(this.updateDelivery, 300));
 
             // Product search

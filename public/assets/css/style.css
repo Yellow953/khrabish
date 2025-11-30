@@ -124,7 +124,8 @@ table thead tr th {
     border-bottom: none;
 }
 
-#discount_text:hover {
+#discount_text:hover,
+#delivery_text:hover {
     cursor: copy;
 }
 
@@ -132,6 +133,11 @@ table thead tr th {
 #delivery_input {
     width: 200px;
     margin-bottom: 10px;
+}
+
+.edit-discount-btn i,
+.edit-delivery-btn i {
+    color: #000;
 }
 
 .bank-note:hover,

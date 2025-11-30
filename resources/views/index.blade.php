@@ -71,14 +71,31 @@
                                 <div class="fs-6 fw-bold text-end">
                                     <span class="d-block lh-1 mb-4" data-kt-pos-element="total">{{ $currency->symbol
                                         }}0.00</span>
-                                    <span class="d-block mb-4 text-danger" data-kt-pos-element="discount"
-                                        id="discount_text">{{ $currency->symbol }}0.00</span>
-                                    <input type="number" class="form-control d-none" id="discount_input" min="0"
-                                        step="any" placeholder="Enter discount">
-                                    <span class="d-block mb-4" data-kt-pos-element="delivery" id="delivery_text">{{
-                                        $currency->symbol }}0.00</span>
-                                    <input type="number" class="form-control d-none" id="delivery_input" min="0"
-                                        step="any" placeholder="Enter delivery">
+                                    <div class="d-flex align-items-center justify-content-end gap-2 mb-4">
+                                        <a href="#" class="edit-discount-btn"
+                                            style="cursor: pointer; text-decoration: none; opacity: 0.7; transition: opacity 0.2s;"
+                                            title="Edit discount" onmouseover="this.style.opacity='1'"
+                                            onmouseout="this.style.opacity='0.7'">
+                                            <i class="fa-solid fa-pen-to-square fs-6"></i>
+                                        </a>
+                                        <span class="text-danger" data-kt-pos-element="discount" id="discount_text"
+                                            style="cursor: pointer;">{{ $currency->symbol }}0.00</span>
+                                        <input type="number" class="form-control d-none" id="discount_input" min="0"
+                                            step="any" placeholder="Enter discount" style="width: 120px;">
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-end gap-2 mb-4">
+                                        <a href="#" class="edit-delivery-btn"
+                                            style="cursor: pointer; text-decoration: none; opacity: 0.7; transition: opacity 0.2s;"
+                                            title="Edit delivery" onmouseover="this.style.opacity='1'"
+                                            onmouseout="this.style.opacity='0.7'">
+                                            <i class="fa-solid fa-pen-to-square fs-6"></i>
+                                        </a>
+                                        <span data-kt-pos-element="delivery" id="delivery_text"
+                                            style="cursor: pointer;">{{
+                                            $currency->symbol }}0.00</span>
+                                        <input type="number" class="form-control d-none" id="delivery_input" min="0"
+                                            step="any" placeholder="Enter delivery" style="width: 120px;">
+                                    </div>
                                     <span class="d-block mb-9" data-kt-pos-element="tax">{{ $currency->symbol
                                         }}0.00</span>
                                     <span class="d-block fs-2qx lh-1" data-kt-pos-element="grant-total">{{

@@ -344,8 +344,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-warning text-dark" id="mark-as-unpaid">Mark as Unpaid</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-warning text-dark" id="mark-as-unpaid">Pay Later</button>
                 <button type="button" id="confirmPayment" class="btn btn-primary">Confirm Payment</button>
             </div>
         </div>
