@@ -244,6 +244,7 @@
             document.getElementById('discount-amount').textContent = `- $${appliedDiscount.toFixed(2)}`;
             document.getElementById('total-price').textContent = `$${total.toFixed(2)}`;
             document.getElementById('subtotal-price').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('shipping-price').textContent = `$${shippingCost.toFixed(2)}`;
             document.getElementById('shipping-cost').value = shippingCost.toFixed(2);
             document.getElementById('discount-value').value = appliedDiscount.toFixed(2);
             hiddenCartData.value = JSON.stringify(cartData);
