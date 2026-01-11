@@ -55,7 +55,7 @@
                         class="text-decoration-none nav-link y-on-hover">Contact</a>
             </div>
             <li class="nav-item"><a href="{{ route('booming') }}"
-                    class="text-decoration-none nav-link y-on-hover">Booming Offers</a>
+                    class="text-decoration-none nav-link y-on-hover text-tertiary">Booming Offers</a>
             </li>
             <li class="nav-item"><a href="{{ route('shop') }}" class="text-decoration-none nav-link y-on-hover">All
                     Products</a>
@@ -69,19 +69,15 @@
                     {{ $parentCategory->name }}
                 </a>
                 @if($parentCategory->subCategories->count() > 0)
-                <ul class="dropdown-menu mega-menu" aria-labelledby="categoryDropdown{{ $parentCategory->id }}">
-                    <li class="mega-menu-content">
-                        <div class="row">
-                            @foreach($parentCategory->subCategories as $subCategory)
-                            <div class="col-md-3 col-sm-6 mb-3">
-                                <a href="{{ route('shop', ['category' => $subCategory->name]) }}"
-                                    class="text-decoration-none text-dark d-block p-2 y-on-hover-sm">
-                                    <strong>{{ $subCategory->name }}</strong>
-                                </a>
-                            </div>
-                            @endforeach
-                        </div>
+                <ul class="dropdown-menu" aria-labelledby="categoryDropdown{{ $parentCategory->id }}">
+                    @foreach($parentCategory->subCategories as $subCategory)
+                    <li>
+                        <a href="{{ route('shop', ['category' => $subCategory->name]) }}"
+                            class="dropdown-item text-dark y-on-hover-sm">
+                            {{ $subCategory->name }}
+                        </a>
                     </li>
+                    @endforeach
                 </ul>
                 @endif
             </li>

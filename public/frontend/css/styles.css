@@ -148,7 +148,7 @@ body {
 .nav-link {
     color: black !important;
     font-weight: 700;
-    font-size: 1.15rem;
+    font-size: 0.95rem;
     padding: 5px 15px !important;
     transition: all 0.2s ease-in-out;
 }
@@ -159,6 +159,15 @@ body {
     text-shadow: var(--darker-primary-color) 1px 1px 0px;
 }
 
+.nav-link.text-tertiary {
+    color: var(--tertiary-color) !important;
+}
+
+.nav-link.text-tertiary:hover {
+    color: var(--dark-tertiary-color) !important;
+    text-shadow: none;
+}
+
 a.active {
     color: var(--primary-color) !important;
     text-shadow: var(--darker-primary-color) 1px 1px 0px;
@@ -166,6 +175,12 @@ a.active {
 
 .dropdown-menu {
     width: max-content;
+}
+
+.dropdown-item {
+    font-size: 0.95rem !important;
+    font-weight: 700 !important;
+    padding: 8px 15px !important;
 }
 
 /* Mega Menu Styles */

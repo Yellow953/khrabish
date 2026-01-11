@@ -89,7 +89,7 @@
     <div class="col-md-12 mt-5 text-center">
         <h2 class="text-tertiary">Best Sellers</h2>
         <div class="owl-carousel owl-theme products">
-            @foreach ($best_sellers as $product)
+            @forelse ($best_sellers as $product)
             <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
                 <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
                     <img src="{{ $product->image }}" class="img-fluid product-img">
@@ -116,7 +116,9 @@
                     </div>
                 </div>
             </div>
-            @endforeach
+            @empty
+            <p class="text-center mt-4">No Best Sellers Yet...</p>
+            @endforelse
         </div>
     </div>
 </div>
@@ -149,7 +151,7 @@
         <div class="col-md-12 mb-5 text-center">
             <h2 class="text-tertiary mt-5">Latest Additions</h2>
             <div class="owl-carousel owl-theme products">
-                @foreach ($latest_additions as $product)
+                @forelse ($latest_additions as $product)
                 <div class="card item-card product-card overflow-hidden y-on-hover mx-2 my-3">
                     <a href="{{ route('product', $product->name) }}" class="text-decoration-none">
                         <img src="{{ $product->image }}" class="img-fluid product-img">
@@ -177,7 +179,9 @@
                         </div>
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <p class="text-center mt-4">No Latest Additions Yet...</p>
+                @endforelse
             </div>
         </div>
     </div>

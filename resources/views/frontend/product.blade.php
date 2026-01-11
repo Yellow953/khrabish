@@ -72,17 +72,17 @@
                                     @foreach ($variant->options as $option)
                                     <div class="variant-option-item mb-2" data-option-value="{{ $option->value }}" data-option-price="{{ $option->price }}">
                                         @if($option->image)
-                                        <button type="button" class="btn variant-option-btn {{ $loop->first ? 'active' : '' }}" 
-                                                data-value="{{ $option->value }}" 
+                                        <button type="button" class="btn variant-option-btn {{ $loop->first ? 'active' : '' }}"
+                                                data-value="{{ $option->value }}"
                                                 data-price="{{ $option->price }}"
                                                 style="padding: 0; border: 2px solid #dee2e6; border-radius: 8px; overflow: hidden; margin-right: 8px; margin-bottom: 8px;">
-                                            <img src="{{ asset($option->image) }}" alt="{{ $option->value }}" 
+                                            <img src="{{ asset($option->image) }}" alt="{{ $option->value }}"
                                                  style="width: 80px; height: 80px; object-fit: cover; display: block;">
                                             <span class="d-block text-center p-1 small" style="background: white; color: #333;">{{ $option->value }}</span>
                                         </button>
                                         @else
-                                        <button type="button" class="btn btn-outline-secondary variant-option-btn {{ $loop->first ? 'active' : '' }}" 
-                                                data-value="{{ $option->value }}" 
+                                        <button type="button" class="btn btn-outline-secondary variant-option-btn {{ $loop->first ? 'active' : '' }}"
+                                                data-value="{{ $option->value }}"
                                                 data-price="{{ $option->price }}"
                                                 style="margin-right: 8px; margin-bottom: 8px;">
                                             {{ $option->value }}
@@ -148,7 +148,7 @@
             <div id="multi-item-example" class="col-12 carousel slide carousel-multi-item pointer-event"
                 data-bs-ride="carousel">
                 <div class="carousel-inner product-links-wap" role="listbox">
-                    @foreach ($simillar_products->chunk(6) as $key => $chunk)
+                    @forelse ($simillar_products->chunk(6) as $key => $chunk)
                     <div class="carousel-item {{ $key === 0 ? 'active' : '' }}">
                         <div class="row justify-content-center">
                             @foreach ($chunk as $pr)
@@ -162,7 +162,9 @@
                             @endforeach
                         </div>
                     </div>
-                    @endforeach
+                    @empty
+                    <p class="text-center mt-4">No Similar Products Yet...</p>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -288,10 +290,10 @@
                 const variantId = variantContainer.getAttribute('data-variant-id');
                 const select = document.getElementById(`variant_${variantId}`);
                 const value = this.getAttribute('data-value');
-                
+
                 // Update select value
                 select.value = value;
-                
+
                 // Update active state
                 variantContainer.querySelectorAll('.variant-option-btn').forEach(b => {
                     b.classList.remove('active');
@@ -301,7 +303,7 @@
                         b.style.borderColor = '#dee2e6';
                     }
                 });
-                
+
                 this.classList.add('active');
                 if (this.classList.contains('btn-outline-secondary')) {
                     this.classList.add('btn-primary');
@@ -309,7 +311,7 @@
                 } else {
                     this.style.borderColor = 'var(--primary-color)';
                 }
-                
+
                 // Trigger change event on select
                 select.dispatchEvent(new Event('change'));
             });
